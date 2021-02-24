@@ -59,7 +59,7 @@ const createCategory = (req, res) => {
 //(w/o images)
 const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find({}).select('-image');
+        const categories = await Category.find({}).select('-image').sort([['name', 'asc']]);
         res.json(categories);
     } catch (err) {
         console.log(`error: `, err);
