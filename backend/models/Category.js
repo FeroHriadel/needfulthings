@@ -8,6 +8,10 @@ const categorySchema = mongoose.Schema({
         required: true,
         maxlength: 32,
         unique: true
+    },
+    image: {
+        data: Buffer,
+        contentType: String
     }
 }, {timestamps: true})
 
