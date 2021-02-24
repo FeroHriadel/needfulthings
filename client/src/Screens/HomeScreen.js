@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../actions/categoryActions';
-import { Container } from 'react-bootstrap';
+import ShowCategoryImg from '../Components/ShowCategoryImg';
+import './HomeScreen.css';
 
 
 
@@ -19,24 +20,30 @@ const HomeScreen = () => {
 
     //render functions
     const showCategories = () => (
-        <React.Fragment>
-            {categories.map(category => (
-                <p key={category._id} category={category}>{category.name}</p>
-            ))}
-        </React.Fragment>
-    );
-
+        categories.map(category => (
+            <div key={category._id} className='category-preview'>
+                <ShowCategoryImg category={category}/>
+                <h3>{category.name}</h3>
+            </div>
+        ))
+    )
 
 
     return (
-        <React.Fragment>
+        <div className='home-screen'>
 
-                <h1 className='text-center'>Welcome to Needful Things!</h1>
-                <p className='text-center mb-3'>We love meeting you in person but if you can't drop by we're more than delighted to ship your heart's desire</p>
+            <div className='home-screen-welcome-text'>
+                <h1>Welcome to Needful Things!</h1>
+                <p>We love meeting you in person but if you can't drop by we're more than delighted to ship your heart's desire</p>
+            </div>
 
+            <div className="categories">
                 {showCategories()}
+            </div>
+                
 
-        </React.Fragment>
+  
+        </div>
     )
 }
 

@@ -1,0 +1,47 @@
+.header {
+    width: 100vw;
+    height: 4rem;
+    margin-bottom: 1rem;
+    background: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo {
+    color: #ddd;
+    margin-left: 1rem;
+}
+
+.header-logo h1 {
+    transition: 0.4s linear;
+}
+
+.header-logo h1:hover {
+    color: white;
+    text-shadow: 0 0 10px #ddd;
+    transform: scale(1.02);
+}
+
+.header-links {
+    margin-right: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.header-links p {
+    margin-left: 1rem;
+    transition: 0.2s linear;
+}
+
+.header-links p:hover {
+    color: white;
+    font-weight: bolder;
+    transform: scale(1.1);
+}
+
+
+
+
+
