@@ -12,7 +12,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-bottom: 1rem;
+    margin: 1rem;
+    color: #333;
 }
 
 .home-screen-welcome-text p {
@@ -30,12 +31,34 @@
 .category-preview {
     margin: 1rem;
     position: relative;
+    height: 200px;
+    width: 200px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #333;
 }
 
-.category-preview h3 {
+.category-preview h1 {
     position: absolute;
+    min-width: 90%;
+    text-align: center;
     top: 50%;
     left: 50%;
+    padding: 0;
+    margin: 0;
     transform: translate(-50%, -50%);
+    color: white;
+    pointer-events: none;
+    -webkit-text-stroke: 0.25px #333;
+    transition: opacity 1s linear;
+    opacity: 1;
 }
+
+.category-preview:hover h1 {
+    opacity: 0;
+}
+
+
+
 

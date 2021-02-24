@@ -22,8 +22,8 @@ const HomeScreen = () => {
     const showCategories = () => (
         categories.map(category => (
             <div key={category._id} className='category-preview'>
-                <ShowCategoryImg category={category}/>
-                <h3>{category.name}</h3>
+                <ShowCategoryImg category={category} />
+                <h1>{category.name}</h1>
             </div>
         ))
     )
@@ -34,9 +34,10 @@ const HomeScreen = () => {
 
             <div className='home-screen-welcome-text'>
                 <h1>Welcome to Needful Things!</h1>
-                <p>We love meeting you in person but if you can't drop by we're more than delighted to ship your heart's desire</p>
+                <p>Delighted to ship your heart's desire</p>
             </div>
 
+            <h2>Categories: </h2>
             <div className="categories">
                 {showCategories()}
             </div>
