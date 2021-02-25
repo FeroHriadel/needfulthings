@@ -18,7 +18,7 @@ const HomeScreen = () => {
 
 
 
-    //render functions
+    //render categories function
     const showCategories = () => (
         categories.map(category => (
             <div key={category._id} className='category-preview'>
