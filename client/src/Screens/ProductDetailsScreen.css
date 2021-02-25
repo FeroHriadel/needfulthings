@@ -1,0 +1,26 @@
+.product-details {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-details-txt {
+    width: 45%;
+    min-width: 260px;
+    margin: 2.5%;
+}
+
+.product-details-buttons {
+    width: 100%
+}
+
+.product-details-btn {
+    width: 25%;
+    height: 2rem;
+    box-sizing: border-box;
+    min-width: 130px;
+    margin: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+}

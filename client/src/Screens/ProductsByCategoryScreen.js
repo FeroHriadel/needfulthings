@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsByCategory } from '../actions/productActions';
 import ProductCard from '../Components/ProductCard';
+import Loader from '../Components/Loader';
 import './ProductsByCategoryScreen.css';
 
 
@@ -28,6 +29,10 @@ const ProductsByCategoryScreen = ({ match }) => {
 
 
     return (
+        loading
+        ?
+        <Loader />
+        :
         <div className='products-by-category'>
             <h2>What we have in {currentCategory.name}: </h2>
             <div className="products-by-category-cards">

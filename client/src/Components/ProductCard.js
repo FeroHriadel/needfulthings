@@ -1,9 +1,10 @@
 import React from 'react';
 import './ProductCard.css';
+import { withRouter } from 'react-router-dom';
 
 
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, history }) => {
     return (
 
         <div className='product-card'>
@@ -28,7 +29,7 @@ const ProductCard = ({ product }) => {
                 {product.inStock > 0 ? <p>In Stock</p> : <p>Sorry, Sold Out</p>}
                 <div className="product-card-buttons">
                     <button className='product-card-btn'>Add to Cart</button>
-                    <button className='product-card-btn'>Details</button>
+                    <button className='product-card-btn' onClick={() => history.push(`/productDetails/${product._id}`)}>Details</button>
                 </div>
             </div>
         </div>
@@ -37,4 +38,4 @@ const ProductCard = ({ product }) => {
 
 
 
-export default ProductCard
+export default withRouter(ProductCard);
