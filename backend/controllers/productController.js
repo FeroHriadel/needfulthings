@@ -90,5 +90,18 @@ const getImage = async (req, res) => {
 
 
 
-export {createProduct, getProductsByCategory, getImage}
+//GET PRODUCT BY ID
+const getProductById = async (req, res) => {
+    const product = await Product.findById(req.params.productId).select('-image');
+
+    if (product) {
+        res.json(product);
+    } else {
+        res.status(404).json({error: `Product not found`});
+    }
+}
+
+
+
+export {createProduct, getProductsByCategory, getImage, getProductById}
 

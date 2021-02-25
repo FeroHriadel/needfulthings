@@ -1,10 +1,17 @@
 import React from 'react';
 import './ProductCard.css';
 import { withRouter } from 'react-router-dom';
+import { addOneToCart } from '../actions/cartActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 const ProductCard = ({ product, history }) => {
+    //to enable 'add to cart' button functionality
+    const dispatch = useDispatch();
+    
+
+
     return (
 
         <div className='product-card'>
@@ -28,7 +35,7 @@ const ProductCard = ({ product, history }) => {
                 <p>Price: ${product.price}</p>
                 {product.inStock > 0 ? <p>In Stock</p> : <p>Sorry, Sold Out</p>}
                 <div className="product-card-buttons">
-                    <button className='product-card-btn'>Add to Cart</button>
+                    <button className='product-card-btn' onClick={() => {dispatch(addOneToCart(product._id))}}>Add to Cart</button>
                     <button className='product-card-btn' onClick={() => history.push(`/productDetails/${product._id}`)}>Details</button>
                 </div>
             </div>
