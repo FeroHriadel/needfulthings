@@ -6,7 +6,7 @@ import './HomeScreen.css';
 
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ history }) => {
     //get categories:
     const dispatch = useDispatch();
     const categoriesList = useSelector(state => state.categoriesList);
@@ -21,7 +21,7 @@ const HomeScreen = () => {
     //render categories function
     const showCategories = () => (
         categories.map(category => (
-            <div key={category._id} className='category-preview'>
+            <div key={category._id} className='category-preview' onClick={() => history.push(`/productsByCategory/${category._id}`)}>
                 <ShowCategoryImg category={category} />
                 <h1>{category.name}</h1>
             </div>
