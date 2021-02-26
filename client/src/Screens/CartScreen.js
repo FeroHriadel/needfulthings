@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addOneToCart } from '../actions/cartActions';
+import { addOneToCart, subtractOneFromCartQty } from '../actions/cartActions';
 import './CartScreen.css';
 
 
@@ -42,7 +42,7 @@ const CartScreen = () => {
                             <p>{item.qty}</p>
                             <div className="button-box">
                                 <button onClick={() => {dispatch(addOneToCart(item._id))}}>&#9650;</button>
-                                <button>&#9660;</button>
+                                <button onClick={() => {dispatch(subtractOneFromCartQty(item._id))}}>&#9660;</button>
                             </div>
                         </div>
                         <p>${item.price * item.qty}</p>

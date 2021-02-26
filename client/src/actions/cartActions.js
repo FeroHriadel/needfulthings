@@ -49,3 +49,17 @@ export const addOneToCart = (productId) => async (dispatch, getState) => {
     //dispatch
     dispatch({type: 'CART_ADD_ONE'});
 }
+
+
+
+//SUBTRACT ONE FROM CART QTY
+export const subtractOneFromCartQty = (productId) => async (dispatch, getState) => {
+    //find item in state.cart.cartItems
+    const itemsInCart = getState().cart.cartItems;
+    const itemToDecrease = itemsInCart.find(itemInCart => itemInCart._id === productId);
+    //decrease the items qty and rewrite state & LS
+    itemToDecrease.qty = itemToDecrease.qty - 1;
+    itemsInCart.map(item => item._id === itemToDecrease._id ? itemToDecrease : item);
+    localStorage.setItem('cartItems', JSON.stringify(itemsInCart));
+    dispatch({type: 'CART_SUBTRACT_ONE', payload: itemsInCart});
+}

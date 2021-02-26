@@ -5,6 +5,10 @@ export const cartReducer = (state = {cart: {cartItems: []}}, action) => {
             return {
                 cartItems: cartItemsFromLS
             };
+        case 'CART_SUBTRACT_ONE':
+            return {
+                cartItems: action.payload
+            };
         default:
             return state;
     }
