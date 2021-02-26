@@ -59,6 +59,11 @@ export const subtractOneFromProductQty = (productId) => async (dispatch, getStat
     const itemToDecrease = itemsInCart.find(itemInCart => itemInCart._id === productId);
     //decrease the items qty and rewrite state & LS
     itemToDecrease.qty = itemToDecrease.qty - 1;
+    //also check if qty > 0
+    if (itemToDecrease.qty < 1) {
+        return dispatch(removeItem(productId))
+    }
+
     itemsInCart.map(item => item._id === itemToDecrease._id ? itemToDecrease : item);
     localStorage.setItem('cartItems', JSON.stringify(itemsInCart));
     dispatch({type: 'CART_SUBTRACT_ONE', payload: itemsInCart});
