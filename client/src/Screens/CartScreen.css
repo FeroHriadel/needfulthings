@@ -43,6 +43,19 @@
     text-align: center;
 }
 
+.cart-details-row > p > span {
+    color: rgb(136, 48, 48);
+    font-size: 1.5rem;
+    transition: 0.4s linear;
+}
+
+.cart-details-row > p > span:hover {
+    color: rgb(163, 45, 45);
+    text-shadow: 0 0 2px rgba(136, 48, 48, 0.767);
+    font-size: 1.75rem;
+    cursor: pointer;
+}
+
 .cart-details-row .quantity-box {
     display: flex;
     justify-content: center;

@@ -52,8 +52,8 @@ export const addOneToCart = (productId) => async (dispatch, getState) => {
 
 
 
-//SUBTRACT ONE FROM CART QTY
-export const subtractOneFromCartQty = (productId) => async (dispatch, getState) => {
+//SUBTRACT ONE FROM CART PRODUCT QTY
+export const subtractOneFromProductQty = (productId) => async (dispatch, getState) => {
     //find item in state.cart.cartItems
     const itemsInCart = getState().cart.cartItems;
     const itemToDecrease = itemsInCart.find(itemInCart => itemInCart._id === productId);
@@ -62,4 +62,15 @@ export const subtractOneFromCartQty = (productId) => async (dispatch, getState) 
     itemsInCart.map(item => item._id === itemToDecrease._id ? itemToDecrease : item);
     localStorage.setItem('cartItems', JSON.stringify(itemsInCart));
     dispatch({type: 'CART_SUBTRACT_ONE', payload: itemsInCart});
+}
+
+
+
+//REMOVE ITEM FROM CART
+export const removeItem = (productId) => async (dispatch, getState) => {
+    const itemsInCart = getState().cart.cartItems;
+    const filteredItems = itemsInCart.filter(item => item._id !== productId);
+    localStorage.setItem('cartItems', JSON.stringify(filteredItems));
+    dispatch({type: 'CART_REMOVE_ITEM', payload: filteredItems});
+
 }

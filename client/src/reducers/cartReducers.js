@@ -9,6 +9,10 @@ export const cartReducer = (state = {cart: {cartItems: []}}, action) => {
             return {
                 cartItems: action.payload
             };
+        case 'CART_REMOVE_ITEM':
+            return {
+                cartItems: action.payload
+            };
         default:
             return state;
     }

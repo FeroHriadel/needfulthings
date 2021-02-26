@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addOneToCart, subtractOneFromCartQty } from '../actions/cartActions';
+import { addOneToCart, subtractOneFromProductQty, removeItem } from '../actions/cartActions';
 import './CartScreen.css';
 
 
@@ -36,13 +36,13 @@ const CartScreen = () => {
                 ?
                 cartItems.map((item) => (
                     <div key={item._id} className='cart-details-row'>
-                        <p>{item.name}</p>
+                        <p>{item.name} <span title='Remove from Cart?' onClick={() => dispatch(removeItem(item._id))}> &times;</span></p>
                         <p>${item.price}</p>
                         <div className="quantity-box">
                             <p>{item.qty}</p>
                             <div className="button-box">
                                 <button onClick={() => {dispatch(addOneToCart(item._id))}}>&#9650;</button>
-                                <button onClick={() => {dispatch(subtractOneFromCartQty(item._id))}}>&#9660;</button>
+                                <button onClick={() => {dispatch(subtractOneFromProductQty(item._id))}}>&#9660;</button>
                             </div>
                         </div>
                         <p>${item.price * item.qty}</p>
