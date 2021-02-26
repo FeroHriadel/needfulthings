@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import {useSelector} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 
 
-const Header = () => {
+const Header = ({ history }) => {
     //get cart items total qty
     const cart = useSelector(state => state.cart);
     cart.itemsQty = cart.cartItems.reduce((acc, curr) => acc + curr.qty, 0);
@@ -31,7 +32,7 @@ const Header = () => {
                 <Link to='/shop' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
                     <p>Shop</p>
                 </Link>
-                <Link to='/cart' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
+                <Link to='/cart' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}} onClick={() => history.push('/cart')}>
                     <p>Cart({cart.itemsQty})</p>
                 </Link>
                 <Link to='/about' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
@@ -44,4 +45,4 @@ const Header = () => {
 
 
 
-export default Header
+export default withRouter(Header);
