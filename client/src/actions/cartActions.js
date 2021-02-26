@@ -43,9 +43,9 @@ export const addOneToCart = (productId) => async (dispatch, getState) => {
             localStorage.setItem('cartItems', JSON.stringify(oldItems));
         }
     }
+    
+    
+    
     //dispatch
-
-    //save to LS
-
-   
+    dispatch({type: 'CART_ADD_ONE'});
 }
