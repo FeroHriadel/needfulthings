@@ -5,21 +5,26 @@ import connectDB from './config/db.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import morgan from 'morgan'; //console.logs server requests
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+
+//middleware
 app.use(express.json());
+app.use(morgan('dev')); //morgan has to be placed before routes
+
 
 //routes
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 
-//middleware
-//middleware will come here
+
 
 const PORT = process.env.PORT || 5000;
 

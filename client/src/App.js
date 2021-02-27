@@ -6,6 +6,7 @@ import HomeScreen from './Screens/HomeScreen';
 import ProductsByCategoryScreen from './Screens/ProductsByCategoryScreen';
 import ProductDetailsScreen from './Screens/ProductDetailsScreen';
 import CartScreen from './Screens/CartScreen';
+import SignUpScreen from './Screens/SignUpScreen';
 
 
 
@@ -18,6 +19,7 @@ const App = () => {
         <Route exact path='/ProductsByCategory/:categoryId' component={ProductsByCategoryScreen} />
         <Route exact path='/ProductDetails/:productId' component={ProductDetailsScreen} />
         <Route exact path='/cart' component={CartScreen} />
+        <Route exact path='/signup' component={SignUpScreen} />
       </Switch>
     </Router>
   )
