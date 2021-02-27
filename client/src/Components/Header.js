@@ -10,9 +10,6 @@ const Header = ({ history }) => {
     //get cart items total qty
     const cart = useSelector(state => state.cart);
     cart.itemsQty = cart.cartItems.reduce((acc, curr) => acc + curr.qty, 0);
-    console.log(cart.itemsQty);
-
-
 
 
     return (
