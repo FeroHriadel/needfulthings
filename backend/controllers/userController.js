@@ -1,6 +1,8 @@
 import User from '../models/User.js';
 import generateToken from '../utils/generateToken.js';
 
+import bcrypt from 'bcryptjs'; //
+
 
 
 //SIGN UP
@@ -32,28 +34,33 @@ const signup = async (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({error: err})
+        res.status(500).json({error: 'Server Error'})
     }
 }
 
 
 
-//SIGN IN
+//SIGN IN => doesn't check password properly!!! Validates any non-empty password as valid!!!
 const signin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({email});
 
-        if (user && user.matchPassword(password)) {
-            res.json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                isAdmin: user.isAdmin,
-                token: generateToken(user._id)
-            })
+        if (email && password) {
+            const user = await User.findOne({email});
+
+            if (user && user.matchPassword(password)) {
+                res.json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    token: generateToken(user._id)
+                })
+            } else {
+                res.status(401).json({ error: `Invalid email or password`});
+            }
         } else {
-            res.status(401).json({ error: `Invalid email or password`});
+            res.status(400).json({error: 'Email and password are required'})
         }
 
     } catch (err) {

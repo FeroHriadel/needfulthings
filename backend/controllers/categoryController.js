@@ -59,11 +59,16 @@ const createCategory = (req, res) => {
 //(w/o images)
 const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find({}).select('-image').sort([['name', 'asc']]);
-        res.json(categories);
+        const categories = await Category.find({}).select('-image').sort([['name', 'asc']]).exec((error, categories) => {
+            if (error || !categories) {
+                res.status(400).json({error: `No categories found`})
+            } else {
+                res.json(categories)
+            }
+        })
     } catch (err) {
         console.log(`error: `, err);
-        res.json({error: err});
+        res.json({error: 'Server Error'});
     }
 }
 

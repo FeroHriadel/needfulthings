@@ -23,6 +23,11 @@
     color: #ddd;
     border-radius: 10px;
     padding: 2rem 1rem;
+    transition: transform 0.4s linear;
+}
+
+.signup-screen form:hover {
+    transform: scale(1.02);
 }
 
 .signup-screen form .form-group {

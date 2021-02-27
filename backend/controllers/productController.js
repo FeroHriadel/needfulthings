@@ -57,15 +57,15 @@ const createProduct = (req, res) => {
 const getProductsByCategory = async (req, res) => {
     try {
         const products = await Product.find({category: req.params.categoryId}).select('-image');
-
-        if (!products) {
-            res.status(404).json({error: `No products found`});
+        if (products.length === 0) {
+            res.status(404).json({error: 'No products found'});
         } else {
-            res.json(products)
+            res.json(products);
         }
+
     } catch (err) {
         console.log(err);
-        res.status(500).json({error: err});
+        res.status(500).json({error: 'Error - category id bad format or server error'});
     }
 }
 
@@ -92,12 +92,16 @@ const getImage = async (req, res) => {
 
 //GET PRODUCT BY ID
 const getProductById = async (req, res) => {
-    const product = await Product.findById(req.params.productId).select('-image');
-
-    if (product) {
-        res.json(product);
-    } else {
-        res.status(404).json({error: `Product not found`});
+    try {
+        const product = await Product.findById(req.params.productId).select('-image').exec((error, product) => {
+            if (error || !product) {
+                return res.status(400).json({error: 'Product does not exist or wrong productId'})
+            } else {
+                res.json(product);
+            }
+        })
+    } catch (err) {
+        res.status(500).res.json({error: 'Server Error'})
     }
 }
 

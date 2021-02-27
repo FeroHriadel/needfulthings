@@ -25,7 +25,10 @@ const SignUpScreen = ({ location, history }) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(signup(name, email, password))
+        dispatch(signup(name, email, password));
+        setName('');
+        setEmail('');
+        setPassword('');
     }
 
 
