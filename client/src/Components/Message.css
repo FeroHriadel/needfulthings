@@ -1,0 +1,32 @@
+.message-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background: transparent;
+    overflow: hidden;
+}
+
+.message-popup {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    width: 25%;
+    min-width: 260px;
+    min-height: 5rem;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 5px #666;
+    border-radius: 5px;
+    color: #ddd;
+    transition: transform 0.4s linear;
+}
+
+.hidden {
+    transform: translateY(125%);
+}

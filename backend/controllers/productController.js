@@ -71,6 +71,7 @@ const getProductsByCategory = async (req, res) => {
 
 
 
+
 //GET PRODUCT IMAGE
 const getImage = async (req, res) => {
     try {

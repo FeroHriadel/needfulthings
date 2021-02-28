@@ -29,6 +29,7 @@ const ProductsByCategoryScreen = ({ match }) => {
 
 
     return (
+        error ? <div className='products-by-category'><h2 style={{textAlign: 'center'}}>There're currently no products in this category</h2></div> :
         loading
         ?
         <Loader />

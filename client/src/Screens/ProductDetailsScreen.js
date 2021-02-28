@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './ProductDetailsScreen.css';
+import Loader from '../Components/Loader';
 
 
 
@@ -15,6 +16,8 @@ const ProductDetailsScreen = ({ match, history }) => {
 
 
     return (
+        loading ? <Loader /> : error ? <div className='product-details'><h2 style={{textAlign: 'center'}}>Something went wrong</h2></div> :
+
         <div className='product-details'>
             <div 
                 className='product-details-img' 

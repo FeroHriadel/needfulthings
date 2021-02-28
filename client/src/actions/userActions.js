@@ -11,9 +11,13 @@ const signup = (name, email, password) => async (dispatch) => {
         const res = await fetch(`/api/users/signup`, config);
         const data = await res.json();
 
+        if (data.error) {
+            return dispatch({type: 'USER_SIGNUP_FAIL', payload: data})
+        }
+
         dispatch({type: 'USER_SIGNUP_SUCCESS', payload: data});
 
-        //aslo save userDetails to LS
+        //also save userDetails to LS
         localStorage.setItem('userDetails', JSON.stringify(data));
 
 
