@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs'; //install bcryptjs, not bcrypt!
 
 
 
@@ -25,10 +25,10 @@ const userSchema = mongoose.Schema({
 
 
 
-//compare hashed password with plain text password method
+//create a schema method to compared hashed password with plain text password
 userSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)
-}
+} //REMEMBER to call this ASYNCHRONOUSLY (await)!!!
 
 
 

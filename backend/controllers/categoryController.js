@@ -4,7 +4,7 @@ import fs from 'fs';
 
 
 
-//CRETE CATEGORY
+//CREATE CATEGORY
 //(body=formdata with 'name' string & 'image' file)
 const createCategory = (req, res) => {
     //init formidable

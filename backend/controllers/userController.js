@@ -1,8 +1,6 @@
 import User from '../models/User.js';
 import generateToken from '../utils/generateToken.js';
 
-import bcrypt from 'bcryptjs'; //
-
 
 
 //SIGN UP
@@ -39,6 +37,25 @@ const signup = async (req, res) => {
 }
 
 
+/*
+const signin = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({email});
+
+    if (user && (await user.matchPassword(password))) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: null
+        })
+    } else {
+        res.status(401).res.json({error: 'Unauthorized'})
+    }
+}
+*/
+
 
 //SIGN IN => doesn't check password properly!!! Validates any non-empty password as valid!!!
 const signin = async (req, res) => {
@@ -48,7 +65,7 @@ const signin = async (req, res) => {
         if (email && password) {
             const user = await User.findOne({email});
 
-            if (user && user.matchPassword(password)) {
+            if (user && (await user.matchPassword(password))) {
                 res.json({
                     _id: user._id,
                     name: user.name,
@@ -67,6 +84,7 @@ const signin = async (req, res) => {
         res.status(500).json({error: 'Server Error'})
     }
 }
+
 
 
 
