@@ -67,6 +67,9 @@
     border: 0;
     transition: 0.3s linear;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .signin-screen form button:hover {

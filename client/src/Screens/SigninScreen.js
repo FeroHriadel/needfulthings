@@ -4,6 +4,7 @@ import { signin } from '../actions/userActions';
 import Message from '../Components/Message';
 import './SigninScreen.css';
 import { Link } from 'react-router-dom';
+import SmallLoader from '../Components/SmallLoader';
 
 
 
@@ -100,7 +101,9 @@ const SigninScreen = ({ history, location }) => {
                     />
                 </div>
                 
-                <button type='submit'>Sign In</button>
+                <button type='submit'>
+                    {loading ? <SmallLoader /> : <p>Sign In</p>}
+                </button>
 
             </form>
     </div>

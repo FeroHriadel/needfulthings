@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../actions/userActions';
-import Loader from '../Components/Loader';
+import SmallLoader from '../Components/SmallLoader';
 import './SignUpScreen.css';
 import Message from '../Components/Message';
 
@@ -103,7 +103,9 @@ const SignUpScreen = ({ location, history }) => {
                     />
                 </div>
                 
-                <button type='submit'>Sign Up</button>
+                <button type='submit'>
+                    {loading ? <SmallLoader /> : <p>Sign Up</p>}
+                </button>
 
             </form>
         </div>
