@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../actions/userActions';
-import Loader from '../Components/Loader';
-import './SignUpScreen.css';
+import { signin } from '../actions/userActions';
 import Message from '../Components/Message';
+import './SigninScreen.css';
+import { Link } from 'react-router-dom';
 
 
 
-const SignUpScreen = ({ location, history }) => {
+const SigninScreen = ({ history, location }) => {
     //user state variables
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -20,13 +19,14 @@ const SignUpScreen = ({ location, history }) => {
 
 
     // if they come to this url with '/register?redirect=...' then grab it. Else return HomeScreen url
-    //useEffect will redirect registered users away
+    //useEffect will redirect signed-in users away
     const redirect = location.search ? location.search.split('=')[1] : '/';
 
-    
+
+
     //error handling
     const [errorShown, setErrorShown] = useState(false);
-    const [errorText, setErrorText] = useState('Thank you for registering!');
+    const [errorText, setErrorText] = useState('You are signed in');
 
     const showMessage = () => {
         setErrorShown(true);
@@ -36,16 +36,16 @@ const SignUpScreen = ({ location, history }) => {
     }
 
     useEffect(() => {
-        //listen for errors
+        //listen for error
         if (error) {
             setErrorText(error.error);
         } else {
-            setErrorText('Thank you for registering!')
+            setErrorText('You are signed in')
         }
 
-        //listen for userDetails (did user get signed-up?)
+        //listen for userDetails (did user get signed-in?)
         if (userDetails._id) {
-            history.push(redirect);
+            history.push('/');
         }
     }, [error, userDetails, redirect])
 
@@ -54,32 +54,29 @@ const SignUpScreen = ({ location, history }) => {
     //submit handler
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(signup(name, email, password));
+        dispatch(signin(email, password));
         showMessage();
     }
 
 
 
     return (
-        <div className='signup-screen'>
+        <div className='signin-screen'>
 
             <Message shown={errorShown} text={errorText}></Message>           
 
-            <h2>Please Sign Up</h2>
-
+            <h2>Please Sign In</h2>
 
             <form onSubmit={submitHandler}>
 
-                <div className="form-group">
-                    <label>Name: </label>
-                    <input 
-                        type="text"
-                        placeholder='name'
-                        name='name'
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                </div>
+                <p>
+                    Don't have an account?
+                    <span>
+                        <Link to='/signup' style={{textDecoration: 'none', color: '#333', cursor: 'pointer'}}>
+                            Sign up
+                        </Link>
+                    </span>
+                </p>
 
                 <div className="form-group">
                     <label>Email: </label>
@@ -103,11 +100,11 @@ const SignUpScreen = ({ location, history }) => {
                     />
                 </div>
                 
-                <button type='submit'>Sign Up</button>
+                <button type='submit'>Sign In</button>
 
             </form>
-        </div>
+    </div>
     )
 }
 
-export default SignUpScreen
+export default SigninScreen

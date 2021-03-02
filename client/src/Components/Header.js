@@ -50,7 +50,7 @@ const Header = ({ history }) => {
 
             <div className="header-links">
 
-                {userDetails ? registeredUserLinks() : unregisteredUserLinks()}
+                {userDetails._id ? registeredUserLinks() : unregisteredUserLinks()}
 
                 <Link to='/shop' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
                     <p>Shop</p>

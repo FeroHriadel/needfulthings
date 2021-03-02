@@ -2,7 +2,10 @@ export const userSigninReducer = (state = {}, action) => {
     switch(action.type) {
         case 'USER_SIGNUP_REQUEST':
         case 'USER_SIGNIN_REQUEST':
-            return {loading: true};
+            return {
+                loading: true,
+                userDetails: {}
+            };
         case 'USER_SIGNUP_SUCCESS':
         case 'USER_SIGNIN_SUCCESS':
             return {
@@ -13,10 +16,13 @@ export const userSigninReducer = (state = {}, action) => {
         case 'USER_SIGNIN_FAIL':
             return {
                 loading: false,
+                userDetails: {},
                 error: action.payload
             };
         case 'USER_LOGOUT':
-            return {};
+            return {
+                userDetails: {}
+            };
         default:
             return state;
     }

@@ -43,27 +43,8 @@ const signup = async (req, res) => {
 }
 
 
-/*
-const signin = async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({email});
 
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            token: null
-        })
-    } else {
-        res.status(401).res.json({error: 'Unauthorized'})
-    }
-}
-*/
-
-
-//SIGN IN => doesn't check password properly!!! Validates any non-empty password as valid!!!
+//SIGN IN
 const signin = async (req, res) => {
     try {
         const { email, password } = req.body;

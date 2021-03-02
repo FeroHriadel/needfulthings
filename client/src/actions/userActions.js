@@ -29,6 +29,37 @@ const signup = (name, email, password) => async (dispatch) => {
 
 
 
+//SIGNIN
+const signin = (email, password) => async (dispatch) => {
+    try {
+        dispatch({type: 'USER_SIGNIN_REQUEST'});
+
+        const config = {
+            method: 'POST',
+            body: JSON.stringify({email, password}),
+            headers: {'Content-Type': 'application/json'}
+        };
+    
+        const res = await fetch(`/api/users/signin`, config);
+        const data = await res.json();
+    
+        if (data.error) {
+            return dispatch({type: 'USER_SIGNIN_FAIL', payload: data})
+        }
+    
+        dispatch({type: 'USER_SIGNIN_SUCCESS', payload: data});
+    
+        //also save userDetails to LS
+        localStorage.setItem('userDetails', JSON.stringify(data));
+
+
+    } catch (err) {
+        dispatch({type: 'USER_SIGNIN_FAIL', payload: err})
+    }
+}
+
+
+
 //SIGN OUT
 const signout = () => (dispatch) => {
     localStorage.removeItem('userDetails');
@@ -37,4 +68,4 @@ const signout = () => (dispatch) => {
 
 
 
-export { signup, signout }
+export { signup, signin, signout }
