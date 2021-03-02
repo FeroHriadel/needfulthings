@@ -13,6 +13,12 @@
     margin-left: 1rem;
 }
 
+@media (max-width:650px) {
+    .header-logo {
+        display: none;
+    }
+}
+
 .header-logo h1 {
     transition: 0.4s linear;
 }

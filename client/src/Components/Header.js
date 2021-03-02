@@ -7,7 +7,7 @@ import { signout } from '../actions/userActions';
 
 
 
-const Header = ({ history }) => {
+const Header = ({ history, location }) => {
     //get cart items total qty
     const cart = useSelector(state => state.cart);
     cart.itemsQty = cart.cartItems.reduce((acc, curr) => acc + curr.qty, 0);
@@ -24,10 +24,10 @@ const Header = ({ history }) => {
     //not registered links:
     const unregisteredUserLinks = () => (
         <React.Fragment>
-            <Link to='/signup' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
+            <Link to='/signup' style={isActive('/signup')}>
                 <p>Sign up</p>
             </Link>
-            <Link to='/signin' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
+            <Link to='/signin' style={isActive('/signin')}>
                 <p>Sign in</p>
             </Link>
         </React.Fragment>
@@ -37,6 +37,21 @@ const Header = ({ history }) => {
     const registeredUserLinks = () => (
             <p style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}} onClick={() => {dispatch(signout())}}>Sing out</p>
     )
+
+
+
+    //links highlight
+    // useEffect(() => {
+    //     console.log(location)
+    // }, [location])
+
+    const isActive = (string) => {
+        if (location.pathname === string) {
+            return {textDecoration: 'none', color: 'rgb(167, 26, 26)', cursor: 'pointer'}
+        } else {
+            return {textDecoration: 'none', color: '#ddd', cursor: 'pointer'}
+        }
+    }
 
 
 
@@ -52,15 +67,15 @@ const Header = ({ history }) => {
 
                 {userDetails._id ? registeredUserLinks() : unregisteredUserLinks()}
 
-                <Link to='/shop' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
+                <Link to='/shop' style={isActive('/shop')}>
                     <p>Shop</p>
                 </Link>
 
-                <Link to='/cart' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}} onClick={() => history.push('/cart')}>
+                <Link to='/cart' style={isActive('/cart')} onClick={() => history.push('/cart')}>
                     <p>Cart({cart.itemsQty})</p>
                 </Link>
 
-                <Link to='/about' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}}>
+                <Link to='/about' style={isActive('/about')}>
                     <p>About</p>
                 </Link>
 

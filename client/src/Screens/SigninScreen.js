@@ -73,7 +73,7 @@ const SigninScreen = ({ history, location }) => {
                 <p>
                     Don't have an account?
                     <span>
-                        <Link to='/signup' style={{textDecoration: 'none', color: '#333', cursor: 'pointer'}}>
+                        <Link to='/signup' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer', textDecoration: 'underline'}}>
                             Sign up
                         </Link>
                     </span>
