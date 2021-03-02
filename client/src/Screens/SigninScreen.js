@@ -25,7 +25,7 @@ const SigninScreen = ({ history, location }) => {
 
 
 
-    //error handling
+    //error handling (message)
     const [errorShown, setErrorShown] = useState(false);
     const [errorText, setErrorText] = useState('You are signed in');
 

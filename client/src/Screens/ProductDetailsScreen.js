@@ -1,7 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addOneToCart } from '../actions/cartActions';
 import './ProductDetailsScreen.css';
 import Loader from '../Components/Loader';
+import Message from '../Components/Message';
 
 
 
@@ -15,10 +17,27 @@ const ProductDetailsScreen = ({ match, history }) => {
 
 
 
+    //addOneToCart + show 'Item added' functionality
+    const dispatch = useDispatch();
+    const [messageShown, setMessageShown] = useState(false);
+    const [messageText, setMessageText] = useState('Item was added to cart');
+
+    const showMessage = () => {
+        setMessageShown(true);
+        setTimeout(() => {
+            setMessageShown(false);
+        }, 2500)
+    }
+
+
+
     return (
         loading ? <Loader /> : error ? <div className='product-details'><h2 style={{textAlign: 'center'}}>Something went wrong</h2></div> :
 
         <div className='product-details'>
+
+            <Message shown={messageShown} text={messageText}></Message> 
+
             <div 
                 className='product-details-img' 
                 style={{
@@ -38,7 +57,10 @@ const ProductDetailsScreen = ({ match, history }) => {
                 <p><strong>Description: </strong> {currentProduct.description}</p>
                 <div className="product-details-buttons">
                     <button className='product-details-btn' onClick={() => history.push(`/ProductsByCategory/${currentProduct.category}`)}>&#8592; Go Back</button>
-                    <button className='product-details-btn'> Add to Cart <small>&#128722;</small></button>
+                    <button className='product-details-btn' onClick={() => {
+                        dispatch(addOneToCart(currentProduct._id));
+                        showMessage();
+                    }}> Add to Cart <small>&#128722;</small></button>
                 </div>
             </div>
         </div>

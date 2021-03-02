@@ -4,6 +4,7 @@ import { getCategories } from '../actions/categoryActions';
 import ShowCategoryImg from '../Components/ShowCategoryImg';
 import './HomeScreen.css';
 import Loader from '../Components/Loader';
+import PageIntro from '../Components/PageIntro';
 
 
 
@@ -31,7 +32,10 @@ const HomeScreen = ({ history }) => {
 
 
     return (
+
         <div className='home-screen'>
+
+        <PageIntro />
 
             {
             error

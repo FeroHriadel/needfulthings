@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsByCategory } from '../actions/productActions';
 import ProductCard from '../Components/ProductCard';
 import Loader from '../Components/Loader';
 import './ProductsByCategoryScreen.css';
+import Message from '../Components/Message';
 
 
 
@@ -16,6 +17,7 @@ const ProductsByCategoryScreen = ({ match }) => {
     const { loading, error, products } = productsByCategory;
 
     useEffect(() => {
+        //listen for category
         dispatch(getProductsByCategory(categoryId));
     }, [dispatch, categoryId])
 
@@ -28,6 +30,19 @@ const ProductsByCategoryScreen = ({ match }) => {
 
 
 
+    //show message 'added to cart'
+    const [messageShown, setMessageShown] = useState(false);
+    const [messageText, setMessageText] = useState('Item was added to cart');
+
+    const showMessage = () => {
+        setMessageShown(true);
+        setTimeout(() => {
+            setMessageShown(false);
+        }, 2500)
+    }
+
+
+
     return (
         error ? <div className='products-by-category'><h2 style={{textAlign: 'center'}}>There're currently no products in this category</h2></div> :
         loading
@@ -35,12 +50,17 @@ const ProductsByCategoryScreen = ({ match }) => {
         <Loader />
         :
         <div className='products-by-category'>
+
+            <Message shown={messageShown} text={messageText}></Message> 
+
             <h2>What we have in {currentCategory.name}: </h2>
+
             <div className="products-by-category-cards">
                 {products.map(product => (
-                    <ProductCard key={product._id} product={product}/>
+                    <ProductCard key={product._id} product={product} showMessage={showMessage}/>
                 ))}
             </div>
+
         </div>
     )
 }
