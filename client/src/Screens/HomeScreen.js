@@ -37,8 +37,8 @@ const HomeScreen = ({ history }) => {
             error
             ?
             <React.Fragment>
-                <h1 className='home-screen-welcome-text'>We haven't set up shop completely yet. There're currently no product categories</h1>
-                <p style={{textAlign: 'center'}}>Or there's a server error</p>
+                <h1 className='home-screen-welcome-text'>There're currently no product categories</h1>
+                <p style={{textAlign: 'center'}}>Or there's a server error. Try reloading the page</p>
             </React.Fragment>
             :
             loading 

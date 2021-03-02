@@ -1,3 +1,4 @@
+//SIGN UP
 const signup = (name, email, password) => async (dispatch) => {
     try {
         dispatch({type: 'USER_SIGNUP_REQUEST'});
@@ -28,4 +29,12 @@ const signup = (name, email, password) => async (dispatch) => {
 
 
 
-export { signup }
+//SIGN OUT
+const signout = () => (dispatch) => {
+    localStorage.removeItem('userDetails');
+    dispatch({type: 'USER_LOGOUT'});
+}
+
+
+
+export { signup, signout }
