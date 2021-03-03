@@ -8,7 +8,7 @@ import Message from '../Components/Message';
 
 
 const SignUpScreen = ({ location, history }) => {
-    //user state variables
+    //get user & user input
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,6 +24,7 @@ const SignUpScreen = ({ location, history }) => {
     const redirect = location.search ? location.search.split('=')[1] : '/';
 
     
+
     //error handling
     const [errorShown, setErrorShown] = useState(false);
     const [errorText, setErrorText] = useState('Thank you for registering!');

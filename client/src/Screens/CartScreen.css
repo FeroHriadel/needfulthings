@@ -75,10 +75,6 @@
     cursor: pointer;
 }
 
-
-
-
-
 .cart-details-summary {
     width: 100%;
     display: flex;
@@ -93,4 +89,16 @@
 .cart-details-summary > * {
     text-align: center;
     margin-right: 1rem;
+}
+
+.cart-details-buttons {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-details-buttons button {
+    width: 130px;
+    cursor: pointer;
 }

@@ -5,11 +5,12 @@ import Message from '../Components/Message';
 import './SigninScreen.css';
 import { Link } from 'react-router-dom';
 import SmallLoader from '../Components/SmallLoader';
+import { red } from 'colors';
 
 
 
 const SigninScreen = ({ history, location }) => {
-    //user state variables
+    //get user from state and user input
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -19,8 +20,8 @@ const SigninScreen = ({ history, location }) => {
 
 
 
-    // if they come to this url with '/register?redirect=...' then grab it. Else return HomeScreen url
-    //useEffect will redirect signed-in users away
+    // if they come to this url with '/register?redirect=/checkout...' then grab it. Else return HomeScreen url
+    //useEffect will redirect registered users away
     const redirect = location.search ? location.search.split('=')[1] : '/';
 
 
@@ -46,7 +47,7 @@ const SigninScreen = ({ history, location }) => {
 
         //listen for userDetails (did user get signed-in?)
         if (userDetails._id) {
-            history.push('/');
+            history.push(redirect);
         }
     }, [error, userDetails, redirect])
 
@@ -73,7 +74,7 @@ const SigninScreen = ({ history, location }) => {
                 <p>
                     Don't have an account?
                     <span>
-                        <Link to='/signup' style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer', textDecoration: 'underline'}}>
+                        <Link to={`/signup/?redirect=${redirect}`} style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer', textDecoration: 'underline'}}>
                             Sign up
                         </Link>
                     </span>

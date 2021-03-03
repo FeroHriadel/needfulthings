@@ -5,7 +5,7 @@ import './CartScreen.css';
 
 
 
-const CartScreen = () => {
+const CartScreen = ({ history }) => {
     //get cart
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
@@ -56,6 +56,11 @@ const CartScreen = () => {
                     <h4>SUMMARY: </h4>
                     <p><strong>Items Total: </strong> {cart.itemsTotalQty}</p>
                     <p><strong>Total Price: </strong> ${cart.itemsTotalPrice}</p>
+                </div>
+
+                <div className="cart-details-buttons">
+                    <button onClick={() => {history.push('/shop')}}>Go back to Store</button>
+                    {cartItems.length > 0 && <button onClick={() => {history.push('/checkout')}}>Proceed to Checkout</button>}
                 </div>
 
             </div>
