@@ -49,11 +49,11 @@ const OrderScreen = ({ history, location }) => {
                 showMessage();
             }
 
-            //confirm order created successfully
+            //confirm order created successfully & redirect to payment screen
             if (success) {
                 setErrorText(`Your order's been received`)
                 showMessage();
-                history.push('/pay')
+                history.push(`/pay`)
             }
         }, [userDetails, address, error, success]);
     

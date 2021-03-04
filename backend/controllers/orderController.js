@@ -27,4 +27,23 @@ const addOrder = async (req, res) => {
 
 
 
-export {addOrder}
+//GET ORDER BY ID
+const getOrderById = async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.orderId).populate('user', 'name email');
+
+        if (order) {
+            res.json(order)
+        } else {
+            res.status(404).json({error: `Order not found`})
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Invalid orderId format or Server Error`})
+    }
+}
+
+
+
+export {addOrder, getOrderById}
