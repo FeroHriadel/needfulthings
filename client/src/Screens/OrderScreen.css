@@ -1,4 +1,4 @@
-.checkout-screen {
+.order-screen {
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -6,8 +6,9 @@
     align-items: center;
 }
 
-.checkou-screen-summary {
+.order-screen-summary {
     width: 97.5%;
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -40,21 +41,35 @@
     width: 25%;
 }
 
-.checkout-screen-total {
+.shipping-table-item {
     width: 97.5%;
-    background: #ddd;
+    max-width: 1000px;
+    height: 3rem;
+    background: rgb(243, 241, 241);
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px #333 solid;
+    border-bottom: 0;
 }
 
-.checkout-screen-total > * {
+.order-screen-total {
+    width: 97.5%;
+    max-width: 1000px;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px #333 solid;
+    margin-bottom: 3rem;
+}
+
+.order-screen-total > * {
     flex: 1;
     margin: 1rem;
 }
 
-.checkout-screen-total > button {
+.order-screen-total > button {
     flex: 0.5;
     cursor: pointer;
 }

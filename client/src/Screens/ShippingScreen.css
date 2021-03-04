@@ -1,0 +1,63 @@
+.shipping-screen {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.shipping-options {
+    width: 97.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.shipping-options h2 {
+    text-align: center;
+}
+
+.shipping-options .input-group {
+    width: 260px;
+}
+
+.shipping-options .input-group .shipping-terms-btn {
+    font-size: 0.9rem;
+    color: #666;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.shipping-options .shipping-terms-box {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 0.9rem;
+}
+
+.address-form-container {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.address-form-container .form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.address-form-container button {
+    width: 100%;
+    cursor: pointer;
+}
+
+.shipping-screen > button {
+    width: 260px;
+    cursor: pointer;
+}

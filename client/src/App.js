@@ -8,7 +8,8 @@ import ProductDetailsScreen from './Screens/ProductDetailsScreen';
 import CartScreen from './Screens/CartScreen';
 import SignUpScreen from './Screens/SignUpScreen';
 import SigninScreen from './Screens/SigninScreen';
-import CheckoutScreen from './Screens/CheckoutScreen';
+import ShippingScreen from './Screens/ShippingScreen';
+import OrderScreen from './Screens/OrderScreen';
 
 
 
@@ -23,7 +24,8 @@ const App = () => {
         <Route exact path='/cart' component={CartScreen} />
         <Route path='/signup' component={SignUpScreen} />
         <Route path='/signin' component={SigninScreen} />
-        <Route exact path='/checkout' component={CheckoutScreen} />
+        <Route exact path='/shipping' component={ShippingScreen} />
+        <Route path='/order' component={OrderScreen} />
       </Switch>
     </Router>
   )

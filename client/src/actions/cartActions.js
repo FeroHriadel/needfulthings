@@ -6,11 +6,9 @@ export const addOneToCart = (productId) => async (dispatch, getState) => {
     const newItem = data;
 
 
-
     //check if newItem is in LS
     const isAnythingInLS = localStorage.getItem('cartItems') ? true : false
     
-
 
     //if LS empty set qty = 1 and save to LS
     if (!isAnythingInLS) {
@@ -44,8 +42,7 @@ export const addOneToCart = (productId) => async (dispatch, getState) => {
         }
     }
     
-    
-    
+        
     //dispatch
     dispatch({type: 'CART_ADD_ONE'});
 }
@@ -77,5 +74,14 @@ export const removeItem = (productId) => async (dispatch, getState) => {
     const filteredItems = itemsInCart.filter(item => item._id !== productId);
     localStorage.setItem('cartItems', JSON.stringify(filteredItems));
     dispatch({type: 'CART_REMOVE_ITEM', payload: filteredItems});
-
 }
+
+
+
+//SAVE SHIPPING ADDRESS
+export const saveAddress = (formData) => (dispatch) => {
+    dispatch({type: 'CART_SAVE_ADDRESS', payload: formData});
+}
+
+
+
