@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 import morgan from 'morgan'; //console.logs server requests
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(morgan('dev')); //morgan has to be placed before routes
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 
 
 

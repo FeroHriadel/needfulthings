@@ -73,3 +73,9 @@
     flex: 0.5;
     cursor: pointer;
 }
+
+.order-screen > button {
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

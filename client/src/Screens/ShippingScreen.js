@@ -59,7 +59,7 @@ const ShippingScreen = ({ history }) => {
                 <label>You pickup</label>
             </div>
 
-            {showShippingTerms && <p className='shipping-terms-box'>Shipping: $30, purchases over $200: free</p>}
+            {showShippingTerms && <p className='shipping-terms-box'>Shipping: $30, purchases over $99: free</p>}
 
         </div>
     )
@@ -162,7 +162,7 @@ const ShippingScreen = ({ history }) => {
             {shipping === 'pickup' && 
                 <button 
                     onClick={() => {
-                        dispatch(saveAddress({shipping: 'pickup'}));
+                        dispatch(saveAddress({name: userDetails.name, shipping: 'pickup'}));
                         history.push(`/order?shipping=${shipping}`);
                 }}>
                     Continue &#8594;

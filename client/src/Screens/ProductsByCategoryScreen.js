@@ -8,7 +8,7 @@ import Message from '../Components/Message';
 
 
 
-const ProductsByCategoryScreen = ({ match }) => {
+const ProductsByCategoryScreen = ({ match, history }) => {
     //get products by category
     const categoryId = match.params.categoryId;
 
@@ -44,7 +44,12 @@ const ProductsByCategoryScreen = ({ match }) => {
 
 
     return (
-        error ? <div className='products-by-category'><h2 style={{textAlign: 'center'}}>There're currently no products in this category</h2></div> :
+
+        error ? 
+            <div className='products-by-category'>
+                <h2 style={{textAlign: 'center', marginBottom: '3rem'}}>There're currently no products in this category</h2>
+                <button style={{cursor: 'pointer'}} onClick={() => history.push('/')}>&#8592; Go Home</button>
+            </div> :
         loading
         ?
         <Loader />
@@ -60,6 +65,8 @@ const ProductsByCategoryScreen = ({ match }) => {
                     <ProductCard key={product._id} product={product} showMessage={showMessage}/>
                 ))}
             </div>
+
+            <button style={{cursor: 'pointer', margin: '2rem'}} onClick={() => history.push('/')}>&#8592; Go Home</button>
 
         </div>
     )

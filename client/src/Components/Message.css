@@ -9,6 +9,10 @@
     overflow: hidden;
 }
 
+.message-container p {
+    text-align: center;
+}
+
 .message-popup {
     position: absolute;
     left: 5px;
