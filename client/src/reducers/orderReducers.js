@@ -16,6 +16,31 @@ export const orderCreateReducer = (state = {}, action) => {
                 success: false,
                 error: action.payload
             };
+        case 'CLEAR_CREATED_ORDER':
+            return {}
+        default:
+            return state;
+    }
+}
+
+
+
+export const orderReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'GET_ORDER_BY_ID_REQUEST':
+            return {
+                loading: true
+            };
+        case 'GET_ORDER_BY_ID_SUCCESS':
+            return {
+                loading: false,
+                order: action.payload
+            };
+        case 'GET_ORDER_BY_ID_FAIL':
+            return {
+                loading: false,
+                error: action.payload,
+            };
         default:
             return state;
     }

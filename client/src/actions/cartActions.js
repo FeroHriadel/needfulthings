@@ -85,3 +85,11 @@ export const saveAddress = (formData) => (dispatch) => {
 
 
 
+//CLEAR CART
+export const clearCart = () => (dispatch) => {
+    dispatch({type: 'CART_CLEAR_ALL'});
+    localStorage.removeItem('cartItems');
+}
+
+
+

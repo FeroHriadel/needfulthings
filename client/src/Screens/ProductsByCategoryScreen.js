@@ -65,8 +65,11 @@ const ProductsByCategoryScreen = ({ match, history }) => {
                     <ProductCard key={product._id} product={product} showMessage={showMessage}/>
                 ))}
             </div>
-
-            <button style={{cursor: 'pointer', margin: '2rem'}} onClick={() => history.push('/')}>&#8592; Go Home</button>
+            
+            <div className="buttons-container">
+                <button style={{cursor: 'pointer'}} onClick={() => history.push('/')}>&#8592; Go Home</button>
+                <button style={{cursor: 'pointer'}} onClick={() => history.push('/cart')}>Go to Cart &#128722;</button>
+            </div>
 
         </div>
     )

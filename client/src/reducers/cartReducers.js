@@ -18,6 +18,11 @@ export const cartReducer = (state = {cart: {cartItems: [], address: {}}}, action
                 ...state,
                 address: action.payload
             };
+        case 'CART_CLEAR_ALL':
+            return {
+                cartItems: [],
+                address: {}
+            }
         default:
             return state;
     }

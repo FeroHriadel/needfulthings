@@ -14,5 +14,16 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+}
 
+.products-by-category .buttons-container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.products-by-category .buttons-container > button {
+    width: 130px;
+    margin: 0.5rem;
 }

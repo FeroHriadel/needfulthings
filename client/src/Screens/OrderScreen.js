@@ -23,7 +23,7 @@ const OrderScreen = ({ history, location }) => {
 
         //get state.orderCreate so you can display Loader & Message with success/fail
         const order = useSelector(state => state.orderCreate);
-        const { error, loading, success } = order;
+        const { error, loading, success, order: orderResponse } = order; //   'order: orderResponse'   should destructure order from state.orderCreate and rename it to orderResponse
 
     
     
@@ -38,7 +38,7 @@ const OrderScreen = ({ history, location }) => {
                 history.push('/signin?redirect=/checkout');
             }
 
-            //if user skipped the '/shipping' step
+            //if user skipped the '/shipping' step somehow
             if (!address.shipping) {
                 history.push('/shipping');
             }
@@ -49,13 +49,13 @@ const OrderScreen = ({ history, location }) => {
                 showMessage();
             }
 
-            //confirm order created successfully & redirect to payment screen
+            //confirm order created successfully & redirect to orderConfirmation
             if (success) {
                 setErrorText(`Your order's been received`)
                 showMessage();
-                history.push(`/pay`)
+                history.push(`/orderConfirmation/${orderResponse._id}`);
             }
-        }, [userDetails, address, error, success]);
+        }, [userDetails, address, error, success, orderResponse]);
     
     
     
@@ -84,7 +84,7 @@ const OrderScreen = ({ history, location }) => {
                 }
             })
             const orderAddress = address;
-            const orderShippingPrice = cart.itemsTotalPrice <= 99 ? 30 : 0; //purchases over $99 have free shipping, else shippingPrice = $30
+            const orderShippingPrice = cart.itemsTotalPrice <= 99 && cart.address.shipping === 'ship' ? 30 : cart.itemsTotalPrice > 99 && cart.address.shipping === 'ship' ? 0 : 0  ; //purchases over $99 have free shipping, else shippingPrice = $30, pickup = 0
             const orderTotalPrice = cart.itemsTotalPrice + orderShippingPrice;
 
             dispatch(createOrder({
@@ -154,9 +154,19 @@ const OrderScreen = ({ history, location }) => {
                 <button onClick={() => {history.push('/shipping')}}>Go back to Shipping</button>
             </div>
 
-            {shipping === 'pickup' && <p>Your order will be waiting for you at our store</p>}
+            {shipping === 'pickup' ?
+                <div className='pickup-buttons'>
+                    <button onClick={() => history.push('/cart')}>&#8592; Change Order</button>
+                    <button onClick={submitOrder}>Send Order</button>
+                </div>
+                :
+                <div className='ship-buttons'>
+                    <button>&#8592; Go Back</button>
+                    {/* payment stuff */}
+                </div>
+            }
 
-            <button onClick={submitOrder}>Continue to Payment &#8594;</button>
+
 
             {loading && <Loader />}
 

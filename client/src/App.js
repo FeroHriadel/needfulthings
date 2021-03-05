@@ -10,6 +10,7 @@ import SignUpScreen from './Screens/SignUpScreen';
 import SigninScreen from './Screens/SigninScreen';
 import ShippingScreen from './Screens/ShippingScreen';
 import OrderScreen from './Screens/OrderScreen';
+import OrderConfirmation from './Screens/OrderConfirmation';
 
 
 
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/signin' component={SigninScreen} />
         <Route exact path='/shipping' component={ShippingScreen} />
         <Route path='/order' component={OrderScreen} />
+        <Route exact path='/orderConfirmation/:orderId' component={OrderConfirmation} />
       </Switch>
     </Router>
   )
