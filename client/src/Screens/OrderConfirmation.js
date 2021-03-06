@@ -12,7 +12,7 @@ const OrderConfirmation = ({ history, match }) => {
     //get order id
     const orderId = match.params.orderId;
 
-    //get order by id & clear created order
+    //get order by id & clear created order redux state
     const dispatch = useDispatch();
     const orderState = useSelector(state => state.order);
     const { order, loading, error } = orderState;
@@ -62,7 +62,7 @@ const OrderConfirmation = ({ history, match }) => {
 
             {loading && <Loader />}
 
-            {error && <Message shown={errorShown} text={errorText}></Message>}
+            <Message shown={errorShown} text={errorText}></Message>
 
             {order && pickupConfirmation()}
 

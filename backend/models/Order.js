@@ -26,9 +26,9 @@ const orderSchema = mongoose.Schema({
         city: {type: String}, //not required because user can choose 'pickup'
         zip: {type: String}, //not required because user can choose 'pickup'
         country: {type: String}, //not required because user can choose 'pickup'
-        shipping: {type: String, required: true, default: 'pickup'} //shipping type: 'pickup' or 'ship'
+        shipping: {type: String, required: true, default: 'pickup'} //shipping type: 'pickup' or 'ship', shoulda called it shippingType :(
     },
-    paymentResult: {
+    paymentResult: { //PAYPAL: this will be filled by updateOrderToPaid after PayPal Payment
         id: {type: String},
         status: {type: String},
         update_time: {type: String},
@@ -44,12 +44,12 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: 0
     },
-    isPaid: {
+    isPaid: { //PAYPAL: this will be filled by updateOrderToPaid after PayPal Payment
         type: Boolean,
         required: true,
         default: false
     },
-    paidAt: {
+    paidAt: { //PAYPAL: this will be filled by updateOrderToPaid after PayPal Payment
         type: Date
     },
     isDelivered: {

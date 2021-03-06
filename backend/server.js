@@ -20,7 +20,13 @@ app.use(express.json());
 app.use(morgan('dev')); //morgan has to be placed before routes
 
 
-//routes
+
+//paypal - get PAYPAL_CLIENT_ID from .env
+app.get('/api/config/paypal', (req, res) => res.json({clientId: process.env.PAYPAL_CLIENT_ID}))
+
+
+
+//api routes
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);

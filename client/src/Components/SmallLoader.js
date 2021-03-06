@@ -5,7 +5,7 @@ import './SmallLoader.css';
 
 const SmallLoader = () => {
     return (
-        <div class="small-loader"></div>
+        <div className="small-loader"></div>
     )
 }
 

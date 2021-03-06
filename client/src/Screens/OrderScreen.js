@@ -4,10 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../Components/Message';
 import { createOrder } from '../actions/orderActions';
 import Loader from '../Components/Loader';
+import SmallLoader from '../Components/SmallLoader';
+import { PayPalButton } from 'react-paypal-button-v2';
 
 
 
 const OrderScreen = ({ history, location }) => {
+        //paypal SDK ready state
+        const [sdkReady, setSdkReady] = useState(false);
+
+        //paypal payment success handler
+        const successPaymentHandler = (paymentResult) => {
+            console.log(paymentResult);
+        }
+
+
+
         //get 'shipping' from url
         const shipping = location.search.split('=')[1];
 
@@ -55,6 +67,24 @@ const OrderScreen = ({ history, location }) => {
                 showMessage();
                 history.push(`/orderConfirmation/${orderResponse._id}`);
             }
+
+            //add paypal script
+            const addPayPalScript = async () => {
+                const res = await fetch('/api/config/paypal');
+                const data = await res.json();
+                console.log(data.clientId);
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}`
+                script.async = true;
+                script.onload = () => {
+                    setSdkReady(true);
+                }
+                document.body.appendChild(script);
+            }
+
+            addPayPalScript();
+
         }, [userDetails, address, error, success, orderResponse]);
     
     
@@ -105,6 +135,7 @@ const OrderScreen = ({ history, location }) => {
 
             <h2>Your order: </h2>
 
+            {/* ORDER SUMMARY ITEMS TABLE LINES */}
             {cartItems.length > 0 ?
                 cartItems.map(item => (
                     <div key={item._id} className="order-screen-summary">
@@ -139,6 +170,9 @@ const OrderScreen = ({ history, location }) => {
                 <h4>No items have been put in cart yet</h4>
             }
 
+
+
+            {/* SHIPPING COST TABLE LINE */}
             {shipping === 'ship' && cartItems.length > 0 && cart.itemsTotalPrice <= 99 
             ?
                 <div className="shipping-table-item">
@@ -148,29 +182,40 @@ const OrderScreen = ({ history, location }) => {
                 null
             }
 
+
+
+            {/* TOTAL PRICE TABLE LINE */}
             <div className="order-screen-total">
                 <p><strong>Items Total: </strong> {cart.itemsTotalQty}</p>
                 <p><strong>Total Price</strong>: ${shipping === 'ship' && cartItems.length > 0 && cart.itemsTotalPrice <= 99 ? cart.itemsTotalPrice + 30 : cart.itemsTotalPrice}</p>
                 <button onClick={() => {history.push('/shipping')}}>Go back to Shipping</button>
             </div>
 
+
+
+            {/* PICKUP or SHIP SCREEN */}
+            {/* pickup screen => with submitOrder*/}
             {shipping === 'pickup' ?
                 <div className='pickup-buttons'>
                     <button onClick={() => history.push('/cart')}>&#8592; Change Order</button>
                     <button onClick={submitOrder}>Send Order</button>
                 </div>
                 :
-                <div className='ship-buttons'>
-                    <button>&#8592; Go Back</button>
-                    {/* payment stuff */}
+                // ship screen => with PayPal button
+                <div className='paypal-wrapper'>
+                    {!sdkReady ? 
+                        <SmallLoader /> 
+                        : 
+                        <PayPalButton 
+                            amount={cart.itemsTotalPrice <= 99 ? cart.itemsTotalPrice + 30 : cart.itemsTotalPrice}
+                            onSuccess={successPaymentHandler}   
+                        ></PayPalButton>
+                    }
                 </div>
             }
 
-
-
             {loading && <Loader />}
-
-    </div>
+        </div>
     )
 }
 

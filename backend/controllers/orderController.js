@@ -46,4 +46,5 @@ const getOrderById = async (req, res) => {
 
 
 
-export {addOrder, getOrderById}
+
+export {addOrder, getOrderById, updateOrderToPaid}
