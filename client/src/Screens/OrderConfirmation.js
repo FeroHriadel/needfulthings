@@ -40,11 +40,6 @@ const OrderConfirmation = ({ history, match }) => {
 
 
 
-
-    
-    
-
-
     //pickup confirmation
     const pickupConfirmation = () => (
         <React.Fragment>
@@ -55,6 +50,20 @@ const OrderConfirmation = ({ history, match }) => {
         </React.Fragment>
     )
 
+    //ship confirmation
+    const shipConfirmation = () => (
+        <React.Fragment>
+            <h2>Thank you for your purchase, {order.address.name.charAt(0).toUpperCase() + order.address.name.slice(1)}!</h2>
+            <h3>We are shipping your order right away.</h3>
+            <button style={{marginTop: '2rem', cursor: 'pointer'}} onClick={() => history.push('/')}>Go Home</button>
+        </React.Fragment>
+    )
+
+
+
+
+
+
 
 
     return (
@@ -64,7 +73,10 @@ const OrderConfirmation = ({ history, match }) => {
 
             <Message shown={errorShown} text={errorText}></Message>
 
-            {order && pickupConfirmation()}
+            {!loading && order && order.isPaid === false && pickupConfirmation()}
+
+            {!loading && order && order.isPaid === true && shipConfirmation()}
+
 
         </div>
     )

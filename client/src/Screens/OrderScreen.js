@@ -9,14 +9,20 @@ import { PayPalButton } from 'react-paypal-button-v2';
 
 
 
+
+
+//ORDER SCREEN FORKS => renders different screens for pickup & for ship. Ship has a paypal btn, pickup has a 'send order' btn (pickup user pays cash in store). They both lead to submitOrder() but with different data
+
 const OrderScreen = ({ history, location }) => {
         //paypal SDK ready state
         const [sdkReady, setSdkReady] = useState(false);
 
         //paypal payment success handler
         const successPaymentHandler = (paymentResult) => {
-            console.log(paymentResult);
+            //console.log(paymentResult);
+            submitOrder(paymentResult);
         }
+
 
 
 
@@ -103,8 +109,11 @@ const OrderScreen = ({ history, location }) => {
 
 
         //create order
-        const submitOrder = () => { //only put in cartItem details that Order Schema requires, no need to send all the other details.
-            //const orderUserId = userDetails._id;   => not necessary 'protect' middleware will fetch user._id in backend
+        const submitOrder = (paymentResult) => {
+
+            console.log('running') //
+
+            //for both 'pickup' and 'ship' orders:
             const orderItems = cartItems.map(item => {
                 return {
                     name: item.name,
@@ -113,16 +122,39 @@ const OrderScreen = ({ history, location }) => {
                     productId: item._id
                 }
             })
+
+            console.log('made it past return') //
+            console.log(paymentResult) //
+
             const orderAddress = address;
             const orderShippingPrice = cart.itemsTotalPrice <= 99 && cart.address.shipping === 'ship' ? 30 : cart.itemsTotalPrice > 99 && cart.address.shipping === 'ship' ? 0 : 0  ; //purchases over $99 have free shipping, else shippingPrice = $30, pickup = 0
             const orderTotalPrice = cart.itemsTotalPrice + orderShippingPrice;
+            const orderIsPaid = paymentResult.status === 'COMPLETED' ? true : false;
+            const orderPaymentResult = paymentResult.status === 'COMPLETED' ? paymentResult : {}
+            const orderPaidAt = Date.now();
 
+            console.log('made it past conditionals') //
+
+            console.log({ //
+                    orderItems,
+                    address: orderAddress,
+                    totalPrice: orderTotalPrice,
+                    shippingPrice: orderShippingPrice,
+                    isPaid: orderIsPaid,
+                    paymentResult: orderPaymentResult,
+                    paidAt: orderPaidAt
+                })
+
+
+            //dispatch order to db
             dispatch(createOrder({
-                //user: orderUserId,
                 orderItems,
                 address: orderAddress,
                 totalPrice: orderTotalPrice,
-                shippingPrice: orderShippingPrice
+                shippingPrice: orderShippingPrice,
+                isPaid: orderIsPaid,
+                paymentResult: orderPaymentResult,
+                paidAt: orderPaidAt
             }));
         }
 
@@ -193,7 +225,7 @@ const OrderScreen = ({ history, location }) => {
 
 
 
-            {/* PICKUP or SHIP SCREEN */}
+            {/* PICKUP vs SHIP SCREEN */}
             {/* pickup screen => with submitOrder*/}
             {shipping === 'pickup' ?
                 <div className='pickup-buttons'>
@@ -203,6 +235,26 @@ const OrderScreen = ({ history, location }) => {
                 :
                 // ship screen => with PayPal button
                 <div className='paypal-wrapper'>
+
+                    <div className='paypal-warning'>
+                        <div className="paypal-warning-header">
+                            <h2>Paypal is in Sandbox Mode</h2>
+                            <h4>Please use the following details to make payments: </h4>
+                        </div>
+
+                        <div className="paypal-warning-details">
+                            <p>First Name: John</p>
+                            <p>Last Name: Doe</p>
+                            <p>Email: sb-mecq45168382@personal.example.com</p>
+                            <p>Password: a&lt;/C6$cZ</p>
+                            <p>Country: US</p>
+                            <p>Credit Card Number: 4032037185633761</p>
+                            <p>Credit Card Type: VISA</p>
+                            <p>Expiration Date: 03/2026</p>
+                            <p></p>
+                        </div>
+                    </div>
+
                     {!sdkReady ? 
                         <SmallLoader /> 
                         : 
@@ -211,6 +263,7 @@ const OrderScreen = ({ history, location }) => {
                             onSuccess={successPaymentHandler}   
                         ></PayPalButton>
                     }
+
                 </div>
             }
 

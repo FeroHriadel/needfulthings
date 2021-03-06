@@ -5,17 +5,16 @@ import Order from '../models/Order.js';
 //ADD ORDER
 const addOrder = async (req, res) => {
     try {
-        const { orderItems, address, totalPrice, shippingPrice } = req.body;
-        console.log(shippingPrice)//
+        const { orderItems, address, totalPrice, shippingPrice, isPaid, paymentResult, paidAt } = req.body;
 
-        if (!orderItems || !address || !totalPrice) { //   '|| !shippingPrice'   cannot be here because if it is 0, it will throw an error 
+        if (!orderItems || !address || !totalPrice) { //   '|| !shippingPrice'   cannot be here because if it is 0, it will throw an error    // isPaid, paymentResult paidAt are not here 'cos we want unpaid 'pickup' orders go thru too.
             return res.status(400).json({error: 'orderItems, address, totalPrice & shippingPrice required'})
         }
 
         if (orderItems && orderItems.length === 0) {
             return res.status(400).json({error: `No order items sent`})
         } else {
-            const order = new Order({orderItems, address, totalPrice, shippingPrice, user: req.user._id});
+            const order = new Order({orderItems, address, totalPrice, shippingPrice, user: req.user._id, isPaid, paymentResult, paidAt});
             const createdOrder = await order.save();
             res.status(201).json(createdOrder);
         }
@@ -47,4 +46,4 @@ const getOrderById = async (req, res) => {
 
 
 
-export {addOrder, getOrderById, updateOrderToPaid}
+export {addOrder, getOrderById}
