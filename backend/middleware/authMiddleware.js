@@ -3,6 +3,7 @@ import User from '../models/User.js';
 
 
 
+//require matching user._id in Header
 const protect = async (req, res, next) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -21,4 +22,23 @@ const protect = async (req, res, next) => {
 
 
 
-export { protect };
+//require admin user
+const admin = (req, res, next) => {
+    try {
+        if (req.user && req.user.isAdmin === true) {
+            next();
+        } else {
+            res.status(401).json({error: 'Not authorized as asmin'})
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error (admin middleware)`})
+    }
+
+
+}
+
+
+
+export { protect, admin };

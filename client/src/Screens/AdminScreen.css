@@ -1,0 +1,89 @@
+.admin-screen {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-screen h2 {
+    color: #333;
+}
+
+.admin-screen-buttons {
+    width: 50%;
+    min-width: 260px;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+
+.admin-screen-buttons > button {
+    cursor: pointer;
+}
+
+.admin-screen .categories-display {
+    width: 95%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    border: 2px solid #333;
+    border-radius: 5px;
+    color: #333;
+    overflow: hidden;
+    animation-name: widenAndHeighten;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes widenAndHeighten {
+    0% {width: 0%; height: 5px}
+    100% {width: 95%; height: auto}
+}
+
+.admin-screen .categories-display .add-category-btn {
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.admin-screen .categories-display .categories-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-screen .categories-display .categories-table .row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.admin-screen .categories-display .categories-table .row .category-img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.admin-screen .categories-display .categories-table .row .category-details {
+    width: 100%;
+    margin-left: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    border-top: 1px dotted #333;
+}
+
+.admin-screen .categories-display .categories-table .row .category-details .category-details-buttons > * {
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+

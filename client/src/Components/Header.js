@@ -38,13 +38,16 @@ const Header = ({ history, location }) => {
             <p style={{textDecoration: 'none', color: '#ddd', cursor: 'pointer'}} onClick={() => {dispatch(signout())}}>Sing out</p>
     )
 
+    //admin link
+    const adminLink = () => (
+        <Link to='/admin' style={isActive('/admin')}>
+            <p>Admin</p>
+        </Link>
+    )
 
 
-    //links highlight
-    // useEffect(() => {
-    //     console.log(location)
-    // }, [location])
 
+    //active link highlight
     const isActive = (string) => {
         if (location.pathname === string) {
             return {textDecoration: 'none', color: 'rgb(167, 26, 26)', cursor: 'pointer'}
@@ -78,6 +81,8 @@ const Header = ({ history, location }) => {
                 <Link to='/about' style={isActive('/about')}>
                     <p>About</p>
                 </Link>
+
+                {userDetails.isAdmin && adminLink()}
 
             </div>
         </div>
