@@ -28,7 +28,7 @@ const admin = (req, res, next) => {
         if (req.user && req.user.isAdmin === true) {
             next();
         } else {
-            res.status(401).json({error: 'Not authorized as asmin'})
+            res.status(401).json({error: 'Not authorized as admin'})
         }
 
     } catch (err) {

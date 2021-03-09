@@ -12,6 +12,7 @@ import ShippingScreen from './Screens/ShippingScreen';
 import OrderScreen from './Screens/OrderScreen';
 import OrderConfirmation from './Screens/OrderConfirmation';
 import AdminScreen from './Screens/AdminScreen';
+import AddCategoryScreen from './Screens/AddCategoryScreen';
 
 
 
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='/order' component={OrderScreen} />
         <Route exact path='/orderConfirmation/:orderId' component={OrderConfirmation} />
         <Route exact path='/admin' component={AdminScreen} />
+        <Route exact path='/admin/addCategory' component={AddCategoryScreen} />
       </Switch>
     </Router>
   )
