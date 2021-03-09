@@ -1,10 +1,11 @@
 import express from 'express';
 const router = express.Router();
-import { createProduct, getProductsByCategory, getImage, getProductById } from '../controllers/productController.js';
+import { createProduct, getProductsByCategory, getImage, getProductById, getProducts } from '../controllers/productController.js';
 
 
 
 
+router.route('/').get(getProducts);
 router.route('/create').post(createProduct);
 router.route('/getProductsByCategory/:categoryId').get(getProductsByCategory);
 router.route('/getImage/:productId').get(getImage);

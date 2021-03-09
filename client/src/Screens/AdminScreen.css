@@ -8,6 +8,7 @@
 
 .admin-screen h2 {
     color: #333;
+    margin-bottom: 3rem;
 }
 
 .admin-screen-buttons {
@@ -38,6 +39,7 @@
     animation-name: widenAndHeighten;
     animation-duration: 1s;
     animation-fill-mode: forwards;
+    margin-bottom: 1rem;
 }
 
 @keyframes widenAndHeighten {
@@ -86,4 +88,72 @@
     cursor: pointer;
     margin-right: 1rem;
 }
+
+
+
+.admin-screen .products-display {
+    width: 95%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #333;
+    border-radius: 5px;
+    color: #333;
+    overflow: hidden;
+    animation-name: widenAndHeighten;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.admin-screen .products-display .add-product-btn {
+    margin-bottom: 1rem;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 0px;
+}
+
+.admin-screen .products-display > p {
+    margin: 0.5rem;
+}
+
+.admin-screen .products-display .products-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.admin-screen .products-display .products-table .products-table-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.admin-screen .products-display .products-table .products-table-header > * {
+    width: 25%;
+}
+
+.admin-screen .products-display .products-table .product-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+    color: #333;
+    font-size: 0.95rem;
+    border-top: 1px dotted #333;
+}
+
+.admin-screen .products-display .products-table .product-row > * {
+    width: 25%;
+}
+
+
+
 

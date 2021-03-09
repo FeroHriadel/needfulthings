@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../actions/categoryActions';
+import { getProducts } from '../actions/productActions';
 import './AdminScreen.css';
-import SmallLoader from '../Components/SmallLoader';
 import Loader from '../Components/Loader';
 import ShowCategoryImg from '../Components/ShowCategoryImg';
 
@@ -37,7 +37,7 @@ const AdminScreen = ({ history }) => {
                                 <fieldset className="categories-display">
                                     <legend>Categories</legend>
                                     
-                                    <button className='add-category-btn' onClick={() => history.push('/admin/addCategory')}>Add New Category</button>
+                                    <button className='add-category-btn' onClick={() => history.push('/admin/addCategory')}>+ Add New Category</button>
 
                                     <div className="categories-table">
                                         {categories.map((category, index) => (
@@ -67,6 +67,52 @@ const AdminScreen = ({ history }) => {
     
 
 
+    //PRODUCTS
+    //component state => products shown?
+    const [productsShown, setProductsShown] = useState(false);
+
+    //get products from state
+    const getAllProductsReducer = useSelector(state => state.getAllProducts);
+    const { loading: loadingProducts, error: productsError, products } = getAllProductsReducer;
+
+    //render products
+    const showProducts = () => (
+        loadingProducts ?
+            <Loader />
+                : productsError ?
+                    <h3 style={{color: 'rgb(114, 39, 39)'}}>Products loading failed. Try reloading this page.</h3>
+                        : 
+                            <fieldset className='products-display'>
+                                <legend>Products</legend>
+
+                                <button className='add-product-btn' onClick={() => history.push('/admin/addProduct')}>+ Add New Product</button>
+
+                                <p>Click product to edit/get more details</p>
+
+                                <div className="products-table">
+                                    <div className="products-table-header">
+                                        <h4>Name</h4>
+                                        <h4>In Stock</h4>
+                                        <h4>Price</h4>
+                                        <h4>Category</h4>
+                                    </div>
+
+                                    {products.map(product => (
+                                        <div className="product-row" onClick={() => history.push(`/admin/productDetails/${product._id}`)} style={{cursor: 'pointer'}}>
+                                            <p>{product.name}</p>
+                                            <p>{product.inStock}</p>
+                                            <p>{product.price}</p>
+                                            <p>{product.category}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+
+                            </fieldset>
+    )
+
+
+
     useEffect(() => {
         //redirect non-admin users away
         if (!userDetails.isAdmin) {
@@ -78,7 +124,12 @@ const AdminScreen = ({ history }) => {
             dispatch(getCategories())
         }
 
-    }, [userDetails, dispatch, categoriesShown]);
+        //get products call
+        if (productsShown) {
+            dispatch(getProducts());
+        }
+
+    }, [userDetails, dispatch, categoriesShown, productsShown]);
 
 
 
@@ -88,12 +139,14 @@ const AdminScreen = ({ history }) => {
             
             <div className="admin-screen-buttons">
                 <button className='categories-btn' onClick={() => setCategoriesShown(!categoriesShown)}>Manage Categories</button>
-                <button className='products-btn'>Manage Products</button>
+                <button className='products-btn' onClick={() => setProductsShown(!productsShown)}>Manage Products</button>
                 <button className='orders-btn'>Manage Orders</button>
                 <button className='users-btn'>Manage Users</button>
             </div>
 
-            {categoriesShown ? showCategories() : null}
+            {categories && categoriesShown ? showCategories() : null}
+
+            {products && productsShown ? showProducts() : null}
 
         </div>
 

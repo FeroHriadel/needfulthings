@@ -23,3 +23,26 @@ export const getProductByIdReducer = (state = {}, action) => {
             return state;
     }
 }
+
+
+
+export const getProductsReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'GET_PRODUCTS_REQUEST':
+            return {
+                loading: true
+            };
+        case 'GET_PRODUCTS_SUCCESS':
+            return {
+                loading: false,
+                products: action.payload
+            };
+        case 'GET_PRODUCTS_FAIL':
+            return {
+                loading: false,
+                error: action.payload
+            };
+        default:
+            return state;
+    }
+}

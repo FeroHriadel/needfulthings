@@ -37,3 +37,25 @@ export const getProductById = (productId) => async (dispatch) => {
     }
 }
 
+
+
+//GET ALL PRODUCTS
+export const getProducts = () => async (dispatch) => {
+    try {
+        dispatch({type: 'GET_PRODUCTS_REQUEST'})
+
+        const res = await fetch(`/api/products`);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'GET_PRODUCTS_FAIL', payload: data})
+        }
+
+        dispatch({type: 'GET_PRODUCTS_SUCCESS', payload: data});
+
+    } catch (err) {
+        console.log(err);
+        dispatch({type: 'GET_PRODUCTS_FAIL', payload: 'Product search failed'})
+    }
+}
+

@@ -71,6 +71,23 @@ const getProductsByCategory = async (req, res) => {
 
 
 
+//GET ALL PRODUCTS
+const getProducts = async (req, res) => {
+    try {
+        const products = await Product.find().select('-image').sort({category: 1});
+        if (!products) {
+            return res.status(404).json({error: 'No products found'});
+        }
+
+        res.json(products);
+
+    } catch (err) {
+        console.log(err);
+        res.json({error: `Server Error (get products)`})
+    }
+}
+
+
 
 //GET PRODUCT IMAGE
 const getImage = async (req, res) => {
@@ -108,5 +125,5 @@ const getProductById = async (req, res) => {
 
 
 
-export {createProduct, getProductsByCategory, getImage, getProductById}
+export {createProduct, getProductsByCategory, getImage, getProductById, getProducts}
 
