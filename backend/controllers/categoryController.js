@@ -90,4 +90,83 @@ const getImage = async (req, res) => {
 
 
 
-export {createCategory, getCategories, getImage};
+//GET CATEGORY BY ID
+const getCategoryById = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.categoryId).select('-image');
+        
+        if (!category) {
+            return res.status(404).json({ error: 'Category not found'})
+        }
+
+        res.json(category);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: err});
+    }
+}
+
+
+
+//UPDATE CATEGORY
+const updateCategory = async (req, res) => {
+    //save form data here:
+    let updateData = {};
+
+    //init formidable
+    let form = new formidable.IncomingForm();
+    form.keepExtension = true;
+
+    //process form
+    form.parse(req, (err, fields, files) => {
+        //check if either files or name exist
+        if (!fields && !files) {
+            return res.status(400).json({error: `Update at least one parameter: name or image`})
+        }
+        //catch err
+        if (err) {
+            return res.status(400).json({error: 'Error parsing form data'});
+        }
+
+        //populate updatedCategory with name
+        if (fields.name) {
+            updateData.name = fields.name;
+        }
+
+        //populate updateData with image
+        if (files.image) {
+            updateData.image = {};
+
+            if (files.image.size > 2000000) {
+                return res.status(400).json({error: 'Max size 2Mb exceeded'});
+            }
+
+            let imageData = fs.readFileSync(files.image.path);
+            let imageContentType = files.image.type;
+
+            updateData.image.data = imageData;
+            updateData.image.contentType = imageContentType;
+        }     
+    })
+
+    //update category
+    try {
+        const category = await Category.findById(req.params.categoryId);
+        
+        if (!category) {
+            return res.status(404).json({error: `Category not found`})
+        }
+
+        const updatedCategory = await Category.findByIdAndUpdate(req.params.categoryId, {$set: updateData}, {new: true});
+        res.json(updatedCategory);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error (updating category)`});
+    }
+}
+
+
+
+export {createCategory, getCategories, getImage, getCategoryById, updateCategory};

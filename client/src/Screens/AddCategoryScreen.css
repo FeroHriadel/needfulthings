@@ -4,6 +4,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+.add-category-screen > button {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    cursor: pointer;
 }
 
 .add-category-form {

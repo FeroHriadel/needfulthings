@@ -44,3 +44,32 @@ export const createCategory = (formData) => async (dispatch, getState) => {
         dispatch({type: 'CREATE_CATEGORY_FAIL', payload: err })
     }
 }
+
+
+
+//GET CATEGORY BY ID
+export const getCategoryById = (categoryId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'GET_CATEGORY_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userDetails.token}`
+            }
+        }
+
+        const res = await fetch(`/api/categories/${categoryId}`);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'GET_CATEGORY_FAIL', payload: data});
+        }
+
+        dispatch({type: 'GET_CATEGORY_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'GET_CATEGORY_FAIL', payload: 'Something went wrong. Try reloading the page'})
+    }
+}

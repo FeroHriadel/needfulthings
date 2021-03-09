@@ -86,7 +86,7 @@ const AddCategoryScreen = ({ history, location }) => {
             history.push('/')
         }
 
-        //listen for error/success
+        //listen for error
         if (error) {
             setErrorText(error.error);
         } else {
@@ -102,6 +102,8 @@ const AddCategoryScreen = ({ history, location }) => {
             <Message shown={errorShown} text={errorText}></Message> 
 
             {showAddCategoryForm()}
+
+            <button type='button' onClick={() => history.push('/admin')}>&#8592; Back to Admin Screen</button>
 
             {loading && <Loader /> }
         </div>
