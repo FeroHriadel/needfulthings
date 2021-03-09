@@ -121,7 +121,7 @@ const updateCategory = async (req, res) => {
     //process form
     form.parse(req, (err, fields, files) => {
         //check if either files or name exist
-        if (!fields && !files) {
+        if (!fields.name && !files.image) {
             return res.status(400).json({error: `Update at least one parameter: name or image`})
         }
         //catch err

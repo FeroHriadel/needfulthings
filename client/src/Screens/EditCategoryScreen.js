@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCategoryById } from '../actions/categoryActions';
+import { getCategoryById, updateCategory, clearUpdatedCategory } from '../actions/categoryActions';
 import './EditCategoryScreen.css';
 import Loader from '../Components/Loader';
 import Message from '../Components/Message';
@@ -20,7 +20,7 @@ const EditCategoryScreen = ({ history, match}) => {
     //useEffect get category onComponentMount
     const categoryId = match.params.categoryId;
     const categoryReducer = useSelector(state => state.category);
-    const { loading, error, success, category } = categoryReducer;
+    const { loading, error, category } = categoryReducer;
     
 
 
@@ -35,14 +35,17 @@ const EditCategoryScreen = ({ history, match}) => {
         }, 2500)
     }
 
+
+
+    //UPDATE MESSAGE STATE
+    const updateCategoryReducer = useSelector(state => state.updatedCategory);
+    const { updateCategoryLoading, updatedCategory, updateCategoryError } = updateCategoryReducer;
+
     
 
     //EDIT CATEGORY FORM
     //form state
-    const [values, setValues] = useState({
-        name: '',
-        image: new FormData()
-    });
+    const [values, setValues] = useState({name: '', formData: new FormData()});
     const { name, formData } = values;
     
     //form fields change handler (.sets formData as we're sending an image which is not json like standard input:text forms)
@@ -53,14 +56,20 @@ const EditCategoryScreen = ({ history, match}) => {
     }
 
     //form submit
-
+    const submitHandler = (e) => {
+        e.preventDefault();
+        dispatch(updateCategory(category._id, formData));
+        setValues({name: '', formData: new FormData()});
+        setErrorText('Category updated');
+        showMessage();
+    }
     
     //form html
     const showEditCategoryForm = () => (
-        category && 
-        <form className="edit-category-form">
+        category && !updatedCategory &&
+        <form className="edit-category-form" onSubmit={submitHandler}>
             <h2>Edit Category</h2>
-            <p>only fill out the fields you'd like to change</p>
+            <p>Only fill out the fields you'd like to change</p>
 
             <div className="form-group">
                 <label>Category Name</label>
@@ -97,16 +106,30 @@ const EditCategoryScreen = ({ history, match}) => {
             setErrorText('Category updated')
         }
 
-    }, [userDetails, history, error, success]);
+        //listen for updateCategory error
+        if (updateCategoryError) {
+            setErrorText(updateCategoryError.error.error || updateCategoryError.error);
+            showMessage();
+        }
+
+    }, [userDetails, history, error, updateCategoryError]);
 
 
     return (
         <div className='edit-category-screen'>
+            <button className='go-back-btn' onClick={() => {dispatch({type: 'CLEAR_UPDATED_CATEGORY'}); history.push('/admin')}}>&#8592; Back to Admin Screen</button>
+
             <Message shown={errorShown} text={errorText}></Message> 
 
-            {loading && <Loader />}
+            {loading || updateCategoryLoading && <Loader />}
             
             {showEditCategoryForm()}
+
+            {updatedCategory && 
+                <div className='edit-success-screen'>
+                    <h2>Category updated</h2>
+                </div>     
+            }
         </div>
     )
 }

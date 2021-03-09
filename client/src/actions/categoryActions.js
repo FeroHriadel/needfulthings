@@ -73,3 +73,35 @@ export const getCategoryById = (categoryId) => async (dispatch, getState) => {
         dispatch({type: 'GET_CATEGORY_FAIL', payload: 'Something went wrong. Try reloading the page'})
     }
 }
+
+
+
+//UPDATE CATEGORY
+export const updateCategory = (categoryId, formData) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'UPDATE_CATEGORY_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState(); 
+
+        const config = {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${userDetails.token}`
+            }
+        }
+
+        const res = await fetch(`/api/categories/update/${categoryId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'UPDATE_CATEGORY_FAIL', payload: data})
+        }
+
+        dispatch({type: 'UPDATE_CATEGORY_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'UPDATE_CATEGORY_FAIL', payload: err })
+    }
+}

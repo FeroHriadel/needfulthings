@@ -50,7 +50,11 @@ const AdminScreen = ({ history }) => {
                                                 <div className="category-details">
                                                     <span>{category.name}</span>
                                                     <div className="category-details-buttons">
-                                                        <span className='edit-category-btn' title='edit category' onClick={() => history.push(`/admin/editCategory/${category._id}`)}>&#9998;</span>
+                                                        <span className='edit-category-btn' title='edit category' onClick={() => {
+                                                            dispatch({type: 'CLEAR_UPDATED_CATEGORY'}); //clear previosly updated category from state.updatedCategory
+                                                            history.push(`/admin/editCategory/${category._id}`)
+                                                        }
+                                                    }>&#9998;</span>
                                                         <span className='delete-category-btn' title='delete category'>&#128465;</span>
                                                     </div>
                                                 </div>

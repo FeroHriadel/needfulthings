@@ -4,4 +4,59 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+.edit-category-screen .go-back-btn {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.edit-category-screen .edit-category-form {
+    width: 25%;
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-category-screen .edit-category-form p {
+    transform: translateY(-2rem);
+    text-align: center;
+}
+
+.edit-category-screen .edit-category-form .form-group {
+    width: 97.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.edit-category-screen .edit-category-form .form-group > * {
+    width: 97.5%;
+}
+
+.edit-category-screen .edit-category-form .form-group button {
+    margin-top: 1rem;
+    width: 100%;
+    cursor: pointer;
+}
+
+.edit-category-screen .edit-success-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-category-screen .edit-success-screen > * {
+    text-align: center;
+}
+
+.edit-category-screen .edit-success-screen > button {
+    cursor: pointer;
 }

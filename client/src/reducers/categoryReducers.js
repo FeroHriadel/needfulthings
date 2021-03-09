@@ -58,3 +58,28 @@ export const getCategoryReducer = (state = {}, action) => {
             return state;
     }
 }
+
+
+
+export const updateCategoryReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'UPDATE_CATEGORY_REQUEST':
+            return {
+                updateCategoryLoading: true
+            };
+        case 'UPDATE_CATEGORY_SUCCESS':
+            return {
+                updateCategoryLoading: false,
+                updatedCategory: action.payload
+            };
+        case 'UPDATE_CATEGORY_FAIL':
+            return {
+                updateCategoryLoading: false,
+                updateCategoryError: action.payload
+            };
+            case 'CLEAR_UPDATED_CATEGORY':
+                return {};
+        default:
+            return state;
+    }
+}
