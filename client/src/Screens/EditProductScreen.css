@@ -1,0 +1,85 @@
+.edit-product-screen {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .edit-product-screen {
+        flex-direction: column;
+    }
+}
+
+.edit-product-screen .edit-product-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 2rem;
+}
+
+.edit-product-screen .edit-product-info .details > * {
+    margin: 0;
+    margin-bottom: 0.25rem;
+    padding: 0;
+    text-shadow: 0.5px 0.5px 3px white;
+}
+
+.edit-product-screen .edit-product-info .details > h3 {
+    margin-bottom: 1rem;
+}
+
+.edit-product-screen .edit-product-form {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+}
+
+@media (max-width: 600px) {
+    .edit-product-screen .edit-product-form {
+        margin-top: 0;
+    }
+}
+
+.edit-product-screen .edit-product-form form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .edit-product-screen .edit-product-form form {
+        align-items: flex-start;
+    }
+}
+
+.edit-product-screen .edit-product-form form .form-group {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.edit-product-screen .edit-product-form form .form-group input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.edit-product-screen .edit-product-form form .form-group textarea {
+    width: 101%;
+    height: 100px;
+    margin-bottom: 0.5rem;
+}
+
+.edit-product-screen .edit-product-form form button {
+    width: 101%;
+    cursor: pointer;
+}

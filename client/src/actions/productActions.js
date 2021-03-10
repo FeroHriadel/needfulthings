@@ -25,7 +25,7 @@ export const getProductById = (productId) => async (dispatch) => {
     try {
         dispatch({type: 'GET_PRODUCT_BY_ID_REQUEST'});
         const res = await fetch(`/api/products/${productId}`);
-        const data = res.json();
+        const data = await res.json();
         
         if (data.error) {
             return dispatch({type: 'GET_PRODUCT_BY_ID_FAIL', payload: data })
@@ -56,6 +56,38 @@ export const getProducts = () => async (dispatch) => {
     } catch (err) {
         console.log(err);
         dispatch({type: 'GET_PRODUCTS_FAIL', payload: 'Product search failed'})
+    }
+}
+
+
+
+//UPDATE PRODUCT
+export const updateProduct = (productId, formData) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'UPDATE_PRODUCT_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState(); 
+
+        const config = {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${userDetails.token}`
+            }
+        }
+
+        const res = await fetch(`/api/products/${productId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'UPDATE_PRODUCT_FAIL', payload: data})
+        }
+
+        dispatch({type: 'UPDATE_PRODUCT_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'UPDATE_PRODUCT_FAIL', payload: err })
     }
 }
 

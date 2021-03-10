@@ -125,5 +125,67 @@ const getProductById = async (req, res) => {
 
 
 
-export {createProduct, getProductsByCategory, getImage, getProductById, getProducts}
+//UPDATE PRODUCT
+const updateProduct = async (req, res) => {
+    //save form data here:
+    let updateData = {};
+
+    //init formidable
+    let form = new formidable.IncomingForm();
+    form.keepExtension = true;
+
+    //process form
+    form.parse(req, (err, fields, files) => {
+        //check if either files or name exist
+        if (!fields.name && !fields.description) {
+            return res.status(400).json({error: `Error. A product must have a name and a description`})
+        }
+        //catch err
+        if (err) {
+            return res.status(400).json({error: 'Error parsing form data'});
+        }
+
+        //populate updateData with fields keys & values
+        if (fields.name) updateData.name = fields.name;
+        if (fields.sold) updateData.sold = fields.sold;
+        if (fields.inStock) updateData.inStock = fields.inStock;
+        if (fields.price) updateData.price = fields.price;
+        if (fields.description) updateData.description = fields.description;
+
+        //populate updateData with image
+        if (files.image) {
+            updateData.image = {};
+
+            if (files.image.size > 2000000) {
+                return res.status(400).json({error: 'Max size 2Mb exceeded'});
+            }
+
+            let imageData = fs.readFileSync(files.image.path);
+            let imageContentType = files.image.type;
+
+            updateData.image.data = imageData;
+            updateData.image.contentType = imageContentType;
+        }     
+    })
+
+    //update product
+    try {
+        const product = await Product.findById(req.params.productId);
+        
+        if (!product) {
+            return res.status(404).json({error: `Product not found`})
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, {$set: updateData}, {new: true});
+        res.json(updatedProduct);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error (updating product)`});
+    }
+}
+
+
+
+export {createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct}
 

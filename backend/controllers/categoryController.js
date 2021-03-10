@@ -129,7 +129,7 @@ const updateCategory = async (req, res) => {
             return res.status(400).json({error: 'Error parsing form data'});
         }
 
-        //populate updatedCategory with name
+        //populate updateData with name
         if (fields.name) {
             updateData.name = fields.name;
         }

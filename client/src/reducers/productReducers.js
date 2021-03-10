@@ -11,14 +11,14 @@ export const getProductsByCategoryReducer = (state = {products: []}, action) => 
     }
 }
 
-export const getProductByIdReducer = (state = {}, action) => {
+export const getProductByIdReducer = (state = {product: {}}, action) => {
     switch(action.type) {
         case 'GET_PRODUCT_BY_ID_REQUEST':
             return {loading: true, product: {}};
         case 'GET_PRODUCT_BY_ID_SUCCESS':
             return {loading: false, product: action.payload};
         case 'GET_PRODUCT_BY_ID_FAIL': 
-            return {loading: false, error: action.payload}
+            return {loading: false, error: action.payload, product: {}}
         default:
             return state;
     }
@@ -41,6 +41,31 @@ export const getProductsReducer = (state = {}, action) => {
             return {
                 loading: false,
                 error: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
+
+
+export const updateProductReducer = (state = {updatedProduct: {}}, action) => {
+    switch(action.type) {
+        case 'UPDATE_PRODUCT_REQUEST':
+            return {
+                updateProductLoading: true,
+                updatedProduct: {}
+            };
+        case 'UPDATE_PRODUCT_FAIL':
+            return {
+                updateProductLoading: false,
+                updatedProduct: {},
+                updateProductError: action.payload
+            };
+        case 'UPDATE_PRODUCT_SUCCESS':
+            return {
+                updateProductLoading: false,
+                updatedProduct: action.payload,
             };
         default:
             return state;

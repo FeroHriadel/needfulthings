@@ -37,7 +37,7 @@ const EditCategoryScreen = ({ history, match}) => {
 
 
 
-    //UPDATE MESSAGE STATE
+    //UPDATED CATEGORY STATE
     const updateCategoryReducer = useSelector(state => state.updatedCategory);
     const { updateCategoryLoading, updatedCategory, updateCategoryError } = updateCategoryReducer;
 

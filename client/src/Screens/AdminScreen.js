@@ -8,7 +8,6 @@ import ShowCategoryImg from '../Components/ShowCategoryImg';
 
 
 
-
 const AdminScreen = ({ history }) => {
     //REDIRECT NON-ADMINS
     //get user from state => useEffect redirects non-Admins
@@ -75,6 +74,8 @@ const AdminScreen = ({ history }) => {
     const getAllProductsReducer = useSelector(state => state.getAllProducts);
     const { loading: loadingProducts, error: productsError, products } = getAllProductsReducer;
 
+
+
     //render products
     const showProducts = () => (
         loadingProducts ?
@@ -98,15 +99,14 @@ const AdminScreen = ({ history }) => {
                                     </div>
 
                                     {products.map(product => (
-                                        <div className="product-row" onClick={() => history.push(`/admin/productDetails/${product._id}`)} style={{cursor: 'pointer'}}>
+                                        <div className="product-row" onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} key={product._id}>
                                             <p>{product.name}</p>
                                             <p>{product.inStock}</p>
-                                            <p>{product.price}</p>
+                                            <p>${product.price}</p>
                                             <p>{product.category}</p>
                                         </div>
                                     ))}
                                 </div>
-
 
                             </fieldset>
     )
