@@ -91,3 +91,35 @@ export const updateProduct = (productId, formData) => async (dispatch, getState)
     }
 }
 
+
+
+//CREATE PRODUCT
+export const addProduct = (formData) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'ADD_PRODUCT_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+
+        const config = {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${userDetails.token}`
+            }
+        }
+
+        const res = await fetch(`/api/products/create`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'ADD_PRODUCT_FAIL', payload: data})
+        }
+
+        dispatch({type: 'ADD_PRODUCT_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'ADD_PRODUCT_FAIL', payload: err})
+    }
+}
+

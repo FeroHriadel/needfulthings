@@ -8,6 +8,11 @@ import Message from '../Components/Message';
 
 
 const EditProductScreen = ({ history, match }) => {
+    //REDIRECT NON-ADMINS
+    //get user from state => useEffect redirects non-Admins
+    const userSignin = useSelector(state => state.userSignin);
+    const { userDetails } = userSignin;
+
     //GET PRODUCT
     //get product from url params => useEffet will make a call to get it from db
     const productId = match.params.productId;
@@ -113,6 +118,11 @@ const EditProductScreen = ({ history, match }) => {
     
 
     useEffect(() => {
+        //redirect non-admin users away
+        if (!userDetails.isAdmin) {
+            history.push('/')
+        }
+
         //get product call
         if (!loading && !error && !product.name) {
             dispatch(getProductById(productId));
@@ -124,7 +134,7 @@ const EditProductScreen = ({ history, match }) => {
             showMessage();
         }
 
-    }, [product, error, loading, updateProductError])
+    }, [userDetails, product, error, loading, updateProductError])
 
 
 

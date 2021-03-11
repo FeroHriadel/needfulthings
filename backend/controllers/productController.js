@@ -22,7 +22,7 @@ const createProduct = (req, res) => {
         //validate non-file fields
         const { name, inStock, price, description, category } = fields;
         if (!name || !inStock || !price || !description || !category) {
-            res.status(400).json({error: 'All fields are required'});
+            res.status(400).json({error: 'Please fill in all required fields'});
         }
 
         //populate Product with non-file fields
