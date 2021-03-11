@@ -74,6 +74,23 @@ const AdminScreen = ({ history }) => {
     const getAllProductsReducer = useSelector(state => state.getAllProducts);
     const { loading: loadingProducts, error: productsError, products } = getAllProductsReducer;
 
+    //get {categoryId: categoryName} key:value pairs from state.categories & state.products for showProducts() _id to name conversion
+    let categoryIDsAndNames = {}; //will be: {categoryId1: categoryName1, categoryId2: categoryName2, ...}
+    
+    if (products) {
+        products.forEach(product => categoryIDsAndNames[product.category] = 'placeholder'); //returns {categoryId: 'placeholder', ...}
+    }
+
+    if (categories) {
+        for (let key in categoryIDsAndNames) {
+            categories.forEach(category => {
+                if (category._id == key) {
+                    categoryIDsAndNames[key] = category.name // returns {categoryId: categoryName, ...}
+                }
+            })
+        }
+    }
+    
 
 
     //render products
@@ -88,7 +105,7 @@ const AdminScreen = ({ history }) => {
 
                                 <button className='add-product-btn' onClick={() => history.push('/admin/addProduct')}>+ Add New Product</button>
 
-                                <p>Click product to edit/get more details</p>
+                                <p style={{marginTop: '1.5rem'}}>Click product to edit/get more details</p>
 
                                 <div className="products-table">
                                     <div className="products-table-header">
@@ -99,11 +116,11 @@ const AdminScreen = ({ history }) => {
                                     </div>
 
                                     {products.map(product => (
-                                        <div className="product-row" onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} key={product._id}>
-                                            <p>{product.name}</p>
-                                            <p>{product.inStock}</p>
-                                            <p>${product.price}</p>
-                                            <p>{product.category}</p>
+                                        <div className="product-row" key={product._id}>
+                                            <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{product.name} <span className='delete-product-btn' title='Delete product'>&#128465;</span> </p>
+                                            <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{product.inStock}</p>
+                                            <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>${product.price}</p>
+                                            <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{categoryIDsAndNames[product.category]}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -119,7 +136,11 @@ const AdminScreen = ({ history }) => {
             history.push('/')
         }
 
-        //get categories call
+        //get products and categories so showProducts() can convert category id to category name
+        dispatch(getCategories());
+        dispatch(getProducts());
+
+        //get categories call onEditCategories click
         if (categoriesShown) {
             dispatch(getCategories())
         }
@@ -127,6 +148,7 @@ const AdminScreen = ({ history }) => {
         //get products call
         if (productsShown) {
             dispatch(getProducts());
+            console.log(categoryIDsAndNames); //
         }
 
     }, [userDetails, dispatch, categoriesShown, productsShown]);

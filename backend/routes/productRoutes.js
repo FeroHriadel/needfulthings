@@ -3,7 +3,7 @@ const router = express.Router();
 import { createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct } from '../controllers/productController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
-
+//CHECK IF ALL ROUTES WORK IN THIS ORDER !!!!!!!!!!!!!!!!!!
 
 
 router.route('/').get(getProducts);
