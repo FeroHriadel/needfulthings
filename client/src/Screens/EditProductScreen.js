@@ -71,6 +71,7 @@ const EditProductScreen = ({ history, match }) => {
         !loading && !error && product &&
         <form onSubmit={submitHandler}>
             <h3>Edit Product</h3>
+            <small>Only fill out the fields you'd like to update</small>
 
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -138,6 +139,8 @@ const EditProductScreen = ({ history, match }) => {
                         <h2 style={{textAlign: 'center'}}>Product was not found</h2>
                             : 
                             <div className='edit-product-screen'>
+
+                                <button className='go-back-btn' onClick={() => history.push('/admin')}>&#8592; Go Back</button>
 
                                 <div className="edit-product-info">                                    
                                     <div className="image-box" style={{

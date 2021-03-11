@@ -3,12 +3,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 @media (max-width: 600px) {
     .edit-product-screen {
         flex-direction: column;
     }
+}
+
+.edit-product-screen > .go-back-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
 }
 
 .edit-product-screen .edit-product-info {
@@ -58,6 +66,10 @@
     .edit-product-screen .edit-product-form form {
         align-items: flex-start;
     }
+}
+
+.edit-product-screen .edit-product-form form small {
+    margin-bottom: 1.5rem;
 }
 
 .edit-product-screen .edit-product-form form .form-group {

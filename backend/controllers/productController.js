@@ -137,8 +137,8 @@ const updateProduct = async (req, res) => {
     //process form
     form.parse(req, (err, fields, files) => {
         //check if either files or name exist
-        if (!fields.name && !fields.description) {
-            return res.status(400).json({error: `Error. A product must have a name and a description`})
+        if (!fields.name && !fields.sold && !fields.inStock && !fields.price && !fields.description && !files.image) {
+            return res.status(400).json({error: `Error. You need to update at least one parameter`})
         }
         //catch err
         if (err) {
