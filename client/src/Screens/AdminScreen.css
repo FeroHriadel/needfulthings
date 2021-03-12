@@ -137,7 +137,7 @@
 }
 
 .admin-screen .products-display .products-table .products-table-header > *:nth-child(1) {
-    width: 40%;
+    width: 30%;
 }
 
 .admin-screen .products-display .products-table .products-table-header > *:nth-child(2) {
@@ -165,7 +165,7 @@
 }
 
 .admin-screen .products-display .products-table .product-row > *:nth-child(1) {
-    width: 40%;
+    width: 30%;
 }
 
 .admin-screen .products-display .products-table .product-row > *:nth-child(2) {
@@ -182,12 +182,16 @@
     width: 30%;
 }
 
-.admin-screen .products-display .products-table .product-row > * > .delete-product-btn {
+.admin-screen .products-display .products-table .product-row > *:nth-child(5) {
+    width: 10%;
     cursor: pointer;
     color: black;
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: 600;
 }
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct } from '../controllers/productController.js';
+import { createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct, deleteProduct } from '../controllers/productController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
 //CHECK IF ALL ROUTES WORK IN THIS ORDER !!!!!!!!!!!!!!!!!!
@@ -12,5 +12,6 @@ router.route('/:productId').post(updateProduct, protect, admin);
 router.route('/getProductsByCategory/:categoryId').get(getProductsByCategory);
 router.route('/getImage/:productId').get(getImage);
 router.route('/:productId').get(getProductById);
+router.route('/delete/:productId').delete(deleteProduct, protect, admin);
 
 export default router;

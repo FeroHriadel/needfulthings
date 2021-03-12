@@ -123,3 +123,34 @@ export const addProduct = (formData) => async (dispatch, getState) => {
     }
 }
 
+
+
+//DELETE PRODUCT
+export const deleteProduct = (productId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'DELETE_PRODUCT_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+
+        const config = {
+            method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userDetails.token}`
+            }
+        }
+
+        const res = await fetch(`/api/products/delete/${productId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'DELETE_PRODUCT_FAIL', payload: data})
+        }
+
+        dispatch({type: 'DELETE_PRODUCT_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'DELETE_PRODUCT_FAIL', payload: err})
+    }
+} 
+

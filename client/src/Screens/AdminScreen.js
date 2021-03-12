@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../actions/categoryActions';
-import { getProducts } from '../actions/productActions';
+import { getProducts, deleteProduct } from '../actions/productActions';
 import './AdminScreen.css';
 import Loader from '../Components/Loader';
 import ShowCategoryImg from '../Components/ShowCategoryImg';
+import Modal from '../Components/Modal';
+import Message from '../Components/Message';
+
 
 
 
@@ -14,6 +17,30 @@ const AdminScreen = ({ history }) => {
     const dispatch = useDispatch();
     const userSignin = useSelector(state => state.userSignin);
     const { userDetails } = userSignin;
+
+
+
+    //MESSAGE
+    const [errorShown, setErrorShown] = useState(false);
+    const [errorText, setErrorText] = useState('Category updated');
+    const [messageWasShown, setMessageWasShown] = useState(true);
+ 
+    const showMessage = () => {
+        if (messageWasShown) {
+            return
+        }
+            setErrorShown(true);
+            setTimeout(() => {
+                setErrorShown(false);
+            }, 2500)
+    }
+    
+
+
+
+    //MODAL
+    const [modalShown, setModalShown] = useState(false);
+    const [modalText, setModalText] = useState('Are you sure?');
 
 
 
@@ -74,6 +101,10 @@ const AdminScreen = ({ history }) => {
     const getAllProductsReducer = useSelector(state => state.getAllProducts);
     const { loading: loadingProducts, error: productsError, products } = getAllProductsReducer;
 
+    //deleteProduct state
+    const deleteProductReducer = useSelector(state => state.deleteProduct);
+    const { deleteProductLoading, deleteProductMessage, deleteProductError } = deleteProductReducer;
+
     //get {categoryId: categoryName} key:value pairs from state.categories & state.products for showProducts() _id to name conversion
     let categoryIDsAndNames = {}; //will be: {categoryId1: categoryName1, categoryId2: categoryName2, ...}
     
@@ -90,9 +121,23 @@ const AdminScreen = ({ history }) => {
             })
         }
     }
+
+    //delete product
+    const [deleteProductId, setDeleteProductId] = useState('');
+
+    const confirmDelete = () => {
+        setModalShown(true);
+    }
+
+    const closeModal = () => {
+        setModalShown(false);
+    }
+
+    const deleteProductFunction = () => {
+        setMessageWasShown(false);
+        dispatch(deleteProduct(deleteProductId));
+    }
     
-
-
     //render products
     const showProducts = () => (
         loadingProducts ?
@@ -117,10 +162,18 @@ const AdminScreen = ({ history }) => {
 
                                     {products.map(product => (
                                         <div className="product-row" key={product._id}>
-                                            <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{product.name} <span className='delete-product-btn' title='Delete product'>&#128465;</span> </p>
+                                            <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{product.name}</p> 
                                             <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{product.inStock}</p>
                                             <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>${product.price}</p>
                                             <p onClick={() => history.push(`/admin/editProduct/${product._id}`)} style={{cursor: 'pointer'}} title='Edit product'>{categoryIDsAndNames[product.category]}</p>
+                                            <p 
+                                                className='delete-product-btn' 
+                                                title='Delete product' 
+                                                onClick={() => {
+                                                    setDeleteProductId(product._id);
+                                                    confirmDelete();
+                                                }
+                                        }>&#128465;</p>
                                         </div>
                                     ))}
                                 </div>
@@ -137,8 +190,8 @@ const AdminScreen = ({ history }) => {
         }
 
         //get products and categories so showProducts() can convert category id to category name
-        dispatch(getCategories());
-        dispatch(getProducts());
+        // dispatch(getCategories());
+        // dispatch(getProducts());
 
         //get categories call onEditCategories click
         if (categoriesShown) {
@@ -148,15 +201,40 @@ const AdminScreen = ({ history }) => {
         //get products call
         if (productsShown) {
             dispatch(getProducts());
-            console.log(categoryIDsAndNames); //
+            dispatch(getCategories());
         }
 
-    }, [userDetails, dispatch, categoriesShown, productsShown]);
+        //listen for deleteProduct error
+        if (deleteProductError) {
+            setErrorText(deleteProductError.error || deleteProductError);
+            showMessage();
+            setMessageWasShown(true);
+        }
+
+        //listen for deleteProduct success
+        if (deleteProductMessage) {
+            setErrorText('Product removed');
+            showMessage();
+            setMessageWasShown(true);
+        }
 
 
+    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown]);
+
+// [userDetails, dispatch, categoriesShown, productsShown, deleteProductError, deleteProductMessage]
 
     return (
         <div className='admin-screen'>
+
+            <Message shown={errorShown} text={errorText}></Message> 
+
+            <Modal 
+                modalShown={modalShown} 
+                modalText={modalText} 
+                closeFunction={closeModal} 
+                actionFunction={deleteProductFunction} 
+             />
+
             <h2>Admin Screen</h2>
             
             <div className="admin-screen-buttons">

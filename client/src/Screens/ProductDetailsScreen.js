@@ -44,7 +44,7 @@ const ProductDetailsScreen = ({ match, history }) => {
                     background: `url(/api/products/getImage/${productId}) no-repeat center center/cover`,
                     width: '45%',
                     minWidth: '260px',
-                    height: '300px',
+                    height: '500px',
                     margin: '2.5%',
                     borderRadius: '10px'
                 }}

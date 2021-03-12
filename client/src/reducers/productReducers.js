@@ -95,3 +95,28 @@ export const addProductReducer = (state = {product: {}}, action) => {
             return state;
     }
 }
+
+
+
+export const deleteProductReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'DELETE_PRODUCT_REQUEST':
+            return {
+                deleteProductLoading: true
+            };
+        case 'DELETE_PRODUCT_SUCCESS':
+            return {
+                deleteProductLoading: false,
+                deleteProductMessage: action.payload
+            };
+        case 'DELETE_PRODUCT_FAIL':
+            return {
+                deleteProductLoading: false,
+                deleteProductError: action.payload
+            };
+        case 'CLEAR_DELETE_PRODUCT_STATE':
+            return {}
+        default:
+            return state;
+    }
+}

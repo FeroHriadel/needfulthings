@@ -59,7 +59,7 @@ const CartScreen = ({ history }) => {
                 </div>
 
                 <div className="cart-details-buttons">
-                    <button onClick={() => {history.push('/shop')}}>Go back to Store</button>
+                    <button onClick={() => {history.push('/')}}>Go Home</button>
                     {cartItems.length > 0 && <button onClick={() => {history.push('/shipping')}}>Proceed to Checkout</button>}
                 </div>
 
