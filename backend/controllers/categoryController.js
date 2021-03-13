@@ -1,4 +1,5 @@
 import Category from '../models/Category.js';
+import Product from '../models/Product.js';
 import formidable from 'formidable';
 import fs from 'fs';
 
@@ -169,4 +170,22 @@ const updateCategory = async (req, res) => {
 
 
 
-export {createCategory, getCategories, getImage, getCategoryById, updateCategory};
+//DELETE CATEGORY
+const deleteCategory = async (req, res) => {
+    try {
+        const categoryId = req.params.categoryId;
+        if (!categoryId) return res.status(400).json({error: `Category Id is required`})
+
+        const deletedProducts = await Product.deleteMany({category: categoryId});
+        await Category.findByIdAndRemove(categoryId);
+        res.json({message: 'Category deleted'});      
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Server Error'})
+    }
+}
+
+
+
+export {createCategory, getCategories, getImage, getCategoryById, updateCategory, deleteCategory}

@@ -26,6 +26,7 @@ const Modal = ({ modalShown, modalText, closeFunction, actionFunction }) => {
             <div className="modal-content">
                 <p className='modal-content-text'>{modalText}</p>
                 <div className="modal-content-buttons">
+                
                     <button 
                         className='modal-content-btn' 
                         onClick={() => {
@@ -33,7 +34,14 @@ const Modal = ({ modalShown, modalText, closeFunction, actionFunction }) => {
                             carryOutActionFunction();
                         }
                     }>OK</button>
-                    <button className='modal-content-btn' onClick={closeFunction}>Close</button>
+
+                    <button 
+                        className='modal-content-btn' 
+                        onClick={closeFunction}
+                    >
+                        Close
+                    </button>
+
                 </div>
             </div>
 

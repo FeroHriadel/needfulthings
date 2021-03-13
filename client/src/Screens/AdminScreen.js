@@ -221,7 +221,7 @@ const AdminScreen = ({ history }) => {
 
     }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown]);
 
-// [userDetails, dispatch, categoriesShown, productsShown, deleteProductError, deleteProductMessage]
+    
 
     return (
         <div className='admin-screen'>
