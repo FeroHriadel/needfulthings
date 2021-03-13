@@ -13,7 +13,6 @@ const Modal = ({ modalShown, modalText, closeFunction, actionFunction }) => {
 
     const carryOutActionFunction = () => {
         if (actionConfirmed) {
-            console.log('carryOutActionFunction')
             actionFunction();
             setActionConfirmed(false);
             closeFunction();

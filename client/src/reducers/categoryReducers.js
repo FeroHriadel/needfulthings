@@ -83,3 +83,26 @@ export const updateCategoryReducer = (state = {}, action) => {
             return state;
     }
 }
+
+
+
+export const deleteCategoryReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'DELETE_CATEGORY_REQUEST':
+            return {
+                deleteCategoryLoading: true
+            };
+        case 'DELETE_CATEGORY_SUCCESS':
+            return {
+                deleteCategoryLoading: false,
+                deleteCategoryMessage: action.payload
+            };
+        case 'DELETE_CATEGORY_FAIL':
+            return {
+                deleteCategoryLoading: false,
+                deleteCategoryError: action.payload
+            };
+        default:
+            return {}
+    }
+}

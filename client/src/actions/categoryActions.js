@@ -105,3 +105,34 @@ export const updateCategory = (categoryId, formData) => async (dispatch, getStat
         dispatch({type: 'UPDATE_CATEGORY_FAIL', payload: err })
     }
 }
+
+
+
+//DELETE CATEGORY
+export const deleteCategory = (categoryId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'DELETE_CATEGORY_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+
+        const config = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userDetails.token}`
+            }
+        }
+
+        const res = await fetch(`/api/categories/delete/${categoryId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'DELETE_CATEGORY_FAIL', payload: data})
+        }
+
+        dispatch({type: 'DELETE_CATEGORY_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'DELETE_CATEGORY_FAIL', payload: err})
+    }
+}

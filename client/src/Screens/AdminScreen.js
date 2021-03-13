@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../actions/categoryActions';
+import { getCategories, deleteCategory } from '../actions/categoryActions';
 import { getProducts, deleteProduct } from '../actions/productActions';
 import './AdminScreen.css';
 import Loader from '../Components/Loader';
@@ -37,10 +37,10 @@ const AdminScreen = ({ history }) => {
     
 
 
-
     //MODAL
     const [modalShown, setModalShown] = useState(false);
     const [modalText, setModalText] = useState('Are you sure?');
+    const [modalActionFunction, setModalActionFunction] = useState('delete category');
 
 
 
@@ -52,6 +52,18 @@ const AdminScreen = ({ history }) => {
     const categoriesList = useSelector(state => state.categoriesList);
     const { loading: loadingCategories, error: getCategoriesError, categories } = categoriesList;
 
+    //get category delete result from state
+    const deleteCategoryReducer = useSelector(state => state.deleteCategory);
+    const { deleteCategoryLoading, deleteCategoryMessage, deleteCategoryError} = deleteCategoryReducer;
+
+    //delete category
+    const [deletedCategoryId, setDeletedCategoryId] = useState('');
+
+    const deleteCategoryFunction = () => {
+        setMessageWasShown(false);
+        dispatch(deleteCategory(deletedCategoryId));
+    }
+    
     //render categories
     const showCategories = () => (
             loadingCategories ? 
@@ -76,12 +88,24 @@ const AdminScreen = ({ history }) => {
                                                 <div className="category-details">
                                                     <span>{category.name}</span>
                                                     <div className="category-details-buttons">
-                                                        <span className='edit-category-btn' title='edit category' onClick={() => {
-                                                            dispatch({type: 'CLEAR_UPDATED_CATEGORY'}); //clear previosly updated category from state.updatedCategory
-                                                            history.push(`/admin/editCategory/${category._id}`)
-                                                        }
-                                                    }>&#9998;</span>
-                                                        <span className='delete-category-btn' title='delete category'>&#128465;</span>
+                                                        <span 
+                                                            className='edit-category-btn' 
+                                                            title='edit category' 
+                                                            onClick={() => {
+                                                                dispatch({type: 'CLEAR_UPDATED_CATEGORY'}); //clear previosly updated category from state.updatedCategory
+                                                                history.push(`/admin/editCategory/${category._id}`)
+                                                            }
+                                                        }>&#9998;</span>
+                                                        <span 
+                                                            className='delete-category-btn' 
+                                                            title='delete category'
+                                                            onClick={() => {
+                                                                setDeletedCategoryId(category._id);
+                                                                setModalActionFunction('delete category');
+                                                                setModalText('This will also delete all products inside the category. Ok?');
+                                                                confirmDelete();
+                                                            }}
+                                                            >&#128465;</span>
                                                     </div>
                                                 </div>
 
@@ -171,6 +195,8 @@ const AdminScreen = ({ history }) => {
                                                 title='Delete product' 
                                                 onClick={() => {
                                                     setDeleteProductId(product._id);
+                                                    setModalActionFunction('delete product');
+                                                    setModalText('Are you sure?');
                                                     confirmDelete();
                                                 }
                                         }>&#128465;</p>
@@ -189,11 +215,7 @@ const AdminScreen = ({ history }) => {
             history.push('/')
         }
 
-        //get products and categories so showProducts() can convert category id to category name
-        // dispatch(getCategories());
-        // dispatch(getProducts());
-
-        //get categories call onEditCategories click
+        //trigger getCategories onEditCategories click
         if (categoriesShown) {
             dispatch(getCategories())
         }
@@ -208,18 +230,31 @@ const AdminScreen = ({ history }) => {
         if (deleteProductError) {
             setErrorText(deleteProductError.error || deleteProductError);
             showMessage();
-            setMessageWasShown(true);
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
         }
 
         //listen for deleteProduct success
         if (deleteProductMessage) {
             setErrorText('Product removed');
             showMessage();
-            setMessageWasShown(true);
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
         }
 
+        //listen for deleteCategory success
+        if (deleteCategoryMessage) {
+            setErrorText('Category deleted');
+            showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
+        }
 
-    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown]);
+        //listen for deleteCategory error
+        if (deleteCategoryError) {
+            setErrorText(deleteCategoryError.error || deleteCategoryError);
+            showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
+        }
+
+    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, deleteCategoryError, deleteCategoryMessage]);
 
     
 
@@ -232,7 +267,7 @@ const AdminScreen = ({ history }) => {
                 modalShown={modalShown} 
                 modalText={modalText} 
                 closeFunction={closeModal} 
-                actionFunction={deleteProductFunction} 
+                actionFunction={modalActionFunction === 'delete category' ? deleteCategoryFunction : deleteProductFunction} 
              />
 
             <h2>Admin Screen</h2>
