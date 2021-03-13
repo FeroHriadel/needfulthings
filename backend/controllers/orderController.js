@@ -26,6 +26,21 @@ const addOrder = async (req, res) => {
 
 
 
+//GET ALL ORDERS
+const getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        if (!orders) return res.status(404).json({error: 'No orders found'});
+        res.json(orders)
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Server Error'});
+    }
+}
+
+
+
 //GET ORDER BY ID
 const getOrderById = async (req, res) => {
     try {
@@ -45,5 +60,50 @@ const getOrderById = async (req, res) => {
 
 
 
+//UPDATE ORDER
+// (.isPaid, .isDelivered)
+const updateOrder = async (req, res) => {
+    try {
+        const orderId = req.params.orderId;
+        if (!orderId) return res.status(400).json({error: 'Order Id is required'});
 
-export {addOrder, getOrderById}
+        const { isPaid, isDelivered } = req.body;
+
+        //cannot validate if at least one was sent, because if both are sent as false the "if(!isPaid && !isDelivered)" will fail even though they were sent. Validate this in frontend!
+
+        const order = await Order.findById(orderId);
+        if (!order) return res.status(404).json({error: `Order not found`});
+
+        const updatedOrder = await Order.findByIdAndUpdate(orderId, {isDelivered, isPaid}, {new: true});
+
+        res.json(updatedOrder);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error`});
+    }
+}
+
+
+
+const deleteOrder = async (req, res) => {
+    try {
+        const orderId = req.params.orderId;
+        const order = await Order.findById(orderId);
+        if (!order) return res.status(404).json({error: 'Order not found'});
+
+        await Order.findByIdAndRemove(orderId);
+        res.json({message: 'Order removed'});
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Server Error'})
+    }
+}
+
+
+
+
+
+export {addOrder, getOrderById, getOrders, updateOrder, deleteOrder}
