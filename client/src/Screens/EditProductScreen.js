@@ -123,10 +123,8 @@ const EditProductScreen = ({ history, match }) => {
             history.push('/')
         }
 
-        //get product call
-        if (!loading && !error && !product.name) {
-            dispatch(getProductById(productId));
-        }
+        //get product on page load
+          dispatch(getProductById(productId));
 
         //listen for updateProduct error
         if (updateProductError) {
@@ -134,9 +132,9 @@ const EditProductScreen = ({ history, match }) => {
             showMessage();
         }
 
-    }, [userDetails, product, error, loading, updateProductError])
+    }, [userDetails, updateProductError, updatedProduct])
 
-
+    
 
     return (
         <div>

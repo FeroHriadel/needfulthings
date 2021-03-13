@@ -1,0 +1,47 @@
+.edit-order-screen {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-order-screen .go-back-button {
+    align-self: flex-start;
+    margin-left: 2.5%;
+    cursor: pointer;
+}
+
+.edit-order-screen .order-details-box {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-order-screen .order-details-box .detailed-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.edit-order-screen .order-details-box .detailed-info > * {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.edit-order-screen .order-details-box  .order-details-buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.edit-order-screen .order-details-box  .order-details-buttons > * {
+    flex: 1;
+    margin: 5px;
+    min-height: 2.5rem;
+    cursor: pointer;
+}

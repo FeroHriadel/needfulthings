@@ -62,7 +62,38 @@ export const getOrderById = (orderId) => async (dispatch, getState) => {
         console.log(data)
 
     } catch (err) {
-        dispatch({type: 'GET_ORDER_BY_ID_FAIL', payload: err});
+        dispatch({type: 'GET_ORDER_BY_ID_FAIL', payload: 'Action Error'});
+    }
+}
+
+
+
+//GET ALL ORDERS
+export const getOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'GET_ORDERS_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+        
+        const config = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch('/api/orders/getOrders', config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'GET_ORDERS_FAIL', payload: data});
+        }
+
+        dispatch({type: 'GET_ORDERS_SUCCESS', payload: data})
+
+    } catch (err) {
+        dispatch({type: 'GET_ORDERS_FAIL', payload: err})
     }
 }
 

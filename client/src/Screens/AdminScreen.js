@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories, deleteCategory } from '../actions/categoryActions';
 import { getProducts, deleteProduct } from '../actions/productActions';
+import { getOrders } from '../actions/orderActions';
 import './AdminScreen.css';
 import Loader from '../Components/Loader';
 import ShowCategoryImg from '../Components/ShowCategoryImg';
@@ -13,7 +14,7 @@ import Message from '../Components/Message';
 
 const AdminScreen = ({ history }) => {
     //REDIRECT NON-ADMINS
-    //get user from state => useEffect redirects non-Admins
+    //get user from state => useEffect redirects non-Admins away
     const dispatch = useDispatch();
     const userSignin = useSelector(state => state.userSignin);
     const { userDetails } = userSignin;
@@ -209,21 +210,75 @@ const AdminScreen = ({ history }) => {
 
 
 
+    //ORDERS
+    //get all orders state
+    const getAllOrdersReducer = useSelector(state => state.getAllOrders);
+    const { getOrdersLoading, orders, getOrdersError } = getAllOrdersReducer;
+
+    //is orders screen shown?
+    const [ordersShown, setOrdersShown] = useState(false);
+
+    //render orders
+    const showOrders = () => (
+        getOrdersLoading ?
+            <Loader />
+                : getOrdersError ?
+                    <h3 style={{color: 'rgb(114, 39, 39)'}}>Orders loading failed. Try reloading this page.</h3>
+                    :
+                    <fieldset className='orders-display'>
+                        <legend>Orders</legend>
+
+                        <div className="orders-table">
+
+                            <p>Click order to edit/get more details</p>
+
+                            <div className="orders-table-header">
+                                <h4>Name</h4>
+                                <h4>Shipping Type</h4>
+                                <h4>Total Price</h4>
+                                <h4>Is Paid?</h4>
+                                <h4>Is Delivered?</h4>
+                            </div>
+
+                            {orders.map(order => (
+                                <div className="orders-table-row" key={order._id} onClick={() => history.push(`/admin/editOrder/${order._id}`)}>
+                                    <p>{order.address.name}</p>
+                                    <p>{order.address.shipping}</p>
+                                    <p>{order.totalPrice}</p>
+                                    {order.isPaid === true ? <p>&#10004;</p> : <p>&times;</p>}
+                                    {order.isDelivered === true ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
+                                </div>
+                            ))}
+
+                        </div>
+
+                    </fieldset>
+    )
+
+
+
+
+
+    //USE EFFECT
     useEffect(() => {
         //redirect non-admin users away
         if (!userDetails.isAdmin) {
             history.push('/')
         }
 
-        //trigger getCategories onEditCategories click
+        //load categories on btn click
         if (categoriesShown) {
             dispatch(getCategories())
         }
 
-        //get products call
+        //load products on btn click
         if (productsShown) {
             dispatch(getProducts());
             dispatch(getCategories());
+        }
+
+        if (ordersShown) {
+            dispatch(getOrders());
         }
 
         //listen for deleteProduct error
@@ -254,7 +309,7 @@ const AdminScreen = ({ history }) => {
             setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
         }
 
-    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, deleteCategoryError, deleteCategoryMessage]);
+    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, ordersShown, deleteCategoryError, deleteCategoryMessage]);
 
     
 
@@ -275,13 +330,15 @@ const AdminScreen = ({ history }) => {
             <div className="admin-screen-buttons">
                 <button className='categories-btn' onClick={() => setCategoriesShown(!categoriesShown)}>Manage Categories</button>
                 <button className='products-btn' onClick={() => setProductsShown(!productsShown)}>Manage Products</button>
-                <button className='orders-btn'>Manage Orders</button>
+                <button className='orders-btn' onClick={() => setOrdersShown(!ordersShown)}>Manage Orders</button>
                 <button className='users-btn'>Manage Users</button>
             </div>
 
             {categories && categoriesShown ? showCategories() : null}
 
             {products && productsShown ? showProducts() : null}
+
+            {orders && ordersShown ? showOrders() : null}
 
         </div>
 
