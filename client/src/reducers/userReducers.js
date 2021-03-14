@@ -27,3 +27,28 @@ export const userSigninReducer = (state = {}, action) => {
             return state;
     }
 }
+
+
+
+export const getUsersReducer = (state = {users: []}, action) => {
+    switch(action.type) {
+        case 'GET_USERS_REQUEST':
+            return {
+                getUsersLoading: true,
+                users: []
+            };
+        case 'GET_USERS_SUCCESS':
+            return {
+                getUsersLoading: false,
+                users: action.payload
+            };
+        case 'GET_USERS_FAIL':
+            return {
+                getUsersLoading: false,
+                users: [],
+                getUsersError: action.payload
+            };
+        default:
+            return {}
+    }
+}

@@ -68,4 +68,37 @@ const signout = () => (dispatch) => {
 
 
 
-export { signup, signin, signout }
+//GET ALL USERS
+const getUsers = () => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'GET_USERS_REQUEST'});
+
+        const { userSignin : { userDetails }} = getState();
+
+        const config = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const res = await fetch(`/api/users/getUsers`, config);
+        const data = await res.json();
+
+        console.log(res.data) //
+
+        if (data.error) {
+            return dispatch({type: 'GET_USERS_FAIL', payload: data});
+        }
+
+        dispatch({type: 'GET_USERS_SUCCESS', payload: data});
+
+    } catch (err) {
+        dispatch({type: 'GET_USERS_FAIL', payload: 'getUsers action error'})
+    }
+}
+
+
+
+export { signup, signin, signout, getUsers }

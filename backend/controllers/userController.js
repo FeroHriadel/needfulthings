@@ -74,5 +74,20 @@ const signin = async (req, res) => {
 
 
 
+//GET ALL USERS
+//doesn't return the user who made this request
+const getUsers = async (req, res) => {
+    try {
+        const users = await User.find({_id: {$ne: req.user._id}});
+        res.json(users);
 
-export { signup, signin };
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Server Error'})
+    }
+}
+
+
+
+
+export { signup, signin, getUsers };

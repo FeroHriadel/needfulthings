@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategories, deleteCategory } from '../actions/categoryActions';
 import { getProducts, deleteProduct } from '../actions/productActions';
 import { getOrders } from '../actions/orderActions';
+import { getUsers } from '../actions/userActions';
 import './AdminScreen.css';
 import Loader from '../Components/Loader';
 import ShowCategoryImg from '../Components/ShowCategoryImg';
@@ -245,7 +246,7 @@ const AdminScreen = ({ history }) => {
                                     <p>{order.address.name}</p>
                                     <p>{order.address.shipping}</p>
                                     <p>{order.totalPrice}</p>
-                                    {order.isPaid === true ? <p>&#10004;</p> : <p>&times;</p>}
+                                    {order.isPaid === true ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
                                     {order.isDelivered === true ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
                                 </div>
                             ))}
@@ -255,6 +256,44 @@ const AdminScreen = ({ history }) => {
                     </fieldset>
     )
 
+
+
+    //USERS
+    //getUsers state
+    const getUsersReducer = useSelector(state => state.getUsers);
+    const { getUsersLoading, users, getUsersError } = getUsersReducer;
+
+    //is users screen shown?
+    const [usersShown, setUsersShown] = useState(false);
+
+    //render users
+    const showUsers = () => (
+        getUsersLoading ?
+            <Loader /> :
+                getUsersError ?
+                    <h3 style={{color: 'rgb(114, 39, 39)'}}>Users loading failed. Try reloading this page.</h3>
+                    :
+                    <fieldset className="users-display">
+                        <legend>Users</legend>
+
+                        <div className="users-table">
+                            <div className="users-table-header">
+                                <h4>Name</h4>
+                                <h4>Email</h4>
+                                <h4>isAdmin?</h4>
+                            </div>
+
+                            {users.map(user => (
+                                <div className="users-table-row" key={user._id} onClick={() => history.push(`/admin/editUser/${user._id}`)}>
+                                    <p>{user.name}</p>
+                                    <p>{user.email}</p>
+                                    {user.isAdmin ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
+                                </div>
+                            ))}
+                        </div>
+                    
+                    </fieldset>
+    )
 
 
 
@@ -277,8 +316,14 @@ const AdminScreen = ({ history }) => {
             dispatch(getCategories());
         }
 
+        //load orders on btn click
         if (ordersShown) {
             dispatch(getOrders());
+        }
+
+        //load users on btn click
+        if (usersShown) {
+            dispatch(getUsers())
         }
 
         //listen for deleteProduct error
@@ -314,7 +359,7 @@ const AdminScreen = ({ history }) => {
         dispatch({type: 'CLEAR_ORDER'});
         dispatch({type: 'CLEAR_UPDATED_ORDER'}); 
 
-    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, ordersShown, deleteCategoryError, deleteCategoryMessage]);
+    }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, ordersShown, usersShown, deleteCategoryError, deleteCategoryMessage]);
 
     
 
@@ -336,7 +381,7 @@ const AdminScreen = ({ history }) => {
                 <button className='categories-btn' onClick={() => setCategoriesShown(!categoriesShown)}>Manage Categories</button>
                 <button className='products-btn' onClick={() => setProductsShown(!productsShown)}>Manage Products</button>
                 <button className='orders-btn' onClick={() => setOrdersShown(!ordersShown)}>Manage Orders</button>
-                <button className='users-btn'>Manage Users</button>
+                <button className='users-btn' onClick={() => setUsersShown(!usersShown)}>Manage Users</button>
             </div>
 
             {categories && categoriesShown ? showCategories() : null}
@@ -344,6 +389,8 @@ const AdminScreen = ({ history }) => {
             {products && productsShown ? showProducts() : null}
 
             {orders && ordersShown ? showOrders() : null}
+
+            {users && usersShown ? showUsers() : null}
 
         </div>
 
