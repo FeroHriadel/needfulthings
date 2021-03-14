@@ -86,9 +86,7 @@ const getUsers = () => async (dispatch, getState) => {
         const res = await fetch(`/api/users/getUsers`, config);
         const data = await res.json();
 
-        console.log(res.data) //
-
-        if (data.error) {
+         if (data.error) {
             return dispatch({type: 'GET_USERS_FAIL', payload: data});
         }
 
@@ -101,4 +99,34 @@ const getUsers = () => async (dispatch, getState) => {
 
 
 
-export { signup, signin, signout, getUsers }
+const getUserById = (userId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'GET_USER_BY_ID_REQUEST'});
+
+        const { userSignin : { userDetails }} = getState();
+
+        const config = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch(`/api/users/getUser/${userId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'GET_USER_BY_ID_FAIL', payload: data});
+        }
+
+        dispatch({type: 'GET_USER_BY_ID_SUCCESS', payload: data});
+
+    } catch (err) {
+        dispatch({type: 'GET_USER_BY_ID_FAIL', payload: 'getUserById action error'})
+    }
+}
+
+
+
+export { signup, signin, signout, getUsers, getUserById }

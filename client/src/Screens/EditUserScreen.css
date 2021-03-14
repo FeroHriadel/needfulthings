@@ -1,0 +1,25 @@
+.edit-user-screen {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.edit-user-screen .user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-user-screen .user-details .user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-user-screen .user-details .user-info > *:nth-child(2) {
+    margin-left: 1ch;
+}

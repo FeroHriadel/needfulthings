@@ -49,6 +49,31 @@ export const getUsersReducer = (state = {users: []}, action) => {
                 getUsersError: action.payload
             };
         default:
-            return {}
+            return state;
+    }
+}
+
+
+
+export const getUserByIdReducer = (state = {userById: {}}, action) => {
+    switch(action.type) {
+        case 'GET_USER_BY_ID_REQUEST':
+            return {
+                loading: true,
+                userById: {}
+            };
+        case 'GET_USER_BY_ID_SUCCESS':
+            return {
+                loading: false,
+                userById: action.payload
+            };
+        case 'GET_USER_BY_ID_FAIL':
+            return {
+                loading: false,
+                userById: {},
+                error: action.payload
+            };
+        default:
+            return state;
     }
 }

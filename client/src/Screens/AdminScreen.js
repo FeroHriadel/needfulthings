@@ -277,6 +277,9 @@ const AdminScreen = ({ history }) => {
                         <legend>Users</legend>
 
                         <div className="users-table">
+
+                            <p>Click user to edit</p>
+
                             <div className="users-table-header">
                                 <h4>Name</h4>
                                 <h4>Email</h4>
@@ -284,7 +287,9 @@ const AdminScreen = ({ history }) => {
                             </div>
 
                             {users.map(user => (
-                                <div className="users-table-row" key={user._id} onClick={() => history.push(`/admin/editUser/${user._id}`)}>
+                                <div className="users-table-row" key={user._id} onClick={() => {
+                                    history.push(`/admin/editUser/${user._id}`)
+                                }}>
                                     <p>{user.name}</p>
                                     <p>{user.email}</p>
                                     {user.isAdmin ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
@@ -356,8 +361,8 @@ const AdminScreen = ({ history }) => {
 
         //clear updatedOrder & order
         // (this page doesn't deal with those but it clears state if user comes here from EditOrderScreen)
-        dispatch({type: 'CLEAR_ORDER'});
-        dispatch({type: 'CLEAR_UPDATED_ORDER'}); 
+        // dispatch({type: 'CLEAR_ORDER'});
+        // dispatch({type: 'CLEAR_UPDATED_ORDER'}); 
 
     }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, ordersShown, usersShown, deleteCategoryError, deleteCategoryMessage]);
 

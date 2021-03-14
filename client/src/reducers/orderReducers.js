@@ -50,12 +50,12 @@ export const orderReducer = (state = {}, action) => {
 
 
 
-export const getAllOrdersReducer = (state = {orders: {}}, action) => {
+export const getAllOrdersReducer = (state = {orders: []}, action) => {
     switch(action.type) {
         case 'GET_ORDERS_REQUEST':
             return {
                 getOrdersLoading: true,
-                orders: {}
+                orders: []
             };
         case 'GET_ORDERS_SUCCESS':
             return {
@@ -65,11 +65,11 @@ export const getAllOrdersReducer = (state = {orders: {}}, action) => {
         case 'GET_ORDERS_FAIL':
             return {
                 getOrdersLoading: false,
-                orders: {},
+                orders: [],
                 getOrdersError: action.payload
             };
         default:
-            return {}
+            return state;
     }
 }
 
@@ -98,6 +98,6 @@ export const updateOrderReducer = (state = {updatedOrder: {}}, action) => {
                 updatedOrder: {}
             };
         default:
-            return {}
+            return state;
     }
 }

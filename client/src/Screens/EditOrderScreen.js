@@ -16,6 +16,7 @@ const EditOrderScreen = ({ history, match }) => {
 
 
     //GET ORDER
+    //get order from state
     const orderId = match.params.orderId; //useEffect dispatches getOrder(orderId) action
     const orderReducer = useSelector(state => state.order);
     const { loading, order, error } = orderReducer;
@@ -25,9 +26,6 @@ const EditOrderScreen = ({ history, match }) => {
     //GET UPDATED ORDER
     const updatedOrderReducer = useSelector(state => state.updatedOrder);
     const { updateOrderLoading, updatedOrder, updateOrderError } = updatedOrderReducer;
-
-    const [orderPaid, setOrderPaid] = useState(null);
-    const [orderDelivered, setOrderDelivered] = useState(null);
 
         
 
@@ -57,18 +55,18 @@ const EditOrderScreen = ({ history, match }) => {
                             <div className="order-details-buttons">
                                     <button 
                                         onClick={() => {
-                                            dispatch(updateOrder(orderId, !orderPaid, orderDelivered));
+                                            dispatch(updateOrder(orderId, !order.isPaid, order.isDelivered));
                                         }}
                                     >
-                                        {orderPaid ? 'Update to Unpaid' : 'Update to Paid'}
+                                        {order.isPaid ? 'Update to Unpaid' : 'Update to Paid'}
                                     </button>
 
                                     <button 
                                         onClick={() => {
-                                            dispatch(updateOrder(orderId, orderPaid, !orderDelivered))
+                                            dispatch(updateOrder(orderId, order.isPaid, !order.isDelivered))
                                         }}
                                     >
-                                        {orderDelivered ? 'Update to Not Delivered' : 'Update to Delivered'}
+                                        {order.isDelivered ? 'Update to Not Delivered' : 'Update to Delivered'}
                                     </button>
 
                                     <button>Delete Order</button>
@@ -79,7 +77,6 @@ const EditOrderScreen = ({ history, match }) => {
 
 
 
-
     //USE EFFECT
     useEffect(() => {
         //redirect non-admin users away
@@ -87,23 +84,10 @@ const EditOrderScreen = ({ history, match }) => {
             history.push('/')
         }
 
-        //get order on page load
-        if (!order) {
-            dispatch(getOrderById(orderId));
-        }
+        //get order
+        dispatch(getOrderById(orderId));
 
-        //get .isPaid & isDelivered from order
-        if (order) {
-            setOrderPaid(order.isPaid);
-            setOrderDelivered(order.isDelivered);
-        }
-
-        //show updated order & clear updatedOrder state
-        if (updatedOrder) {
-            dispatch(getOrderById(orderId));
-        }
-
-    }, [userDetails, order, updatedOrder]);
+    }, [userDetails, updatedOrder]);
 
 
 
@@ -111,8 +95,8 @@ const EditOrderScreen = ({ history, match }) => {
         <div className='edit-order-screen'>
 
             <button className='go-back-button' onClick={() => {
-                //dispatch({type: 'CLEAR_ORDER'});            => delegated to AdminScreen
-                //dispatch({type: 'CLEAR_UPDATED_ORDER'});    => delegated to AdminScreen
+                dispatch({type: 'CLEAR_ORDER'});            // => previously delegated to AdminScreen
+                dispatch({type: 'CLEAR_UPDATED_ORDER'});    // => previously delegated to AdminScreen
                 history.push('/admin');
             }}>&#8592; Go Back</button>
 

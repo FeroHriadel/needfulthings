@@ -89,5 +89,23 @@ const getUsers = async (req, res) => {
 
 
 
+//GET USER BY ID
+const getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({error: 'User not found. Is userId correct?'})
+        } 
 
-export { signup, signin, getUsers };
+        res.json(user);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Server Error (getUserById) or Bad ID format'})
+    }
+}
+
+
+
+
+export { signup, signin, getUsers, getUserById };
