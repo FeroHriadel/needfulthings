@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderById } from '../actions/orderActions';
+import { getOrderById, updateOrder } from '../actions/orderActions';
 import Loader from '../Components/Loader';
 import './EditOrderScreen.css';
 
@@ -21,6 +21,15 @@ const EditOrderScreen = ({ history, match }) => {
     const { loading, order, error } = orderReducer;
 
 
+
+    //GET UPDATED ORDER
+    const updatedOrderReducer = useSelector(state => state.updatedOrder);
+    const { updateOrderLoading, updatedOrder, updateOrderError } = updatedOrderReducer;
+
+    const [orderPaid, setOrderPaid] = useState(null);
+    const [orderDelivered, setOrderDelivered] = useState(null);
+
+        
 
     //RENDER ORDER
     const showOrderDetails = () => (
@@ -46,13 +55,26 @@ const EditOrderScreen = ({ history, match }) => {
                             </div>
 
                             <div className="order-details-buttons">
-                                    <button>Update to Paid</button>
-                                    <button>Update to Delivered</button>
+                                    <button 
+                                        onClick={() => {
+                                            dispatch(updateOrder(orderId, !orderPaid, orderDelivered));
+                                        }}
+                                    >
+                                        {orderPaid ? 'Update to Unpaid' : 'Update to Paid'}
+                                    </button>
+
+                                    <button 
+                                        onClick={() => {
+                                            dispatch(updateOrder(orderId, orderPaid, !orderDelivered))
+                                        }}
+                                    >
+                                        {orderDelivered ? 'Update to Not Delivered' : 'Update to Delivered'}
+                                    </button>
+
                                     <button>Delete Order</button>
                             </div>
 
                         </div>
-
     )
 
 
@@ -66,15 +88,33 @@ const EditOrderScreen = ({ history, match }) => {
         }
 
         //get order on page load
-        dispatch(getOrderById(orderId));
+        if (!order) {
+            dispatch(getOrderById(orderId));
+        }
 
-    }, [userDetails]);
+        //get .isPaid & isDelivered from order
+        if (order) {
+            setOrderPaid(order.isPaid);
+            setOrderDelivered(order.isDelivered);
+        }
+
+        //show updated order & clear updatedOrder state
+        if (updatedOrder) {
+            dispatch(getOrderById(orderId));
+        }
+
+    }, [userDetails, order, updatedOrder]);
+
 
 
     return (
         <div className='edit-order-screen'>
 
-            <button className='go-back-button' onClick={() => history.push('/admin')}>&#8592; Go Back</button>
+            <button className='go-back-button' onClick={() => {
+                //dispatch({type: 'CLEAR_ORDER'});            => delegated to AdminScreen
+                //dispatch({type: 'CLEAR_UPDATED_ORDER'});    => delegated to AdminScreen
+                history.push('/admin');
+            }}>&#8592; Go Back</button>
 
             {loading ? <Loader /> : order ? showOrderDetails() : <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the order was not found.</h2>}
 

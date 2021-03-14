@@ -309,6 +309,11 @@ const AdminScreen = ({ history }) => {
             setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
         }
 
+        //clear updatedOrder & order
+        // (this page doesn't deal with those but it clears state if user comes here from EditOrderScreen)
+        dispatch({type: 'CLEAR_ORDER'});
+        dispatch({type: 'CLEAR_UPDATED_ORDER'}); 
+
     }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, ordersShown, deleteCategoryError, deleteCategoryMessage]);
 
     

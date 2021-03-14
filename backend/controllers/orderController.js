@@ -61,7 +61,7 @@ const getOrderById = async (req, res) => {
 
 
 //UPDATE ORDER
-// (.isPaid, .isDelivered)
+// (updates:   .isPaid & .isDelivered)
 const updateOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;

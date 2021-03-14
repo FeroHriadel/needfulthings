@@ -41,6 +41,8 @@ export const orderReducer = (state = {}, action) => {
                 loading: false,
                 error: action.payload,
             };
+        case 'CLEAR_ORDER':
+            return {};
         default:
             return state;
     }
@@ -65,6 +67,35 @@ export const getAllOrdersReducer = (state = {orders: {}}, action) => {
                 getOrdersLoading: false,
                 orders: {},
                 getOrdersError: action.payload
+            };
+        default:
+            return {}
+    }
+}
+
+
+
+export const updateOrderReducer = (state = {updatedOrder: {}}, action) => {
+    switch(action.type) {
+        case 'UPDATE_ORDER_REQUEST':
+            return {
+                updateOrderLoading: true,
+                updatedOrder: {}
+            };
+        case 'UPDATE_ORDER_SUCCESS':
+            return {
+                updateOrderLoading: false,
+                updatedOrder: action.payload
+            };
+        case 'UPDATE_ORDER_FAIL':
+            return {
+                updateOrderLoading: false,
+                updatedOrder: {},
+                updateOrderError: action.payload
+            };
+        case 'CLEAR_UPDATED_ORDER':
+            return {
+                updatedOrder: {}
             };
         default:
             return {}

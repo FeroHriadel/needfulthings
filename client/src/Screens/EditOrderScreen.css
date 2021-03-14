@@ -33,11 +33,21 @@
 }
 
 .edit-order-screen .order-details-box  .order-details-buttons {
-    margin-top: 2rem;
+    margin-top: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
-} 
+}
+
+@media (max-width: 350px) {
+    .edit-order-screen .order-details-box  .order-details-buttons {
+        flex-direction: column;
+    }
+
+    .edit-order-screen .order-details-box  .order-details-buttons > * {
+        width: 200px;
+    }
+}
 
 .edit-order-screen .order-details-box  .order-details-buttons > * {
     flex: 1;

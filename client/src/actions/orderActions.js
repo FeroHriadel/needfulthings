@@ -99,4 +99,34 @@ export const getOrders = () => async (dispatch, getState) => {
 
 
 
+export const updateOrder = (orderId, isPaid, isDelivered) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'UPDATE_ORDER_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+        
+        const config = {
+            method: 'PUT',
+            body: JSON.stringify({isPaid, isDelivered}),
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch(`/api/orders/update/${orderId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'UPDATE_ORDER_FAIL', payload: data})
+        }
+
+        dispatch({type: 'UPDATE_ORDER_SUCCESS', payload: data});
+
+    } catch (err) {
+        dispatch({type: 'UPDATE_ORDER_FAIL', payload: 'UpdateOrder Action error'})
+    }
+}
+
+
 
