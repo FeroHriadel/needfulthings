@@ -245,7 +245,7 @@ const AdminScreen = ({ history }) => {
                                 <div className="orders-table-row" key={order._id} onClick={() => history.push(`/admin/editOrder/${order._id}`)}>
                                     <p>{order.address.name}</p>
                                     <p>{order.address.shipping}</p>
-                                    <p>{order.totalPrice}</p>
+                                    <p>${order.totalPrice}</p>
                                     {order.isPaid === true ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
                                     {order.isDelivered === true ? <p style={{color: 'green'}}>&#10004;</p> : <p style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem'}}>&times;</p>}
                                 </div>

@@ -99,6 +99,7 @@ export const getOrders = () => async (dispatch, getState) => {
 
 
 
+//UPDATE ORDER
 export const updateOrder = (orderId, isPaid, isDelivered) => async (dispatch, getState) => {
     try {
         dispatch({type: 'UPDATE_ORDER_REQUEST'});
@@ -128,5 +129,35 @@ export const updateOrder = (orderId, isPaid, isDelivered) => async (dispatch, ge
     }
 }
 
+
+
+//DELETE ORDER
+export const deleteOrder = (orderId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'DELETE_ORDER_REQUEST'});
+
+        const { userSignin: { userDetails }} = getState();
+        
+        const config = {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch(`/api/orders/delete/${orderId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'DELETE_ORDER_FAIL', payload: data })
+        }
+
+        dispatch({type: 'DELETE_ORDER_SUCCESS', payload: data});
+
+    } catch {
+        dispatch({type: 'DELETE_ORDER_FAIL', payload: 'deleteOrder action error' })
+    }
+}
 
 

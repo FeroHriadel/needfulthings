@@ -1,8 +1,9 @@
 import React, {useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderById, updateOrder } from '../actions/orderActions';
+import { getOrderById, updateOrder, deleteOrder } from '../actions/orderActions';
 import Loader from '../Components/Loader';
 import './EditOrderScreen.css';
+import Message from '../Components/Message';
 
 
 
@@ -14,9 +15,28 @@ const EditOrderScreen = ({ history, match, location }) => {
     const { userDetails } = userSignin;
 
 
-
+    
     //REDIRECT TO? (where should 'go-back' btn redirect)
     const redirect = location.search ? location.search.split('=')[1] : '/admin';
+
+
+
+    //MESSAGE
+    const [errorShown, setErrorShown] = useState(false);
+    const [errorText, setErrorText] = useState('Category updated');
+    const [messageWasShown, setMessageWasShown] = useState(true);
+ 
+    const showMessage = () => {
+        if (messageWasShown) {
+            return
+        }
+
+        setErrorShown(true);
+        setTimeout(() => {
+            setErrorShown(false);
+        }, 2500)
+    }
+
 
 
     //GET ORDER
@@ -30,6 +50,12 @@ const EditOrderScreen = ({ history, match, location }) => {
     //GET UPDATED ORDER
     const updatedOrderReducer = useSelector(state => state.updatedOrder);
     const { updateOrderLoading, updatedOrder, updateOrderError } = updatedOrderReducer;
+
+
+
+    //DELETE ORDER STATE
+    const deleteOrderReducer = useSelector(state => state.deleteOrderReducer);
+    const { deleteOrderLoading, deleteOrderMessage, deleteOrderError } = deleteOrderReducer;
 
         
 
@@ -73,7 +99,14 @@ const EditOrderScreen = ({ history, match, location }) => {
                                         {order.isDelivered ? 'Update to Not Delivered' : 'Update to Delivered'}
                                     </button>
 
-                                    <button>Delete Order</button>
+                                    <button
+                                        onClick={() => {
+                                            setMessageWasShown(false);
+                                            dispatch(deleteOrder(orderId));
+                                        }}
+                                    >
+                                        Delete Order
+                                    </button>
                             </div>
 
                         </div>
@@ -91,12 +124,28 @@ const EditOrderScreen = ({ history, match, location }) => {
         //get order
         dispatch(getOrderById(orderId));
 
-    }, [userDetails, updatedOrder]);
+        //listen for deleteOrder success
+        if (deleteOrderMessage) {
+            setErrorText(deleteOrderMessage.message || deleteOrderMessage);
+            showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
+        }
+
+        //listen for deleteOrder error
+        if (deleteOrderError) {
+            setErrorText(deleteOrderError.error || deleteOrderError);
+            showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
+        }
+
+    }, [userDetails, updatedOrder, deleteOrderMessage, deleteOrderError]);
 
 
 
     return (
         <div className='edit-order-screen'>
+
+            <Message shown={errorShown} text={errorText}></Message> 
 
             <button className='go-back-button' onClick={() => {
                 dispatch({type: 'CLEAR_ORDER'});            // => previously delegated to AdminScreen
@@ -104,7 +153,7 @@ const EditOrderScreen = ({ history, match, location }) => {
                 history.push(redirect);
             }}>&#8592; Go Back</button>
 
-            {loading ? <Loader /> : order ? showOrderDetails() : <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the order was not found.</h2>}
+            {loading ? <Loader /> : order ? showOrderDetails() : <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Order was not found.</h2>}
 
         </div>
     )

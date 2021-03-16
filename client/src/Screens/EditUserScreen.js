@@ -140,8 +140,8 @@ const EditUserScreen = ({ history, match }) => {
                                 <p><strong>Shipping Type: </strong> {order.address.shipping}</p>
                                 <p><strong>Ordered Items: </strong> {order.orderItems.map((item, index) => <span key={index}>{item.name}({item.qty}pcs.), </span>)}</p>
                                 <p><strong>Order Total Price : </strong> {order.totalPrice}</p>
-                                <p><strong>Order Paid? : </strong> {order.isPaid ? <span style={{color: 'green'}}>&check;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
-                                <p><strong>Order Delivered? : </strong> {order.isDelivered ? <span style={{color: 'green'}}>&check;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
+                                <p><strong>Order Paid? : </strong> {order.isPaid ? <span style={{color: 'green'}}>&#10003;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
+                                <p><strong>Order Delivered? : </strong> {order.isDelivered ? <span style={{color: 'green'}}>&#10003;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
                             
                             </div>
 

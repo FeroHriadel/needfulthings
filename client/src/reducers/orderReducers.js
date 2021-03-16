@@ -101,3 +101,24 @@ export const updateOrderReducer = (state = {updatedOrder: {}}, action) => {
             return state;
     }
 }
+
+
+
+export const deleteOrderReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'DELETE_ORDER_REQUEST':
+            return { deleteOrderLoading: true};
+        case 'DELETE_ORDER_SUCCESS':
+            return {
+                deleteOrderLoading: false,
+                deleteOrderMessage: action.payload
+            };
+        case 'DELETE_ORDER_FAIL':
+            return {
+                deleteOrderLoading: false,
+                deleteOrderError: action.payload
+            };
+        default:
+            return state;
+    }
+}
