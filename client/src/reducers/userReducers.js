@@ -105,3 +105,27 @@ export const changeUserRoleReducer = (state = {updatedUser: {}}, action) => {
             return state;
     }
 }
+
+
+
+export const deleteUserReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'DELETE_USER_REQUEST': 
+            return {
+                deleteUserLoading: true
+            };
+        case 'DELETE_USER_SUCCESS':
+            return {
+                deleteUserLoading: false,
+                deleteUserMessage: action.payload
+            };
+        case 'DELETE_USER_FAIL':
+            return {
+                deleteUserLoading: false,
+                deleteUserMessage: {},
+                deleteUserError: action.payload
+            };
+        default:
+            return state;
+    }
+}

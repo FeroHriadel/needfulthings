@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserById } from '../actions/userActions';
 import { getOrders } from '../actions/orderActions';
-import { changeUserRole } from '../actions/userActions';
+import { changeUserRole, deleteUser } from '../actions/userActions';
 import Loader from '../Components/Loader';
 import './EditUserScreen.css';
 import { Link } from 'react-router-dom';
 import Message from '../Components/Message';
-
+import Modal from '../Components/Modal';
 
 
 
@@ -23,14 +23,29 @@ const EditUserScreen = ({ history, match }) => {
     //MESSAGE
     const [errorShown, setErrorShown] = useState(false);
     const [errorText, setErrorText] = useState(`User's Role changed`);
+    const [messageWasShown, setMessageWasShown] = useState(true);
  
     const showMessage = () => {
+        if (messageWasShown) {
+            return
+        }
             setErrorShown(true);
             setTimeout(() => {
                 setErrorShown(false);
             }, 2500)
     }
   
+
+
+
+    //MODAL
+    const [modalShown, setModalShown] = useState(false);
+    const [modalText, setModalText] = useState('Are you sure?');
+
+    const closeModal = () => {
+        setModalShown(false);
+    }
+
 
 
     //USER
@@ -45,28 +60,55 @@ const EditUserScreen = ({ history, match }) => {
 
     //change user's role function
     const changeAdminStatus = () => {
+        setMessageWasShown(false);
         dispatch(changeUserRole(userId));
+    }
+
+    //delete user state
+    const deleteUserReducer = useSelector(state => state.deleteUserReducer);
+    const { deleteUserLoading, deleteUserMessage, deleteUserError } = deleteUserReducer;
+
+    //delete user: confirm & delete functions
+    const confirmDelete = () => {
+        setModalShown(true);
+    }
+
+    const deleteUserFunction = () => {
+        setMessageWasShown(false);
+        dispatch(deleteUser(userId));
     }
 
     //render user details
     const showUserDetails = () => (
         error ?
-            <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the user was not found.</h2>
+            <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>User was not found.</h2>
                 :
                 <div className="user-details">
 
                     <h2>Edit User</h2>
 
                     <div className="user-info">
+                        
                         {userById.isAdmin ? <p>{userById.name} is an <strong style={{color: 'green'}}> Admin </strong></p> : <p>{userById.name} is a <strong> customer</strong> </p>}
+
                         <p> email: {userById.email}</p>
-                        <button className='delete-user-btn'>Delete This User</button>
+
+
+
+                        <button 
+                            className='delete-user-btn'
+                            onClick={confirmDelete}
+                        >
+                            Delete This User
+                        </button>
+
                         <button 
                             className='user-role-btn'
                             onClick={changeAdminStatus}
                         >
                             {userById.isAdmin ? 'Remove Admin Access' : 'Make User Admin'}
                         </button>
+
                     </div>
 
                 </div>
@@ -82,7 +124,7 @@ const EditUserScreen = ({ history, match }) => {
     //render order details
     const showOrderDetails = () => (
         getOrdersError ?
-            <p style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the user's orders were not found.</p>
+            <p style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>User's orders were not found.</p>
             : 
             <React.Fragment>
                 <h3>User's Orders</h3>
@@ -130,15 +172,31 @@ const EditUserScreen = ({ history, match }) => {
             setErrorText(`User's Role changed`);
             showMessage();
             dispatch({type: 'CLEAR_CHANGE_USER_ROLE_RESULTS'});
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
         }
 
-        //role-change error message
+        //change-role error message
         if (changeUserRoleError) {
             setErrorText(changeUserRoleError.error || changeUserRoleError);
             showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
         }
 
-    }, [userDetails, updatedUser, changeUserRoleError]);
+        //delet-user success message
+        if (deleteUserMessage && deleteUserMessage.message) {
+            setErrorText(deleteUserMessage.message);
+            showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
+        }
+
+        //delete-user error message
+        if (deleteUserError) {
+            setErrorText(deleteUserError.error || deleteUserError);
+            showMessage();
+            setMessageWasShown(true); //this is here so old message doesn't pop up on re-render
+        }
+
+    }, [userDetails, updatedUser, changeUserRoleError, deleteUserMessage, deleteUserError]);
 
 
 
@@ -146,6 +204,13 @@ const EditUserScreen = ({ history, match }) => {
         <div className='edit-user-screen'>
 
             <Message shown={errorShown} text={errorText}></Message> 
+
+            <Modal 
+                modalShown={modalShown} 
+                modalText={modalText} 
+                closeFunction={closeModal} 
+                actionFunction={deleteUserFunction} 
+            />
 
             <button className='go-back-btn' onClick={() => history.push('/admin')}>&larr; Go Back</button>
             

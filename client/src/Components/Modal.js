@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Modal.css';
 
 const Modal = ({ modalShown, modalText, closeFunction, actionFunction }) => {
-    //close modal if use clicks outside the dialogue box ('modal-content' class)
+    //close modal if user clicks outside the dialogue box ('modal-content' class)
     const closeOnOutsideClick = e => {
         if (!e.target.className.includes('modal-content')) {
             closeFunction();

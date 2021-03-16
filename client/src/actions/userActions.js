@@ -161,4 +161,36 @@ export const changeUserRole = (userId) => async (dispatch, getState) => {
 
 
 
+//DELETE USER
+export const deleteUser = (userId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'DELETE_USER_REQUEST'});
+
+        const { userSignin : { userDetails }} = getState();
+
+        const config = {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch(`/api/users/delete/${userId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'DELETE_USER_FAIL', payload: data});
+        }
+
+        dispatch({type: 'DELETE_USER_SUCCESS', payload: data});
+        
+
+    } catch (err) {
+        dispatch({type: 'DELETE_USER_FAIL', payload: 'deleteUser action error'})
+    }
+}
+
+
+
 export { signup, signin, signout, getUsers, getUserById }

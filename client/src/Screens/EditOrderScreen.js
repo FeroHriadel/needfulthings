@@ -15,7 +15,7 @@ const EditOrderScreen = ({ history, match, location }) => {
 
 
 
-    //redirect (where should 'go-back' btn redirect)
+    //REDIRECT TO? (where should 'go-back' btn redirect)
     const redirect = location.search ? location.search.split('=')[1] : '/admin';
 
 

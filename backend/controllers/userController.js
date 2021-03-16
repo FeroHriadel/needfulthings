@@ -137,5 +137,29 @@ const changeUserRole = async (req, res) => {
 
 
 
+//DELETE USER
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        if (!userId) {
+            return res.status(400).json({error: 'userId required'});
+        }
 
-export { signup, signin, getUsers, getUserById, changeUserRole };
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({error: 'User not found'})
+        }
+
+        await User.findByIdAndRemove(userId);
+        res.json({message: `User Removed`})
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Server Error (or bad userId format)'})
+    }
+}
+
+
+
+
+export { signup, signin, getUsers, getUserById, changeUserRole, deleteUser };
