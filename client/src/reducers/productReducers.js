@@ -67,6 +67,10 @@ export const updateProductReducer = (state = {updatedProduct: {}}, action) => {
                 updateProductLoading: false,
                 updatedProduct: action.payload,
             };
+        case 'CLEAR_UPDATED_PRODUCT':
+            return {
+                updatedProduct: {}
+            };
         default:
             return state;
     }

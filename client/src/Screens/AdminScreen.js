@@ -367,6 +367,17 @@ const AdminScreen = ({ history }) => {
     }, [userDetails, deleteProductError, deleteProductMessage, categoriesShown, productsShown, ordersShown, usersShown, deleteCategoryError, deleteCategoryMessage]);
 
     
+/*
+            <div className="admin-screen-buttons">
+                <button className='categories-btn' onClick={() => setCategoriesShown(!categoriesShown)}>Manage Categories</button>
+                <button className='products-btn' onClick={() => setProductsShown(!productsShown)}>Manage Products</button>
+                <button className='orders-btn' onClick={() => setOrdersShown(!ordersShown)}>Manage Orders</button>
+                <button className='users-btn' onClick={() => setUsersShown(!usersShown)}>Manage Users</button>
+            </div>
+*/
+
+
+
 
     return (
         <div className='admin-screen'>
@@ -383,10 +394,30 @@ const AdminScreen = ({ history }) => {
             <h2>Admin Screen</h2>
             
             <div className="admin-screen-buttons">
-                <button className='categories-btn' onClick={() => setCategoriesShown(!categoriesShown)}>Manage Categories</button>
-                <button className='products-btn' onClick={() => setProductsShown(!productsShown)}>Manage Products</button>
-                <button className='orders-btn' onClick={() => setOrdersShown(!ordersShown)}>Manage Orders</button>
-                <button className='users-btn' onClick={() => setUsersShown(!usersShown)}>Manage Users</button>
+                <button className='categories-btn' onClick={() => {
+                    setCategoriesShown(!categoriesShown)
+                    setProductsShown(false);
+                    setOrdersShown(false);
+                    setUsersShown(false)
+                }}>Manage Categories</button>
+                <button className='products-btn' onClick={() => {
+                    setProductsShown(!productsShown);
+                    setCategoriesShown(false);
+                    setOrdersShown(false);
+                    setUsersShown(false)
+                }}>Manage Products</button>
+                <button className='orders-btn' onClick={() => {
+                    setOrdersShown(!ordersShown);
+                    setProductsShown(false);
+                    setCategoriesShown(false);
+                    setUsersShown(false)
+                }}>Manage Orders</button>
+                <button className='users-btn' onClick={() => {
+                    setUsersShown(!usersShown);
+                    setProductsShown(false);
+                    setOrdersShown(false);
+                    setCategoriesShown(false)
+                }}>Manage Users</button>
             </div>
 
             {categories && categoriesShown ? showCategories() : null}
