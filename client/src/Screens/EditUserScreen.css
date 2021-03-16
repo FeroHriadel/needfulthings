@@ -4,22 +4,65 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #333;
 }
 
+.edit-user-screen > .go-back-btn {
+    align-self: flex-start;
+    margin-top : 10px;
+    margin-left: 2.5%;
+    cursor: pointer;
+}
 
 .edit-user-screen .user-details {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 4rem;
 }
 
 .edit-user-screen .user-details .user-info {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 260px;
 }
 
-.edit-user-screen .user-details .user-info > *:nth-child(2) {
-    margin-left: 1ch;
+.edit-user-screen .user-details .user-info > p {
+    margin: 0;
 }
+
+.edit-user-screen .user-details .user-info > button {
+    width: 95%;
+    cursor: pointer;
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.edit-user-screen .user-details .user-info > .user-role-btn {
+    transform: translateY(0.5rem);
+    margin-top: 0;
+}
+
+
+.edit-user-screen > .user-orders {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.edit-user-screen > .user-orders > .user-order  {
+    width: 95%;
+    margin-bottom: 2rem;
+}
+
+.edit-user-screen > .user-orders > .user-order > p {
+    border-bottom: 1px dotted #333;
+}
+
+

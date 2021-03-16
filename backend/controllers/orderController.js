@@ -104,20 +104,4 @@ const deleteOrder = async (req, res) => {
 
 
 
-//GET ORDER BY USER ID
-const getOrderByUserId = async (req, res) => {
-    try {
-        const orders = await Order.find({user: req.params.userId});
-        res.json(orders);
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({error: 'Server Error (getOrderByUserId)'})
-    }
-}
-
-
-
-
-
-export {addOrder, getOrderById, getOrders, updateOrder, deleteOrder, getOrderByUserId}
+export {addOrder, getOrderById, getOrders, updateOrder, deleteOrder}

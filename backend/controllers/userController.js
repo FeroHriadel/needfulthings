@@ -107,5 +107,35 @@ const getUserById = async (req, res) => {
 
 
 
+//CHANGE USER'S ROLE
+const changeUserRole = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        if (!userId) {
+            return res.status(400).json({error: 'userId is required'});
+        }
 
-export { signup, signin, getUsers, getUserById };
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({error: `User was not found`});
+        }
+
+        let newIsAdminValue = false;
+
+        if (user.isAdmin === false) {
+            newIsAdminValue = true;
+        } 
+    
+        const updatedUser = await User.findByIdAndUpdate(userId, {isAdmin: newIsAdminValue}, {new: true});
+        res.json(updatedUser);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error or bad usedId format`})
+    }
+}
+
+
+
+
+export { signup, signin, getUsers, getUserById, changeUserRole };

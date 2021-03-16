@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserById } from '../actions/userActions';
 import { getOrders } from '../actions/orderActions';
+import { changeUserRole } from '../actions/userActions';
 import Loader from '../Components/Loader';
 import './EditUserScreen.css';
+import { Link } from 'react-router-dom';
+import Message from '../Components/Message';
 
 
 
@@ -14,18 +17,7 @@ const EditUserScreen = ({ history, match }) => {
     const dispatch = useDispatch();
     const userSignin = useSelector(state => state.userSignin);
     const { userDetails } = userSignin;
-
-
-
-    //GET ORDERS
-    //get orders from state
-    const getAllOrdersReducer = useSelector(state => state.getAllOrders);
-    const { orders, getOrdersLoading, getOrdersError } = getAllOrdersReducer;
-
-    //get user's orders
-    const userOrders = orders.filter(order => order._id === userId);
-    console.log(userOrders);
-    
+  
 
 
     //USER
@@ -34,8 +26,16 @@ const EditUserScreen = ({ history, match }) => {
     const userByIdReducer = useSelector(state => state.userById);
     const { loading, userById, error } = userByIdReducer;
 
+    //change user's role (isAdmin) state
+    const changeUserRoleReducer = useSelector(state => state.changeUserRole);
+    const { changeUserRoleLoading, updatedUser, changeUserRoleError } = changeUserRoleReducer;
 
-    //render edit user screen
+    //change user's role function
+    const changeAdminStatus = () => {
+        dispatch(changeUserRole(userId));
+    }
+
+    //render user details
     const showUserDetails = () => (
         error ?
             <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the user was not found.</h2>
@@ -45,11 +45,54 @@ const EditUserScreen = ({ history, match }) => {
                     <h2>Edit User</h2>
 
                     <div className="user-info">
-                        {userById.isAdmin ? <p>{userById.name} is an <strong> Admin </strong></p> : <p>{userById.name} is a <strong> customer</strong>, </p>}
-                        <p><strong> email at: </strong> {userById.email}</p>
+                        {userById.isAdmin ? <p>{userById.name} is an <strong style={{color: 'green'}}> Admin </strong></p> : <p>{userById.name} is a <strong> customer</strong> </p>}
+                        <p> email: {userById.email}</p>
+                        <button className='delete-user-btn'>Delete This User</button>
+                        <button 
+                            className='user-role-btn'
+                            onClick={changeAdminStatus}
+                        >
+                            {userById.isAdmin ? 'Remove Admin Access' : 'Make User Admin'}
+                        </button>
                     </div>
 
                 </div>
+    );
+
+
+
+    //ORDERS
+    //get orders from state
+    const getAllOrdersReducer = useSelector(state => state.getAllOrders);
+    const { orders, getOrdersLoading, getOrdersError } = getAllOrdersReducer;
+
+    //render order details
+    const showOrderDetails = () => (
+        getOrdersError ?
+            <p style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the user's orders were not found.</p>
+            : 
+            <React.Fragment>
+                <h3>User's Orders</h3>
+                
+                <div className="user-orders">
+                    {orders.map(order => {
+                        if (order.user === userId) {
+                            return <div className="user-order" key={order._id}>
+                                <Link to={`/admin/editOrder/${order._id}`}><button style={{cursor: 'pointer'}}>Edit This Order</button></Link>
+
+                                <p><strong>Order ID: </strong> {order._id}</p>
+                                <p><strong>Shipping Type: </strong> {order.address.shipping}</p>
+                                <p><strong>Ordered Items: </strong> {order.orderItems.map((item, index) => <span key={index}>{item.name}({item.qty}pcs.), </span>)}</p>
+                                <p><strong>Order Total Price : </strong> {order.totalPrice}</p>
+                                <p><strong>Order Paid? : </strong> {order.isPaid ? <span style={{color: 'green'}}>&check;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
+                                <p><strong>Order Delivered? : </strong> {order.isDelivered ? <span style={{color: 'green'}}>&check;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
+                            
+                            </div>
+                        }
+                    })}
+                    
+                </div>
+            </React.Fragment>
     )
 
 
@@ -64,15 +107,22 @@ const EditUserScreen = ({ history, match }) => {
         //get user && orders
         dispatch(getUserById(userId));
         dispatch(getOrders());
+        if (updatedUser && updatedUser._id) {
+            dispatch({type: 'CLEAR_CHANGE_USER_ROLE_RESULTS'});
+        }
 
-    }, [userDetails]);
+    }, [userDetails, updatedUser]);
 
 
 
     return (
         <div className='edit-user-screen'>
+
+            <button className='go-back-btn' onClick={() => history.push('/admin')}>&larr; Go Back</button>
             
             {loading ? <Loader /> : userById ? showUserDetails() : null}
+
+            {getOrdersLoading ? <p>Getting Orders...</p> : orders ? showOrderDetails() : <p>User has no orders</p>}
 
         </div>
     )

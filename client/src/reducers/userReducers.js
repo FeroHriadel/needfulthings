@@ -77,3 +77,31 @@ export const getUserByIdReducer = (state = {userById: {}}, action) => {
             return state;
     }
 }
+
+
+
+export const changeUserRoleReducer = (state = {updatedUser: {}}, action) => {
+    switch(action.type) {
+        case 'CHANGE_USER_ROLE_REQUEST':
+            return {
+                changeUserRoleLoading: true,
+            };
+        case 'CHANGE_USER_ROLE_SUCCESS':
+            return {
+                changeUserRoleLoading: false,
+                updatedUser: action.payload
+            };
+        case 'CHANGE_USER_ROLE_FAIL':
+            return {
+                changeUserRoleLoading: false,
+                updatedUser: {},
+                changeUserRoleError: action.payload
+            };
+        case 'CLEAR_CHANGE_USER_ROLE_RESULTS':
+            return {
+                updatedUser: {}
+            };
+        default:
+            return state;
+    }
+}

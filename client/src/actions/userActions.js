@@ -129,4 +129,36 @@ const getUserById = (userId) => async (dispatch, getState) => {
 
 
 
+//CHANGE USER'S ISADMIN ROLE
+export const changeUserRole = (userId) => async (dispatch, getState) => {
+    try {
+        dispatch({type: 'CHANGE_USER_ROLE_REQUEST'});
+
+        const { userSignin : { userDetails }} = getState();
+
+        const config = {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${userDetails.token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch(`/api/users/changeUserRole/${userId}`, config);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'CHANGE_USER_ROLE_FAIL', payload: data})
+        }
+
+        dispatch({type: 'CHANGE_USER_ROLE_SUCCESS', payload: data});
+
+
+    } catch (err) {
+        dispatch({type: 'CHANGE_USER_ROLE_FAIL', payload: 'changeUserRole error'})
+    }
+}
+
+
+
 export { signup, signin, signout, getUsers, getUserById }
