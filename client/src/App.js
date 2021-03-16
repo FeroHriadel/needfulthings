@@ -40,7 +40,7 @@ const App = () => {
         <Route exact path='/admin/editCategory/:categoryId' component={EditCategoryScreen} />
         <Route exact path='/admin/editProduct/:productId' component={EditProductScreen} />
         <Route exact path='/admin/addProduct' component={AddProductScreen} />
-        <Route exact path='/admin/editOrder/:orderId' component={EditOrderScreen} />
+        <Route path='/admin/editOrder/:orderId' component={EditOrderScreen} />
         <Route exact path='/admin/editUser/:userId' component={EditUserScreen} />
       </Switch>
     </Router>

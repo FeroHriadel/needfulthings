@@ -6,13 +6,17 @@ import './EditOrderScreen.css';
 
 
 
-const EditOrderScreen = ({ history, match }) => {
+const EditOrderScreen = ({ history, match, location }) => {
     //REDIRECT NON-ADMINS
     //get user from state => useEffect redirects non-Admins away
     const dispatch = useDispatch();
     const userSignin = useSelector(state => state.userSignin);
     const { userDetails } = userSignin;
 
+
+
+    //redirect (where should 'go-back' btn redirect)
+    const redirect = location.search ? location.search.split('=')[1] : '/admin';
 
 
     //GET ORDER
@@ -97,7 +101,7 @@ const EditOrderScreen = ({ history, match }) => {
             <button className='go-back-button' onClick={() => {
                 dispatch({type: 'CLEAR_ORDER'});            // => previously delegated to AdminScreen
                 dispatch({type: 'CLEAR_UPDATED_ORDER'});    // => previously delegated to AdminScreen
-                history.push('/admin');
+                history.push(redirect);
             }}>&#8592; Go Back</button>
 
             {loading ? <Loader /> : order ? showOrderDetails() : <h2 style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>Something went wrong and the order was not found.</h2>}

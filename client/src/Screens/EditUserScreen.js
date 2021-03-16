@@ -17,6 +17,19 @@ const EditUserScreen = ({ history, match }) => {
     const dispatch = useDispatch();
     const userSignin = useSelector(state => state.userSignin);
     const { userDetails } = userSignin;
+
+
+
+    //MESSAGE
+    const [errorShown, setErrorShown] = useState(false);
+    const [errorText, setErrorText] = useState(`User's Role changed`);
+ 
+    const showMessage = () => {
+            setErrorShown(true);
+            setTimeout(() => {
+                setErrorShown(false);
+            }, 2500)
+    }
   
 
 
@@ -78,7 +91,8 @@ const EditUserScreen = ({ history, match }) => {
                     {orders.map(order => {
                         if (order.user === userId) {
                             return <div className="user-order" key={order._id}>
-                                <Link to={`/admin/editOrder/${order._id}`}><button style={{cursor: 'pointer'}}>Edit This Order</button></Link>
+                                
+                                <Link to={`/admin/editOrder/${order._id}?redirect=/admin/editUser/${userId}`}><button style={{cursor: 'pointer'}}>Edit This Order</button></Link>
 
                                 <p><strong>Order ID: </strong> {order._id}</p>
                                 <p><strong>Shipping Type: </strong> {order.address.shipping}</p>
@@ -88,6 +102,9 @@ const EditUserScreen = ({ history, match }) => {
                                 <p><strong>Order Delivered? : </strong> {order.isDelivered ? <span style={{color: 'green'}}>&check;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
                             
                             </div>
+
+                        } else {
+                            return <p>User has no orders</p>
                         }
                     })}
                     
@@ -107,22 +124,34 @@ const EditUserScreen = ({ history, match }) => {
         //get user && orders
         dispatch(getUserById(userId));
         dispatch(getOrders());
+
+        //role-change success message
         if (updatedUser && updatedUser._id) {
+            setErrorText(`User's Role changed`);
+            showMessage();
             dispatch({type: 'CLEAR_CHANGE_USER_ROLE_RESULTS'});
         }
 
-    }, [userDetails, updatedUser]);
+        //role-change error message
+        if (changeUserRoleError) {
+            setErrorText(changeUserRoleError.error || changeUserRoleError);
+            showMessage();
+        }
+
+    }, [userDetails, updatedUser, changeUserRoleError]);
 
 
 
     return (
         <div className='edit-user-screen'>
 
+            <Message shown={errorShown} text={errorText}></Message> 
+
             <button className='go-back-btn' onClick={() => history.push('/admin')}>&larr; Go Back</button>
             
             {loading ? <Loader /> : userById ? showUserDetails() : null}
 
-            {getOrdersLoading ? <p>Getting Orders...</p> : orders ? showOrderDetails() : <p>User has no orders</p>}
+            {getOrdersLoading ? <p>Getting User's Orders...</p> : orders ? showOrderDetails() : <p>User has no orders</p>}
 
         </div>
     )
