@@ -212,5 +212,39 @@ const deleteProduct = async (req, res) => {
 
 
 
-export {createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct, deleteProduct}
+//UPDATE PRODUCT STATS (inStock & sold)
+const updateStats = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        if (!productId) {
+            return res.status(400).json({error: 'productId is required'})
+        }
+    
+        const piecesSold = req.body.piecesSold;
+        if (!piecesSold) {
+            return res.status(400).json({error: `Pieces Sold is required`})
+        }
+    
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({error: `Product was not found`})
+        }
+    
+        product.inStock -= piecesSold;
+        product.sold += piecesSold;
+    
+        const updatedProduct = await Product.findByIdAndUpdate(productId, {$set: product}, {new: true}).select('-image');
+
+        res.json(updatedProduct);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error (or bad productId format)`})
+    }
+}
+
+
+
+
+export {createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct, deleteProduct, updateStats}
 

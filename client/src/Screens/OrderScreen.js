@@ -78,7 +78,6 @@ const OrderScreen = ({ history, location }) => {
             const addPayPalScript = async () => {
                 const res = await fetch('/api/config/paypal');
                 const data = await res.json();
-                console.log(data.clientId);
                 const script = document.createElement('script');
                 script.type = 'text/javascript';
                 script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}`
@@ -111,9 +110,7 @@ const OrderScreen = ({ history, location }) => {
         //create order
         const submitOrder = (paymentResult) => {
 
-            console.log('running') //
-
-            //for both 'pickup' and 'ship' orders:
+             //for both 'pickup' and 'ship' orders:
             const orderItems = cartItems.map(item => {
                 return {
                     name: item.name,
@@ -123,28 +120,12 @@ const OrderScreen = ({ history, location }) => {
                 }
             })
 
-            console.log('made it past return') //
-            console.log(paymentResult) //
-
             const orderAddress = address;
             const orderShippingPrice = cart.itemsTotalPrice <= 99 && cart.address.shipping === 'ship' ? 30 : cart.itemsTotalPrice > 99 && cart.address.shipping === 'ship' ? 0 : 0  ; //purchases over $99 have free shipping, else shippingPrice = $30, pickup = 0
             const orderTotalPrice = cart.itemsTotalPrice + orderShippingPrice;
             const orderIsPaid = paymentResult.status === 'COMPLETED' ? true : false;
             const orderPaymentResult = paymentResult.status === 'COMPLETED' ? paymentResult : {}
             const orderPaidAt = Date.now();
-
-            console.log('made it past conditionals') //
-
-            console.log({ //
-                    orderItems,
-                    address: orderAddress,
-                    totalPrice: orderTotalPrice,
-                    shippingPrice: orderShippingPrice,
-                    isPaid: orderIsPaid,
-                    paymentResult: orderPaymentResult,
-                    paidAt: orderPaidAt
-                })
-
 
             //dispatch order to db
             dispatch(createOrder({

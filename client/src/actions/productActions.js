@@ -153,4 +153,3 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
         dispatch({type: 'DELETE_PRODUCT_FAIL', payload: err})
     }
 } 
-

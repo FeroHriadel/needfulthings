@@ -59,7 +59,7 @@ export const getOrderById = (orderId) => async (dispatch, getState) => {
         }
 
         dispatch({type: 'GET_ORDER_BY_ID_SUCCESS', payload: data});
-        console.log(data)
+
 
     } catch (err) {
         dispatch({type: 'GET_ORDER_BY_ID_FAIL', payload: 'Action Error'});
@@ -159,5 +159,9 @@ export const deleteOrder = (orderId) => async (dispatch, getState) => {
         dispatch({type: 'DELETE_ORDER_FAIL', payload: 'deleteOrder action error' })
     }
 }
+
+
+
+
 
 

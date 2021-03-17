@@ -9,15 +9,19 @@ import Message from '../Components/Message';
 
 
 const OrderConfirmation = ({ history, match }) => {
-    //get order id
+
+    //ORDER
+    //get order._id
     const orderId = match.params.orderId;
 
-    //get order by id & clear created order redux state
+    //getOrder state
     const dispatch = useDispatch();
     const orderState = useSelector(state => state.order);
     const { order, loading, error } = orderState;
 
-    //error handling (Message)
+
+
+    //MESSAGE
     const [errorShown, setErrorShown] = useState(false);
     const [errorText, setErrorText] = useState(`Thank you for shopping with us!`);
 
@@ -27,16 +31,6 @@ const OrderConfirmation = ({ history, match }) => {
             setErrorShown(false);
         }, 2500)
     }
-
-    useEffect(() => {
-        dispatch(clearCreatedOrder()); //needs to be cleared in case user wants to make another order after this one
-        dispatch(clearCart());
-        dispatch(getOrderById(orderId));
-        if (error) {
-            setErrorText(error.error);
-            showMessage();
-        }
-    }, [error])
 
 
 
@@ -61,9 +55,82 @@ const OrderConfirmation = ({ history, match }) => {
 
 
 
+    //UPDATE PRODUCT
+    const [oldOrderCleared, setOldOrderCleared] = useState(false);
+
+    //get products id&qty array from order
+    const getProductsFromOrder = () => {
+        let orderProducts = order.orderItems.map(item => {
+            let obj = {};
+            obj.productId = item.productId;
+            obj.qty = item.qty
+            return obj;
+        });
+
+        return orderProducts;
+    }
+
+    //update product inStock&sold
+    const updateProductStats = async (productFromOrder) => {
+        const config = {
+            method: 'PUT',
+            body: JSON.stringify({piecesSold: productFromOrder.qty}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const res = await fetch(`/api/products/updateStats/${productFromOrder.productId}`, config);
+        const data = await res.json(); //
+        console.log(data) //
+    }
 
 
 
+
+
+    //USE EFFECT
+    useEffect(() => {
+        //cleanup
+        if (!oldOrderCleared) {
+            dispatch(clearCreatedOrder()); //needs to be cleared in case user wants to make another order after this one
+            dispatch(clearCart());
+            dispatch(getOrderById(orderId));
+            setOldOrderCleared(true);
+        }
+
+        //product stats update
+        if (oldOrderCleared && order) {
+            const productsFromOrder = getProductsFromOrder();
+            productsFromOrder.forEach(item => {
+                updateProductStats(item);
+            })
+
+            setOldOrderCleared(false);
+        }
+        
+        //display error
+        if (error) {
+            setErrorText(error.error);
+            showMessage();
+        }
+
+    }, [error, order])
+
+
+    /****************** useEffect before updateStats backup ****************
+    useEffect(() => {
+        dispatch(clearCreatedOrder()); //needs to be cleared in case user wants to make another order after this one
+        dispatch(clearCart());
+        dispatch(getOrderById(orderId));
+        if (error) {
+            setErrorText(error.error);
+            showMessage();
+        }
+
+    }, [error])
+    ****************************(just in case)********************************/
+   
 
 
     return (
