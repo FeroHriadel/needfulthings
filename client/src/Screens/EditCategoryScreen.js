@@ -62,6 +62,10 @@ const EditCategoryScreen = ({ history, match}) => {
         setValues({name: '', formData: new FormData()});
         setErrorText('Category updated');
         showMessage();
+        //must reload the page or updated image will not show :(
+        setTimeout(() => {
+            window.location.reload()
+        }, 3000)
     }
     
     //form html
@@ -127,7 +131,7 @@ const EditCategoryScreen = ({ history, match}) => {
 
             {updatedCategory && 
                 <div className='edit-success-screen'>
-                    <h2>Category updated</h2>
+                    <h2>Category updated. Please wait...</h2>
                 </div>     
             }
         </div>

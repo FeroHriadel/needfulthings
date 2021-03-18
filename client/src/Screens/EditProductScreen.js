@@ -32,7 +32,7 @@ const EditProductScreen = ({ history, match }) => {
         setErrorShown(true);
         setTimeout(() => {
             setErrorShown(false);
-        }, 2500)
+        }, 4000)
     }
 
 
@@ -67,8 +67,12 @@ const EditProductScreen = ({ history, match }) => {
     const submitHandler = e => {
         e.preventDefault();
         dispatch(updateProduct(productId, formData));
-        setErrorText('Product updated');
+        setErrorText('Product updated. Please wait while image loads...');
         showMessage();
+        //must reload the page or updated image will not show :(
+            setTimeout(() => {
+                window.location.reload()
+            }, 3000)
     }
 
     //form html
@@ -170,15 +174,15 @@ const EditProductScreen = ({ history, match }) => {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         justifyContent: 'center',
-                                        alignItems: 'flex-start',
+                                        alignItems: 'center',
                                         opacity: '1',
-                                        zIndex: 2
+                                        zIndex: 2,
                                     }}>
-                                        <h3>{product.name}</h3>
-                                        <p><strong>Price:</strong> ${product.price}</p>
-                                        <p><strong>Sold:</strong> {product.sold} pcs.</p>
-                                        <p><strong>In Stock:</strong> {product.inStock} pcs.</p>
-                                        <p><strong>Description:</strong> {product.description}</p>
+                                        <h1 style={{marginBottom: '1.5rem', textDecoration: 'underline'}}>{product.name}</h1>
+                                        <p style={{fontSize: '1.25rem'}}><strong>Price:</strong> ${product.price}</p>
+                                        <p style={{fontSize: '1.25rem'}}><strong>Sold:</strong> {product.sold} pcs.</p>
+                                        <p style={{fontSize: '1.25rem'}}><strong>In Stock:</strong> {product.inStock} pcs.</p>
+                                        <p style={{fontSize: '1.25rem'}}><strong>Description:</strong>{product.description}</p>
                                     </div>
                                 </div>
 
