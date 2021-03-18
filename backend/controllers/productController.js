@@ -248,6 +248,10 @@ const updateStats = async (req, res) => {
 //SEARCH PRODUCTS
 const searchProducts = async (req, res) => {
     try {
+        //pagination
+        const pageSize = 2;
+        const page = Number(req.query.pageNumber) || 1;
+
         //keyword value
         const keyword = req.query.keyword ? 
             {name: {
@@ -280,14 +284,20 @@ const searchProducts = async (req, res) => {
         };
 
         //search
-        const products = await Product.find({...keyword, ...category, ...price}).select('-image').sort([['name', 'asc']]);
+        const productsLength = await Product.countDocuments({...keyword, ...category, ...price})
+
+        const products = await Product.find({...keyword, ...category, ...price})
+            .select('-image')
+            .sort([['name', 'asc']])
+            .limit(pageSize)
+            .skip(pageSize * (page - 1));
 
         //response
         if (!products || products.length === 0) {
             return res.status(404).json({error: 'No products found'});
         }
 
-        res.json(products);
+        res.json({products, page, numberOfPages: Math.ceil(productsLength / pageSize)});
 
 
     } catch (err) {

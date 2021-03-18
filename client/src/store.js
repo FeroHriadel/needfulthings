@@ -22,7 +22,7 @@ const reducer = combineReducers({
     updatedProduct: updateProductReducer,
     addProduct: addProductReducer,
     deleteProduct: deleteProductReducer,
-    searchedProduct: searchProductsReducer,
+    searchedProducts: searchProductsReducer,
     cart: cartReducer,
     userSignin: userSigninReducer,
     getUsers: getUsersReducer,

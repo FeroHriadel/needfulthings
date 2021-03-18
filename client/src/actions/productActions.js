@@ -156,7 +156,7 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
 
 
 
-export const searchProducts = (filters) => async (dispatch) => {
+export const searchProducts = (filters, pageNumber = 1) => async (dispatch) => {
     try {
         dispatch({type: 'SERACH REQUEST'});
 
@@ -166,7 +166,7 @@ export const searchProducts = (filters) => async (dispatch) => {
 
 
 
-        const res = await fetch(`/api/products/search?${keyword}&${category}&${price}`);
+        const res = await fetch(`/api/products/search?${keyword}&${category}&${price}&pageNumber=${pageNumber}`);
         const data = await res.json();
 
         if (data.error) {

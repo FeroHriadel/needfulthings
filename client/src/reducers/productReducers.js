@@ -127,7 +127,7 @@ export const deleteProductReducer = (state = {}, action) => {
 
 
 
-export const searchProductsReducer = (state = {searchedProducts: {}}, action) => {
+export const searchProductsReducer = (state = {searchedProducts: []}, action) => {
     switch(action.type) {
         case 'SERACH REQUEST':
             return {
@@ -136,12 +136,14 @@ export const searchProductsReducer = (state = {searchedProducts: {}}, action) =>
         case 'SEARCH_SUCCESS':
             return {
                 searchLoading: false,
-                searchedProducts: action.payload
+                searchedProducts: action.payload.products,
+                numberOfPages: action.payload.numberOfPages,
+                page: action.payload.page
             };
         case 'SEARCH_FAIL':
             return {
                 searchLoading: false,
-                searchedProducts: {},
+                searchedProducts: [],
                 searchError: action.payload
             };
         default:

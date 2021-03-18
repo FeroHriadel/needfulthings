@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const ProductCard = ({ product, history, showMessage }) => {
+const ProductCard = ({ product, history, showMessage, redirect }) => {
     //to enable 'add to cart' button functionality
     const dispatch = useDispatch();
     
@@ -39,7 +39,17 @@ const ProductCard = ({ product, history, showMessage }) => {
                         dispatch(addOneToCart(product._id));
                         showMessage()
                     }}>Add to Cart</button>
-                    <button className='product-card-btn' onClick={() => history.push(`/productDetails/${product._id}`)}>Details</button>
+                    <button 
+                        className='product-card-btn' 
+                        onClick={() => {
+                            if (!redirect) {
+                                history.push(`/productDetails/${product._id}`)
+                            } else {
+                                history.push(`/productDetails/${product._id}?redirect=${redirect}`)
+                            }
+                    }}>
+                        Details
+                    </button>
                 </div>
             </div>
         </div>
