@@ -81,8 +81,8 @@ const OrderConfirmation = ({ history, match }) => {
         };
 
         const res = await fetch(`/api/products/updateStats/${productFromOrder.productId}`, config);
-        const data = await res.json(); //
-        console.log(data) //
+        // const data = await res.json(); //
+        // console.log(data) //
     }
 
 

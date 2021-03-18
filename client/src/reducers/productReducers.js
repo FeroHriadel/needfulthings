@@ -124,3 +124,27 @@ export const deleteProductReducer = (state = {}, action) => {
             return state;
     }
 }
+
+
+
+export const searchProductsReducer = (state = {searchedProducts: {}}, action) => {
+    switch(action.type) {
+        case 'SERACH REQUEST':
+            return {
+                searchLoading: true
+            };
+        case 'SEARCH_SUCCESS':
+            return {
+                searchLoading: false,
+                searchedProducts: action.payload
+            };
+        case 'SEARCH_FAIL':
+            return {
+                searchLoading: false,
+                searchedProducts: {},
+                searchError: action.payload
+            };
+        default:
+            return state;
+    }
+}

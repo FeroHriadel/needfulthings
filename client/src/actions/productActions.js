@@ -152,4 +152,31 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
     } catch (err) {
         dispatch({type: 'DELETE_PRODUCT_FAIL', payload: err})
     }
-} 
+}
+
+
+
+export const searchProducts = (filters) => async (dispatch) => {
+    try {
+        dispatch({type: 'SERACH REQUEST'});
+
+        const keyword = filters.keyword ? `keyword=${filters.keyword}` : '';
+        const category = filters.category ? `category=${filters.category}` : '';
+        const price = filters.price ? `price=${filters.price}` : '';
+
+
+
+        const res = await fetch(`/api/products/search?${keyword}&${category}&${price}`);
+        const data = await res.json();
+
+        if (data.error) {
+            return dispatch({type: 'SEARCH_FAIL', payload: data})
+        }
+
+        dispatch({type: 'SEARCH_SUCCESS', payload: data});
+
+    } catch (err) {
+        console.log(err);//
+        dispatch({type: 'SEARCH_FAIL', payload: 'searchProducts action error'})
+    }
+}

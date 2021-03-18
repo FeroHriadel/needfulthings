@@ -245,6 +245,59 @@ const updateStats = async (req, res) => {
 
 
 
+//SEARCH PRODUCTS
+const searchProducts = async (req, res) => {
+    try {
+        //keyword value
+        const keyword = req.query.keyword ? 
+            {name: {
+                $regex: req.query.keyword,
+                $options: 'i'
+                }
+            }
+                : {};
 
-export {createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct, deleteProduct, updateStats}
+        //category value
+        const category = req.query.category ? 
+            {category: req.query.category}
+                : {};
+        
+        //price value
+        let min = 0;
+        let max = 1000000;
+
+        if (req.query.price) {
+            const arrayFromString = req.query.price.split('and');
+            min = parseInt(arrayFromString[0]);
+            max = parseInt(arrayFromString[1].trim());
+        }
+    
+        const price = {
+            price: {
+                $gte: min,
+                $lte: max
+            }
+        };
+
+        //search
+        const products = await Product.find({...keyword, ...category, ...price}).select('-image').sort([['name', 'asc']]);
+
+        //response
+        if (!products || products.length === 0) {
+            return res.status(404).json({error: 'No products found'});
+        }
+
+        res.json(products);
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: `Server Error (searchProducts)`})
+    }
+}
+
+
+
+
+export {createProduct, getProductsByCategory, getImage, getProductById, getProducts, updateProduct, deleteProduct, updateStats, searchProducts}
 

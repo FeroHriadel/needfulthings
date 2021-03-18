@@ -70,8 +70,8 @@ const Header = ({ history, location }) => {
 
                 {userDetails._id ? registeredUserLinks() : unregisteredUserLinks()}
 
-                <Link to='/shop' style={isActive('/shop')}>
-                    <p>Shop</p>
+                <Link to='/search' style={isActive('/search')}>
+                    <p>Search</p>
                 </Link>
 
                 <Link to='/cart' style={isActive('/cart')} onClick={() => history.push('/cart')}>

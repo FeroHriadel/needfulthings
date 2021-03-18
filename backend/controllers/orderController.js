@@ -29,7 +29,7 @@ const addOrder = async (req, res) => {
 //GET ALL ORDERS
 const getOrders = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const orders = await Order.find().sort({createdAt: -1});
         if (!orders) return res.status(404).json({error: 'No orders found'});
         res.json(orders)
 
