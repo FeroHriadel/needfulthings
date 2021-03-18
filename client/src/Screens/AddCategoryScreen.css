@@ -15,6 +15,7 @@
 }
 
 .add-category-form {
+    margin-top: 3rem;
     width: 25%;
     min-width: 260px;
     display: flex;
@@ -29,7 +30,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .add-category-form .form-group > input {
@@ -38,7 +39,7 @@
 }
 
 .add-category-form .form-group > button {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     cursor: pointer;
     width: 100%;
 }

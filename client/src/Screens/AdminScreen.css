@@ -286,26 +286,25 @@
 .admin-screen .users-display .users-table .users-table-header {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .admin-screen .users-display .users-table .users-table-header > * {
     flex: 1;
-    text-align: center;
 }
 
 .admin-screen .users-display .users-table .users-table-row {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    border-top: 1px #333 dotted;
 }
 
 .admin-screen .users-display .users-table .users-table-row > * {
     flex: 1;
-    text-align: center;
 }
 
 

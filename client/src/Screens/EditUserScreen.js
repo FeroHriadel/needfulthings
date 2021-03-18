@@ -127,33 +127,34 @@ const EditUserScreen = ({ history, match }) => {
             <p style={{textAlign: 'center', color: 'rgb(114, 39, 39)'}}>User's orders were not found.</p>
             : 
             <React.Fragment>
-                <h3>User's Orders</h3>
+                <h3>User's Orders: </h3>
                 
                 <div className="user-orders">
-                    {orders.map(order => {
-                        if (order.user === userId) {
-                            return <div className="user-order" key={order._id}>
-                                
-                                <Link to={`/admin/editOrder/${order._id}?redirect=/admin/editUser/${userId}`}><button style={{cursor: 'pointer'}}>Edit This Order</button></Link>
-
-                                <p><strong>Order ID: </strong> {order._id}</p>
-                                <p><strong>Shipping Type: </strong> {order.address.shipping}</p>
-                                <p><strong>Ordered Items: </strong> {order.orderItems.map((item, index) => <span key={index}>{item.name}({item.qty}pcs.), </span>)}</p>
-                                <p><strong>Order Total Price : </strong> {order.totalPrice}</p>
-                                <p><strong>Order Paid? : </strong> {order.isPaid ? <span style={{color: 'green'}}>&#10003;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
-                                <p><strong>Order Delivered? : </strong> {order.isDelivered ? <span style={{color: 'green'}}>&#10003;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
-                            
-                            </div>
-
-                        } else {
-                            return <p>User has no orders</p>
-                        }
-                    })}
-                    
+                    {
+                        orders.filter(order => order.user === userId).length < 1 ?
+                            <p>User has no orders</p>
+                                :
+                                orders.map(order => {
+                                    if (order.user === userId) {
+                                        return <div className="user-order" key={order._id}>
+                                            
+                                            <Link to={`/admin/editOrder/${order._id}?redirect=/admin/editUser/${userId}`}><button style={{cursor: 'pointer'}}>Edit This Order</button></Link>
+            
+                                            <p><strong>Order ID: </strong> {order._id}</p>
+                                            <p><strong>Shipping Type: </strong> {order.address.shipping}</p>
+                                            <p><strong>Ordered Items: </strong> {order.orderItems.map((item, index) => <span key={index}>{item.name}({item.qty}pcs.), </span>)}</p>
+                                            <p><strong>Order Total Price : </strong> {order.totalPrice}</p>
+                                            <p><strong>Order Paid? : </strong> {order.isPaid ? <span style={{color: 'green'}}>&#10003;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
+                                            <p><strong>Order Delivered? : </strong> {order.isDelivered ? <span style={{color: 'green'}}>&#10003;</span> : <span style={{color: 'rgb(114, 39, 39)', fontSize: '1.5rem', lineHeight: '1rem' }}>&times;</span>} </p>
+                                        
+                                        </div>
+                                    }
+                                })
+                    }
                 </div>
             </React.Fragment>
     )
-
+                                
 
 
     //USE EFFECT

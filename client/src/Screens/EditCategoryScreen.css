@@ -11,6 +11,7 @@
     position: absolute;
     left: 10px;
     top: 10px;
+    cursor: pointer;
 }
 
 .edit-category-screen .edit-category-form {
@@ -21,6 +22,10 @@
     justify-content: center;
     align-items: center;
 }
+
+.edit-category-screen .edit-category-form > h2 {
+    margin-top: 3rem;
+} 
 
 .edit-category-screen .edit-category-form p {
     transform: translateY(-2rem);
@@ -33,7 +38,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .edit-category-screen .edit-category-form .form-group > * {
@@ -41,7 +46,7 @@
 }
 
 .edit-category-screen .edit-category-form .form-group button {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     width: 100%;
     cursor: pointer;
 }
