@@ -1,4 +1,8 @@
 import Order from '../models/Order.js';
+import sgMail from '@sendgrid/mail';
+import dotenv from 'dotenv';
+dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 
 
@@ -104,8 +108,36 @@ const deleteOrder = async (req, res) => {
 
 
 
+//SEND EMAIL
+const sendEmail = async (req, res) => {
+    try {
+        const orderId = req.params.orderId;
+        const emailAddress = req.params.emailAddress;
+
+        const emailData = {
+            to: `${emailAddress}`,
+            from: 'ferdinand.hriadel@gmail.com',
+            subject: 'Your NEEDFULTHINGS order confirmation',
+            html: `
+                <div style="background: #333;">
+                    <h1 style="color: rgb(167, 26, 26); margin: auto;">Thank you for shopping with us</h1>
+                    <h3 style="color: #ddd; margin: auto">We are getting your things ready</h3>
+                    <br />
+                    <p style="color: #ddd">Your order ID is: ${orderId}</p>
+                <div>
+            `
+        };
+
+        const response = await sgMail.send(emailData);
+
+        res.json({message: response})
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: err});
+    }
+}
 
 
 
-
-export {addOrder, getOrderById, getOrders, updateOrder, deleteOrder}
+export {addOrder, getOrderById, getOrders, updateOrder, deleteOrder, sendEmail}

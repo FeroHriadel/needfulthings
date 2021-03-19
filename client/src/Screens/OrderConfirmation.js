@@ -9,6 +9,11 @@ import Message from '../Components/Message';
 
 
 const OrderConfirmation = ({ history, match }) => {
+    //USER
+    const userSignin = useSelector(state => state.userSignin);
+    const { userDetails } = userSignin;
+
+
 
     //ORDER
     //get order._id
@@ -34,21 +39,32 @@ const OrderConfirmation = ({ history, match }) => {
 
 
 
-    //pickup confirmation
+    //EMAIL
+    //sent in useEffect
+    const sendEmail = async () => {
+        const res = await fetch(`/api/orders/email/${orderId}/${userDetails.email}`)
+    }    
+
+
+
+
+    //pickup confirmation html
     const pickupConfirmation = () => (
         <React.Fragment>
             <h2>Thank you for your purchase, {order.address.name.charAt(0).toUpperCase() + order.address.name.slice(1)}!</h2>
             <h3>Your purchase is now waiting for you at our store.</h3>
             <p>Your order (ID: {order._id}) will come up to: ${order.totalPrice}</p>
+            <p>We also sent you a confirmation email. Should be in your inbox shortly.</p>
             <button style={{marginTop: '2rem', cursor: 'pointer'}} onClick={() => history.push('/')}>Go Home</button>
         </React.Fragment>
     )
 
-    //ship confirmation
+    //ship confirmation html
     const shipConfirmation = () => (
         <React.Fragment>
             <h2>Thank you for your purchase, {order.address.name.charAt(0).toUpperCase() + order.address.name.slice(1)}!</h2>
             <h3>We are shipping your order right away.</h3>
+            <p>We also sent you a confirmation email. Should be in your inbox shortly.</p>
             <button style={{marginTop: '2rem', cursor: 'pointer'}} onClick={() => history.push('/')}>Go Home</button>
         </React.Fragment>
     )
@@ -105,7 +121,7 @@ const OrderConfirmation = ({ history, match }) => {
             productsFromOrder.forEach(item => {
                 updateProductStats(item);
             })
-
+            sendEmail();
             setOldOrderCleared(false);
         }
         
