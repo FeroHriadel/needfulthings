@@ -10,7 +10,7 @@
 
 .header-logo {
     color: #ddd;
-    margin-left: 1rem;
+    margin-left: 10%;
 }
 
 @media (max-width:650px) {
@@ -30,7 +30,7 @@
 }
 
 .header-links {
-    margin-right: 1rem;
+    margin-right: 10%;
     display: flex;
     justify-content: space-around;
     align-items: center;

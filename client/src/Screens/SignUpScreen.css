@@ -11,9 +11,15 @@
     color: #333;
 }
 
+@media (max-width: 450px) {
+    .signup-screen > h2 {
+        font-size: 1.5rem;
+    }
+}
+
 .signup-screen form {
-    width: 25%;
-    min-width: 260px;
+    width: 30%;
+    min-width: 230px;
     display: flex;
     flex-direction: column;
     justify-content: center;

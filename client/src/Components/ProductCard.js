@@ -35,10 +35,14 @@ const ProductCard = ({ product, history, showMessage, redirect }) => {
                 <p>Price: ${product.price}</p>
                 {product.inStock > 0 ? <p>In Stock</p> : <p>Sorry, Sold Out</p>}
                 <div className="product-card-buttons">
-                    <button className='product-card-btn' onClick={() => {
-                        dispatch(addOneToCart(product._id));
-                        showMessage()
-                    }}>Add to Cart</button>
+                    <button 
+                        className='product-card-btn' 
+                        onClick={() => {
+                            dispatch(addOneToCart(product._id));
+                            showMessage()
+                        }}
+                        disabled={product.inStock < 1}
+                    >Add to Cart</button>
                     <button 
                         className='product-card-btn' 
                         onClick={() => {

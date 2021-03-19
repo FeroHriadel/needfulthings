@@ -16,8 +16,14 @@
     color: #333;
 }
 
+@media (max-width: 767px) {
+    .home-screen-welcome-text h1 {
+        font-size: 2rem;
+    }
+}
+
 .home-screen-welcome-text p {
-    transform: translateY(-2rem);
+    transform: translateY(-1rem);
 }
 
 .home-screen .categories {
@@ -57,6 +63,12 @@
 
 .category-preview:hover h1 {
     opacity: 0;
+}
+
+@media (max-width: 767px) {
+    .category-preview h1 {
+        font-size: 2rem;
+    }
 }
 
 

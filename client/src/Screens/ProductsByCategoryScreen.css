@@ -7,6 +7,18 @@
     flex-wrap: wrap;
 }
 
+.products-by-category > h2 {
+    margin-bottom: 4rem;
+}
+
+@media (max-width: 450px) {
+    .products-by-category > h2 {
+        font-size: 1.5rem;
+        text-align: center;
+        width: 75%;
+    }
+}
+
 .products-by-category-cards {
     width: 90%;
     display: flex;
