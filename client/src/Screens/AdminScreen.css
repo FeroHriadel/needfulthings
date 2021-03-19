@@ -28,6 +28,7 @@
 .admin-screen .categories-display {
     width: 95%;
     max-width: 1000px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -94,6 +95,7 @@
 .admin-screen .products-display {
     width: 95%;
     max-width: 1000px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -195,6 +197,7 @@
 .admin-screen .orders-display {
     width: 95%;
     max-width: 1000px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -312,6 +315,7 @@
 .admin-screen .users-display {
     width: 95%;
     max-width: 1000px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -330,13 +334,30 @@
 .admin-screen .users-display .users-table {
     width: 100%;
     display: flex;
+    box-sizing: border-box; /**/
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+@media (max-width: 450px) {
+    * {
+        font-size: .8rem;
+    }
+
+    .admin-screen .users-display .users-table .users-table-row > *:nth-child(3) {
+        text-align: center;
+    }
+
+    .admin-screen .users-display .users-table .users-table-header > *:nth-child(3) {
+        flex: 1;
+        text-align: center;
+    }
+}
+
 .admin-screen .users-display .users-table .users-table-header {
     width: 100%;
+    box-sizing: border-box; /**/
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -348,6 +369,7 @@
 
 .admin-screen .users-display .users-table .users-table-row {
     width: 100%;
+    box-sizing: border-box; /**/
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -357,7 +379,10 @@
 
 .admin-screen .users-display .users-table .users-table-row > * {
     flex: 1;
+    overflow: hidden;
+    word-break: break-word;
 }
+
 
 
 
