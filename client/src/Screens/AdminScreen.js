@@ -12,7 +12,6 @@ import Message from '../Components/Message';
 
 
 
-
 const AdminScreen = ({ history }) => {
     //REDIRECT NON-ADMINS
     //get user from state => useEffect redirects non-Admins away
@@ -216,8 +215,23 @@ const AdminScreen = ({ history }) => {
     const getAllOrdersReducer = useSelector(state => state.getAllOrders);
     const { getOrdersLoading, orders, getOrdersError } = getAllOrdersReducer;
 
-    //is orders screen shown?
+    //is Order Screen shown?
     const [ordersShown, setOrdersShown] = useState(false);
+
+    //order search input 
+    const [searchShown, setSearchShown] = useState(false);
+    const [orderSearchTxt, setOrderSearchTxt] = useState('');
+
+    const orderSearchChangeHandler = (e) => {
+        setOrderSearchTxt(e.target.value);
+    }
+
+    const orderSearchSubmit = (e) => {
+        if (e.key === 'Enter') {
+            history.push(`/admin/editOrder/${orderSearchTxt}`);
+            setOrderSearchTxt('')
+        }
+    }
 
     //render orders
     const showOrders = () => (
@@ -228,6 +242,21 @@ const AdminScreen = ({ history }) => {
                     :
                     <fieldset className='orders-display'>
                         <legend>Orders</legend>
+
+                        <div className="otj-search-widget-wrap">
+                            <input 
+                                type="search" 
+                                placeholder="Type order ID & hit Enter" 
+                                className={searchShown ? 'otj-search-widget-input show' : 'otj-search-widget-input'} 
+                                onChange={orderSearchChangeHandler}
+                                onKeyDown={orderSearchSubmit}
+                                value={orderSearchTxt}
+                                name='orderSearch'
+                            />
+                            <button type="button" className="otj-search-widget-button" onClick={() => setSearchShown(!searchShown)}>
+                                &#128269;
+                            </button>
+                        </div>
 
                         <div className="orders-table">
 
