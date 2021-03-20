@@ -23,6 +23,8 @@ app.use(morgan('dev')); //morgan has to be placed before routes
 
 //paypal - get PAYPAL_CLIENT_ID from .env
 app.get('/api/config/paypal', (req, res) => res.json({clientId: process.env.PAYPAL_CLIENT_ID}))
+//google maps - get GOOGLEMAPS_KEY from .env
+app.get('/api/config/googlemaps', (req, res) => res.json({googlemapsKey: process.env.GOOGLEMAPS_KEY}))
 
 
 

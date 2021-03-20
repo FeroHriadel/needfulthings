@@ -1,0 +1,7 @@
+.location-icon {
+    font-size: 2rem;
+    color: #333;
+    box-shadow: 0 0 20px rgb(114, 30, 30);
+    border-radius: 50%;
+    background: transparent;
+}

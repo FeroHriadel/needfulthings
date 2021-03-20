@@ -13,6 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@iconify/icons-mdi": "^1.1.12",
+    "@iconify/react": "^1.1.4",
     "@sendgrid/mail": "^7.4.2",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
@@ -20,6 +22,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "formidable": "^1.2.2",
+    "google-map-react": "^2.1.9",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.17",
     "morgan": "^1.10.0"

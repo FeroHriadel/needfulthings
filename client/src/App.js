@@ -19,6 +19,7 @@ import AddProductScreen from './Screens/AddProductScreen';
 import EditOrderScreen from './Screens/EditOrderScreen';
 import EditUserScreen from './Screens/EditUserScreen';
 import SearchScreen from './Screens/SearchScreen';
+import ContactScreen from './Screens/ContactScreen';
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
       <Header />
       <Switch>
         <Route exact path='/' component={HomeScreen} />
+        <Route exact path='/contact' component={ContactScreen} />
         <Route exact path='/ProductsByCategory/:categoryId' component={ProductsByCategoryScreen} />
         <Route path='/ProductDetails/:productId' component={ProductDetailsScreen} />
         <Route exact path='/cart' component={CartScreen} />

@@ -1,5 +1,6 @@
 .shipping-screen {
     width: 100vw;
+    min-height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

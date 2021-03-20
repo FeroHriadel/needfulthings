@@ -78,8 +78,8 @@ const Header = ({ history, location }) => {
                     <p>Cart({cart.itemsQty})</p>
                 </Link>
 
-                <Link to='/about' style={isActive('/about')}>
-                    <p>About</p>
+                <Link to='/contact' style={isActive('/contact')}>
+                    <p>Contact</p>
                 </Link>
 
                 {userDetails.isAdmin && adminLink()}
