@@ -16,7 +16,7 @@
 
 @media (max-width:650px) {
     .header-logo {
-        display: none;
+        font-size: 1rem;
     }
 }
 

@@ -1,84 +1,63 @@
 .contact-screen {
     width: 100vw;
-    height: calc(100vh - 4rem); /* 4rem is the height of the header*/
-    max-height: calc(100vh - 4rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     transform: translateY(-1rem); /* 1rem = Header's margin */
-    position: relative;
-    box-sizing: border-box;
-    overflow: hidden;
 }
 
 .contact-screen .image-and-text-box {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 260px;
+    width: 100%;
+    max-width: 1000px;
+    min-width: 260px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    box-shadow: 0 0 10px #333;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.contact-screen .image-and-text-box .txt {
+    width: 50%;
 }
 
 @media (max-width: 600px) {
     .contact-screen .image-and-text-box {
-        width: 100vw;
-        background: white;
-        align-items: center;
+        flex-direction: column;
+    }
+
+    .contact-screen .image-and-text-box > .img {
+        order: 2;
+    }
+
+    .contact-screen .image-and-text-box > .txt{
+        order: 1;
+        text-align: center;
+        width: 90%;
+        margin-bottom: 2rem;
+        margin-top: 3rem;
     }
 }
 
-.contact-screen .image-and-text-box .txt {
-    width: 260px;
-    background: white;
-    height: calc(100vh - 4rem - 260px);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
+/*   in case you deciede to have a header
+.contact-screen .image-and-text-box > .txt > h1 {
+    font-size: 32px;
+    text-shadow: 0 0 5px #666;
+    margin-bottom: 1rem;
+    color: #333;
+    text-transform: uppercase;
 }
 
-@media (max-width: 600px) {
-    .contact-screen .image-and-text-box .txt {
-        width: 100%;
-        box-shadow: inset 0 0 100px #ddd;
-    }
+.contact-screen .image-and-text-box > .txt > h1 > span {
+    font-size: 48px;
+    -webkit-text-stroke: .5px #333;
 }
+*/
 
-.contact-screen .image-and-text-box .txt > * {
-    margin-bottom: 0;
+.contact-screen .image-and-text-box > .txt > p {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
     width: 90%;
 }
-
-@media (max-width: 600px) {
-    .contact-screen .image-and-text-box .txt > * {
-        font-size: 16px;
-    }
-}
-
-.contact-screen .image-and-text-box .txt > h1 {
-    text-shadow: 0 0 5px #777;
-    font-size: 2rem;
-}
-
-@media (max-width: 600px) {
-    .contact-screen .image-and-text-box .txt > h1 {
-        margin-top: 4rem;
-    }
-}
-
-.contact-screen .image-and-text-box .txt > h1 > span {
-    color: rgb(167, 26, 26);
-    font-weight: 800;
-    -webkit-text-stroke: .25px #333;
-    font-size: 2.5rem;
-}
-
-
 

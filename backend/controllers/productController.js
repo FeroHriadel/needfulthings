@@ -74,7 +74,7 @@ const getProductsByCategory = async (req, res) => {
 //GET ALL PRODUCTS
 const getProducts = async (req, res) => {
     try {
-        const products = await Product.find().select('-image').sort({category: 1});
+        const products = await Product.find().select('-image').sort({category: 1, name: 1});
         if (!products) {
             return res.status(404).json({error: 'No products found'});
         }
