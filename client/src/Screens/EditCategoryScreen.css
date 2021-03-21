@@ -17,18 +17,19 @@
 .edit-category-screen .edit-category-form {
     width: 25%;
     min-width: 260px;
+    margin-top: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.edit-category-screen .edit-category-form > h2 {
+/* .edit-category-screen .edit-category-form > h2 {
     margin-top: 3rem;
-} 
+}  */
 
 .edit-category-screen .edit-category-form p {
-    transform: translateY(-2rem);
+    transform: translateY(-1rem);
     text-align: center;
 }
 

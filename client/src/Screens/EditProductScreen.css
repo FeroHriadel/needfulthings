@@ -10,6 +10,10 @@
     .edit-product-screen {
         flex-direction: column;
     }
+
+    .edit-product-screen .edit-product-info > .image-box {
+        margin-top: 3rem;
+    }
 }
 
 .edit-product-screen > .go-back-btn {
@@ -35,9 +39,9 @@
     text-shadow: 0.5px 0.5px 3px white;
 }
 
-.edit-product-screen .edit-product-info .details > h3 {
+/* .edit-product-screen .edit-product-info .details > h1 {
     margin-bottom: 1rem;
-}
+} */
 
 .edit-product-screen .edit-product-form {
     width: 260px;
@@ -50,7 +54,7 @@
 
 @media (max-width: 600px) {
     .edit-product-screen .edit-product-form {
-        margin-top: 0;
+        margin-top: 3rem;
     }
 }
 

@@ -178,11 +178,11 @@ const EditProductScreen = ({ history, match }) => {
                                         opacity: '1',
                                         zIndex: 2,
                                     }}>
-                                        <h1 style={{marginBottom: '1.5rem', textDecoration: 'underline'}}>{product.name}</h1>
+                                        <h1 style={{marginBottom: '1.5rem', textDecoration: 'underline', fontSize: '1.5rem', textAlign: 'center'}}>{product.name}</h1>
                                         <p style={{fontSize: '1.25rem'}}><strong>Price:</strong> ${product.price}</p>
                                         <p style={{fontSize: '1.25rem'}}><strong>Sold:</strong> {product.sold} pcs.</p>
                                         <p style={{fontSize: '1.25rem'}}><strong>In Stock:</strong> {product.inStock} pcs.</p>
-                                        <p style={{fontSize: '1.25rem'}}><strong>Description:</strong>{product.description}</p>
+                                        <p style={{fontSize: '1.25rem'}}><strong>Description:</strong> {product.description}</p>
                                     </div>
                                 </div>
 
