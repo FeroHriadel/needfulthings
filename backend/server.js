@@ -7,6 +7,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import morgan from 'morgan'; //console.logs server requests
+import path from 'path'; 
 
 dotenv.config();
 
@@ -36,6 +37,17 @@ app.use('/api/orders', orderRoutes);
 
 
 
+//deployment
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/client/build')));
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')))
+}
+
+
+
+//run server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue.inverse))
