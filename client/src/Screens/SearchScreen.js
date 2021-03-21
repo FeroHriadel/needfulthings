@@ -136,8 +136,6 @@ const SearchScreen = () => {
     return (
         <div className='search-screen'>
 
-            <Message shown={messageShown} text={messageText}></Message> 
-
             {loading ?
                 <Loader /> :
                     error ? 
@@ -146,6 +144,8 @@ const SearchScreen = () => {
             }
 
             {showSearchedProducts()}
+
+            <Message shown={messageShown} text={messageText}></Message> 
 
         </div>
     )

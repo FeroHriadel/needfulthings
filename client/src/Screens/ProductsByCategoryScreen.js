@@ -54,10 +54,8 @@ const ProductsByCategoryScreen = ({ match, history }) => {
         ?
         <Loader />
         :
-        <div className='products-by-category'>
-
-            <Message shown={messageShown} text={messageText}></Message> 
-
+        <div className='products-by-category'> 
+    
             <h2>What we have in {currentCategory.name}: </h2>
 
             <div className="products-by-category-cards">
@@ -70,6 +68,8 @@ const ProductsByCategoryScreen = ({ match, history }) => {
                 <button style={{cursor: 'pointer'}} onClick={() => history.push('/')}>&#8592; Go Home</button>
                 <button style={{cursor: 'pointer'}} onClick={() => history.push('/cart')}>Go to Cart &#128722;</button>
             </div>
+            
+            <Message shown={messageShown} text={messageText}></Message>
 
         </div>
     )

@@ -14,9 +14,10 @@
 }
 
 .message-popup {
-    position: absolute;
+    position: fixed;
+    z-index: 5;
     left: 5px;
-    bottom: 5px;
+    bottom: 50px;
     width: 25%;
     min-width: 260px;
     min-height: 5rem;
@@ -32,5 +33,5 @@
 }
 
 .hidden {
-    transform: translateY(125%);
+    transform: translateY(500%);
 }

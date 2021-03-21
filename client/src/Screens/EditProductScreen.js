@@ -143,7 +143,7 @@ const EditProductScreen = ({ history, match }) => {
     return (
         <div>
 
-            <Message shown={errorShown} text={errorText}></Message> 
+            
 
             {loading ? 
                 <Loader /> 
@@ -194,6 +194,9 @@ const EditProductScreen = ({ history, match }) => {
 
                             </div>       
                 }
+
+                <Message shown={errorShown} text={errorText}></Message> 
+
         </div>
     )
 }
